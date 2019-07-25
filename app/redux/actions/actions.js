@@ -22,11 +22,10 @@ const NOTIFY_NEW_FORUM_REPLY = 'NOTIFY_FORUM_REPLY';
 
 
 
-
-function authenticateUser(success){
+export const authenticateUser = success => {
 	return {
 		type: AUTHENTICATE_USER,
-		success
+		payload: success
 	}
 }
 

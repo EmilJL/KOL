@@ -16,7 +16,7 @@ import {
   StatusBar,
   Button
 } from 'react-native';
-
+import Welcome from '../welcome/welcome.component.js';
 
 
 class Main extends Component {
