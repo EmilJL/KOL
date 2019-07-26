@@ -20,6 +20,10 @@ const NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE = 'NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE';
 const NOTIFY_NEW_MESSAGE = 'NOTIFY_NEW_MESSAGE';
 const NOTIFY_NEW_FORUM_REPLY = 'NOTIFY_FORUM_REPLY';
 
+const TOGGLE_HEADER_VISIBILITY = 'TOGGLE_HEADER_VISIBILITY';
+const TOGGLE_NOTIFICATION_VISIBILITY = 'TOGGLE_NOTIFICATION_VISIBILITY';
+const ADD_NOTIFICATIONS = 'ADD_NOTIFICATIONS';
+const REMOVE_NOTIFICATIONS = 'REMOVE_NOTIFICATIONS';
 
 
 export const authenticateUser = success => {
@@ -130,5 +134,12 @@ function notifyNewForumReply(notification){
 	return {
 		type: NOTIFY_NEW_MESSAGEFORUM_REPLY,
 		notification
+	}
+}
+
+export const toggleHeaderVisibility = (isVisible) =>{
+	return {
+		type: TOGGLE_HEADER_VISIBILITY,
+		isVisible
 	}
 }

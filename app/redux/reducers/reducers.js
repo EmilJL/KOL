@@ -12,7 +12,9 @@ const initialState = {
 	fetchinUserData: false,
 	fetchingForumData: false,
 	isLoggedIn: false,
-	failedFetching: false
+	failedFetching: false,
+	headerIsVisible: false,
+	notificationIsVisible: false,
 }
 
 const user = (state = initialState, action) => {
@@ -107,6 +109,16 @@ const user = (state = initialState, action) => {
 					action.notification
 				]
 			});
+		case 'TOGGLE_HEADER_VISIBILITY':
+			return {
+				...state,
+				headerIsVisible: action.payload
+			};
+		case 'TOGGLE_NOTIFICATION_VISIBILITY':
+			return {
+				...state,
+				notificationIsVisible: action.payload
+			};
 		default:
 			console.log('wtf');
 			console.log(action.type);

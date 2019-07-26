@@ -22,13 +22,7 @@ class ForgotInfo extends Component{
 		console.log(screenHeight);
 		return(
 				<View style={{flex: 1}}>
-					<TouchableNativeFeedback onPress={() => this.props.toggleVisibility('forgotInfo')}>
-						<View style={{alignSelf: 'center', backgroundColor: 'green', justifyContent: 'center', alignItems: 'center', height: '10%', width: screenWidth*0.54, borderWidth: 2, borderColor: 'black', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54, top: 0}}>
-							<Text style={{fontSize: 17, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>
-								Tilbage
-							</Text>
-						</View>
-					</TouchableNativeFeedback>
+
 				</View>
 		);
 	}

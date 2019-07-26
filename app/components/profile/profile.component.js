@@ -18,7 +18,7 @@ class Profile extends Component {
 	render() {
 		return (
 		    <Fragment>
-		      <SafeAreaView style={{flex: 2, alignContent: 'center', justifyContent: 'center'}}>
+		      <SafeAreaView style={{flex: 2, alignContent: 'center', justifyContent: 'center', backgroundColor: 'lightgrey'}}>
 		      	<View style={{flex: 0.5}}>
 		        </View>
 		      	<View style={{flex: 0.5, alignContent: 'stretch', justifyContent: 'center', borderWidth: 2, borderColor: 'black'}}>

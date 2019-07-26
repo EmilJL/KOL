@@ -26,7 +26,7 @@ class Main extends Component {
   render(){
     return (
       <Fragment>
-        <SafeAreaView style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
+        <SafeAreaView style={{flex: 1, alignContent: 'center', justifyContent: 'center', backgroundColor: 'lightgrey'}}>
           <Text style={{textAlign: 'center'}}>Her er noget?</Text>
           <Button
             title='Profil'

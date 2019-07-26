@@ -17,7 +17,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { authenticateUser } from './redux/actions/actions.js';
+import Header from './components/header/header.component.js';
 import Welcome from './components/welcome/welcome.component.js';
+import Footer from './components/footer/footer.component.js';
 import AppContainer from './AppContainer';
 
 class App extends Component{
@@ -51,7 +53,10 @@ class App extends Component{
     }
     else{
       return (
-        <AppContainer />
+        <View style={{flex: 1, backgroundColor: 'lightgrey'}}>
+          <AppContainer />
+          <Footer />
+        </View>
       );
     }
   }
