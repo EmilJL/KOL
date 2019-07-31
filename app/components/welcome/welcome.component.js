@@ -11,7 +11,8 @@ import {
   TouchableNativeFeedback,
   ImageBackground,
   Dimensions,
-  Button
+  Button,
+  Image
 } from 'react-native';
 import { connect } from 'react-redux';
 import { authenticateUser } from '../../redux/actions/actions.js';
@@ -56,32 +57,41 @@ class Welcome extends Component{
 		console.log(screenHeight);
 		if (title === '') {
 			return(
-				<ImageBackground resizeMode='contain' source={require('../../assets/welcomeBG.png')} style={{width: screenWidth, height: screenHeight}}>
-					<View style={{height: screenHeight/4.35, width: '100%', justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: screenHeight/15}}>
-						<View style={{flex: 4, justifyContent: 'space-between', alignItems: 'center'}}>
-							<TouchableNativeFeedback onPress={() => {this.authenticationHandler()}}>
-								<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', width: screenWidth*0.54, borderWidth: 2, borderColor: 'black', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54}}>
-									<Text style={{fontSize: 17, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>
-										Log ind
-									</Text>
-								</View>
-							</TouchableNativeFeedback>
-							<TouchableNativeFeedback onPress={() => {this.handleToggleVisibility('OPRET BRUGER')}}>
-								<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', marginBottom: screenHeight/75, width: screenWidth*0.54, borderWidth: 2, borderColor: 'black', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54}}>
-									<Text style={{fontSize: 17, color: 'grey', textAlign: 'center', fontWeight: '700', letterSpacing: 0.5}}>
-										Opret bruger
-									</Text>
-								</View>
-							</TouchableNativeFeedback>
-						</View>
-						<View style={{flex: 0.8}}>
-							<TouchableNativeFeedback onPress={() => {this.handleToggleVisibility('GLEMT KODE')}}>
-								<View style={{justifyContent: 'center', alignItems: 'center', width: screenWidth*0.54, flex: 1}}>
-									<Text style={{fontSize: 12, color: 'lightgrey', textAlign: 'center', letterSpacing: 0.5, textDecorationLine: 'underline'}}>
-										Glemt adgangskode?
-									</Text>
-								</View>
-							</TouchableNativeFeedback>
+				
+				<ImageBackground resizeMode='cover' source={require('../../assets/welcome.png')} style={{marginTop: -screenHeight/12, height: screenHeight*0.9}}>
+					<View style={{alignSelf: 'center', position: 'absolute', top: screenHeight/12, width: screenWidth, height: screenHeight/6, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+						<Image resizeMode='contain' source={require('../../assets/welcomeLogo.png')} style={{width: screenWidth/9}} />
+						<Text style={{marginLeft: screenWidth/24, fontSize: 26, fontWeight: 'bold', color: 'blue'}}>
+							KOL App
+						</Text>
+					</View>
+					<View style={{flex: 1}}>
+						<View style={{marginBottom: -screenHeight/6, height: screenHeight/4.35, width: '100%', justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: screenHeight/15}}>
+							<View style={{flex: 4, justifyContent: 'space-between', alignItems: 'center'}}>
+								<TouchableNativeFeedback onPress={() => {this.authenticationHandler()}}>
+									<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', width: screenWidth*0.54, backgroundColor: 'blue', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54}}>
+										<Text style={{fontSize: 14, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>
+											Log ind
+										</Text>
+									</View>
+								</TouchableNativeFeedback>
+								<TouchableNativeFeedback onPress={() => {this.handleToggleVisibility('OPRET BRUGER')}}>
+									<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', marginBottom: screenHeight/75, width: screenWidth*0.54, borderWidth: 1.5, borderColor: 'grey', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54}}>
+										<Text style={{fontSize: 14, color: 'grey', textAlign: 'center', fontWeight: '700', letterSpacing: 0.5, paddingBottom: '1%'}}>
+											Opret bruger
+										</Text>
+									</View>
+								</TouchableNativeFeedback>
+							</View>
+							<View style={{flex: 0.8}}>
+								<TouchableNativeFeedback onPress={() => {this.handleToggleVisibility('GLEMT KODE')}}>
+									<View style={{justifyContent: 'center', alignItems: 'center', width: screenWidth*0.54, flex: 1}}>
+										<Text style={{fontSize: 12, color: 'grey', textAlign: 'center', letterSpacing: 0.5, textDecorationLine: 'underline'}}>
+											Glemt adgangskode?
+										</Text>
+									</View>
+								</TouchableNativeFeedback>
+							</View>
 						</View>
 					</View>
 				</ImageBackground>

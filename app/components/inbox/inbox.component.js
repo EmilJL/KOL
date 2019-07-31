@@ -10,12 +10,13 @@ import {
 } from 'react-native';
 
 
-class Main extends Component {
+class Inbox extends Component {
+
   render(){
     return (
       <Fragment>
         <SafeAreaView style={{flex: 1, alignContent: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0'}}>
-                 <Text style={{textAlign: 'center', fontSize: 30}}>Hjem</Text>
+          <Text style={{textAlign: 'center', fontSize: 30}}>Inbox</Text>
         </SafeAreaView>
       </Fragment>
     );
@@ -23,4 +24,4 @@ class Main extends Component {
 };
 
 
-export default Main;
+export default Inbox;

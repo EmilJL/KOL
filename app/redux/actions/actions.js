@@ -1,8 +1,8 @@
-const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
 
-const FETCH_USER_DATA = 'FETCH_USER_DATA';
-const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
-const FAIL_FETCHING_USER_DATA = 'FAIL_FETCHING_USER_DATA';
+
+
+
+
 
 const POPULATE_QUESTIONNAIRE_ANSWERS = 'POPULATE_QUESTIONNAIRE_ANSWERS';
 const POPULATE_MESSAGES = 'POPULATE_MESSAGES';
@@ -20,12 +20,13 @@ const NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE = 'NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE';
 const NOTIFY_NEW_MESSAGE = 'NOTIFY_NEW_MESSAGE';
 const NOTIFY_NEW_FORUM_REPLY = 'NOTIFY_FORUM_REPLY';
 
-const TOGGLE_HEADER_VISIBILITY = 'TOGGLE_HEADER_VISIBILITY';
-const TOGGLE_NOTIFICATION_VISIBILITY = 'TOGGLE_NOTIFICATION_VISIBILITY';
+
 const ADD_NOTIFICATIONS = 'ADD_NOTIFICATIONS';
 const REMOVE_NOTIFICATIONS = 'REMOVE_NOTIFICATIONS';
 
 
+
+const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
 export const authenticateUser = success => {
 	return {
 		type: AUTHENTICATE_USER,
@@ -33,25 +34,43 @@ export const authenticateUser = success => {
 	}
 }
 
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+export const setCurrentPage = key => {
+	return {
+		type: SET_CURRENT_PAGE,
+		payload: key
+	}
+}
 
+
+
+const FETCH_USER_DATA = 'FETCH_USER_DATA';
 function fetchUserData(fetching){
 	return {
 		type: FETCH_USER_DATA,
 		fetching
 	}
 }
+
+const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
 function receiveUserData(userData){
 	return {
 		type: RECEIVE_USER_DATA,
 		userData
 	}
 }
+
+const FAIL_FETCHING_USER_DATA = 'FAIL_FETCHING_USER_DATA';
 function failFetchingUserData(fetching){
 	return {
 		type: FAIL_FETCHING_USER_DATA,
 		fetching
 	}
 }
+
+
+
+
 
 
 function populateQuestionnaireAnswers(questionnaireAnswers){
@@ -137,9 +156,19 @@ function notifyNewForumReply(notification){
 	}
 }
 
+const TOGGLE_HEADER_VISIBILITY = 'TOGGLE_HEADER_VISIBILITY';
 export const toggleHeaderVisibility = (isVisible) =>{
 	return {
 		type: TOGGLE_HEADER_VISIBILITY,
-		isVisible
+		payload: isVisible
 	}
 }
+
+const TOGGLE_NOTIFICATION_VISIBILITY = 'TOGGLE_NOTIFICATION_VISIBILITY';
+export const toggleNotificationVisibility = (isVisible) =>{
+	return {
+		type: TOGGLE_NOTIFICATION_VISIBILITY,
+		payload: isVisible
+	}
+}
+

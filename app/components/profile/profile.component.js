@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from 'react';
+import React, {Fragment, Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,35 +6,18 @@ import {
   View,
   Text,
   StatusBar,
-  Button
+  Button,
+  Dimensions
 } from 'react-native';
 
-
-
 class Profile extends Component {
-	static navigationOptions = {
-    	header: null	
-  	}
 	render() {
+		const screenHeight = Math.round(Dimensions.get('window').height);
+		const screenWidth = Math.round(Dimensions.get('window').width);
 		return (
 		    <Fragment>
-		      <SafeAreaView style={{flex: 2, alignContent: 'center', justifyContent: 'center', backgroundColor: 'lightgrey'}}>
-		      	<View style={{flex: 0.5}}>
-		        </View>
-		      	<View style={{flex: 0.5, alignContent: 'stretch', justifyContent: 'center', borderWidth: 2, borderColor: 'black'}}>
-		        	<View style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
-		        		<Text style={{textAlign: 'center'}}>Her er noget andet?</Text>
-		        	</View>
-		        	<View style={{flex: 1, alignContent: 'stretch', justifyContent: 'center'}}>
-			        	<Button
-				            title='Home'
-				            onPress={() => this.props.navigation.navigate('Home')}
-				            style={{}}
-			        	/>
-		        	</View>
-		        </View>
-		        <View style={{flex: 3}}>
-		        </View>
+		      <SafeAreaView style={{flex: 1, alignContent: 'center', justifyContent: 'center', backgroundColor: 'lightgrey', borderWidth: 2, borderColor: 'red', top: screenHeight/13}}>
+		        		       <Text style={{textAlign: 'center', fontSize: 30}}>Profil</Text>
 		      </SafeAreaView>
 		    </Fragment>
 	  	);

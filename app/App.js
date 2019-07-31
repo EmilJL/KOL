@@ -20,7 +20,7 @@ import { authenticateUser } from './redux/actions/actions.js';
 import Header from './components/header/header.component.js';
 import Welcome from './components/welcome/welcome.component.js';
 import Footer from './components/footer/footer.component.js';
-import AppContainer from './AppContainer';
+import { Router } from './router';
 
 class App extends Component{
   state = {
@@ -53,9 +53,9 @@ class App extends Component{
     }
     else{
       return (
-        <View style={{flex: 1, backgroundColor: 'lightgrey'}}>
-          <AppContainer />
-          <Footer />
+        <View style={{flex: 1, backgroundColor: '#f0f0f0'}}>
+          <Header title={''} leftButtonPress={() => {}} notificationIsVisible={true} />
+          <Router />
         </View>
       );
     }

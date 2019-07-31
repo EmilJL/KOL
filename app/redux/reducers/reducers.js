@@ -1,4 +1,4 @@
-
+import { combineReducers } from 'redux';
 
 const initialState = {
 	notifications: [],
@@ -15,6 +15,10 @@ const initialState = {
 	failedFetching: false,
 	headerIsVisible: false,
 	notificationIsVisible: false,
+}
+
+const initialNavigationState = {
+	currentPage: 'k'
 }
 
 const user = (state = initialState, action) => {
@@ -127,5 +131,24 @@ const user = (state = initialState, action) => {
 	}
 	
 }
+const navigation = (state = initialNavigationState, action) => {
+	console.log(action.type);
+	switch(action.type) {
+		case 'SET_CURRENT_PAGE':
+			console.log('this working?');
+			console.log(action.payload);
+			return {
+				...state,
+				currentPage: action.payload
+			};
+		default:
+			return state;
+	}
+}
 
-export default user;
+const rootReducer = combineReducers({
+	users: user,
+	nav: navigation
+});
+
+export default rootReducer;
