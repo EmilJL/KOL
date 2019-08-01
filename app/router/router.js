@@ -7,10 +7,10 @@ import {
 	GraphsScreen,
 	HomeScreen,
 	CalendarScreen,
-	ProfileScreen,
+	ProfileScreen
 } from '../screens';
 
-const TabNavigator = createBottomTabNavigator(
+const Router = createBottomTabNavigator(
 	{
 		Inbox: {
 			screen: InboxScreen,
@@ -53,4 +53,4 @@ const TabNavigator = createBottomTabNavigator(
 	    }
   	}
 );
-export default createAppContainer(TabNavigator);
+export default Router;

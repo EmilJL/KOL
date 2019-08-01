@@ -10,7 +10,13 @@ import {
 } from 'react-native';
 
 
-class Main extends Component {
+class Home extends Component {
+  componentDidMount() {
+    console.log('jeg mountede (main)');
+  }
+  componentWillUnmount() {
+    console.log('jeg unmountede (stadig main)');
+  }
   render(){
     return (
       <Fragment>
@@ -23,4 +29,4 @@ class Main extends Component {
 };
 
 
-export default Main;
+export default Home;

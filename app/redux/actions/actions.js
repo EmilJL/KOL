@@ -25,6 +25,12 @@ const ADD_NOTIFICATIONS = 'ADD_NOTIFICATIONS';
 const REMOVE_NOTIFICATIONS = 'REMOVE_NOTIFICATIONS';
 
 
+const LOG_OUT = 'LOG_OUT';
+export const logOut = () => {
+	return {
+		type: LOG_OUT
+	}
+}
 
 const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
 export const authenticateUser = success => {

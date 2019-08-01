@@ -31,6 +31,11 @@ const user = (state = initialState, action) => {
 				...state,
 				isLoggedIn: action.payload
 			};
+		case 'LOG_OUT':
+			return {
+				...state,
+				isLoggedIn: false
+			};
 		case 'FETCH_USER_DATA':
 			return Object.assign({}, state, {
 				fetchingUserData: action.fetching

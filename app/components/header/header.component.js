@@ -11,26 +11,19 @@ import {
   Button,
   Image
 } from 'react-native';
+import { logOut } from '../../redux/actions/actions.js';
 
+const Header = ({navigation, notificationIsVisible}) => {
 
-class Header extends Component {
-  state={
-
-  }
-
-  render(){
     const screenHeight = Math.round(Dimensions.get('window').height);
     const screenWidth = Math.round(Dimensions.get('window').width);
-    const entryTitle = this.props.title;
-    const mainTitle = this.props.mainTitle;
-    var someTitle = this.props.currentPage;
-    console.log('eeeylmao: ' + someTitle);
-    if (this.props.notificationIsVisible) {
+    console.log(navigation.state);
+    if (notificationIsVisible) {
 
       return(
-        <View style={{backgroundColor: 'white', zIndex: 100, width: screenWidth, height: screenHeight/13, position: 'absolute', top: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{backgroundColor: 'white', width: screenWidth, height: screenHeight/13, zIndex: 4, position: 'absolute', top: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           
-          <TouchableNativeFeedback onPress={() => {this.props.leftButtonPress()}}>
+          <TouchableNativeFeedback onPress={() => {this.props.logOut()}}>
             <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
               <Image style={{width: '27%', marginLeft: '27%', marginTop: '12.5%'}} source={require('../../assets/menuHeader.png')}/>
             </View>
@@ -38,7 +31,7 @@ class Header extends Component {
 
           <View style={{justifyContent: 'center', alignItems: 'center', flex: 7}}>
             <Text style={{fontSize: 14, textAlign: 'center'}}>
-              {this.props.currentPage}
+              Blabla
             </Text>
           </View>
 
@@ -58,7 +51,7 @@ class Header extends Component {
       return(
         <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', width: screenWidth, height: screenHeight/13, position: 'absolute', top: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           
-          <TouchableNativeFeedback onPress={() => {this.props.leftButtonPress()}}>
+          <TouchableNativeFeedback onPress={() => {navigation.navigate('Login')}}>
             <View style={{flex: 1.5, height: screenHeight/13, alignItems: 'center', justifyContent: 'center'}}>
               <Image resizeMode='contain' style={{width: '30%'}} source={require('../../assets/backHeader.png')}/>
             </View>
@@ -66,7 +59,7 @@ class Header extends Component {
 
           <View style={{justifyContent: 'center', alignItems: 'center', flex: 7}}>
             <Text style={{fontSize: 14, textAlign: 'center'}}>
-              {entryTitle}
+              blabla2
             </Text>
           </View>
 
@@ -77,8 +70,6 @@ class Header extends Component {
       );
 
     }
-    
-  } 
 }
 
 const mapStateToProps = state => {
@@ -86,5 +77,12 @@ const mapStateToProps = state => {
     currentPage: state.nav.currentPage
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    logOut: () => {
+      dispatch(logOut())
+    }
+  }
+}
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

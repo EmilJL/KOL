@@ -16,11 +16,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { authenticateUser } from './redux/actions/actions.js';
-import Header from './components/header/header.component.js';
-import Welcome from './components/welcome/welcome.component.js';
-import Footer from './components/footer/footer.component.js';
-import { Router } from './router';
+import TopNavigator from './navigators/topNavigator.js';
 
 class App extends Component{
   state = {
@@ -45,20 +41,9 @@ class App extends Component{
   }
 
   render(){
-
-    if (!(this.props.isLoggedIn)) {
-      return (
-         <Welcome />
-      );
-    }
-    else{
-      return (
-        <View style={{flex: 1, backgroundColor: '#f0f0f0'}}>
-          <Header title={''} leftButtonPress={() => {}} notificationIsVisible={true} />
-          <Router />
-        </View>
-      );
-    }
+    return (
+      <TopNavigator />
+    );
   }
   
 };
