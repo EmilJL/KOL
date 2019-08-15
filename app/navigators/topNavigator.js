@@ -13,9 +13,9 @@ const TopNavigator = createStackNavigator(
 			}
 		},
 		MainFlow: {
-			screen: Router,	
+			screen: Router,
 			navigationOptions: {
-				header: (props) => <Header notificationIsVisible={true} {...props}/>
+				header: props => <Header {...props} />
 			}
 		}
 	},

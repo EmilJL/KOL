@@ -1,24 +1,36 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer } from "react-navigation";
-import { Router } from '../router';
-import { AuthenticationNavigator } from './authentication.navigator.js';
-import { MainNavigator } from './main.navigator.js';
-import Header from '../components/header/header.component';
+import { createStackNavigator} from "react-navigation";
+import GetHelp from '../components/buttonMenu/getHelp.component.js';
+import HelpOthers from '../components/buttonMenu/helpOthers.component.js';
+import SendText from '../components/buttonMenu/sendText.component.js';
+import Diary from '../components/buttonMenu/diary.component.js';
 
 const MainNavigator = createStackNavigator(
 	{
-		AuthenticationFlow: {
-			screen: AuthenticationNavigator
-		},
-		MainFlow: {
-			screen: MainNavigator,	
+		GetHelp: {
+			screen: GetHelp,
 			navigationOptions: {
-				header: (props) => <Header {...props}/>
+				header: null
+			}
+		},
+		HelpOthers: {
+			screen: HelpOthers,
+			navigationOptions: {
+				header: null
+			}
+		},
+		SendText: {
+			screen: SendText,
+			navigationOptions: {
+				header: null
+			}
+		},
+		Diary: {
+			screen: Diary,
+			navigationOptions: {
+				header: null
 			}
 		}
-	},
-	{
-	    initialRouteName: 'AuthenticationFlow'
-  	}
+	}
 );
 export default MainNavigator;

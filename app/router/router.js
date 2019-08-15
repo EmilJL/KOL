@@ -1,7 +1,10 @@
 import React from 'react';
-import { createBottomTabNavigator, createAppContainer } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation";
+import { Dimensions } from 'react-native';
+import MainNavigator from '../navigators/mainNavigator.js';
 import TabIcon from '../components/tabIcons/tabicon.component.js';
 import TabBar from '../components/tabBar/tabBar.component.js';
+import Header from '../components/header/header.component.js';
 import {
 	InboxScreen,
 	GraphsScreen,
@@ -10,18 +13,20 @@ import {
 	ProfileScreen
 } from '../screens';
 
+const screenHeight = Math.round(Dimensions.get('window').height);
+
 const Router = createBottomTabNavigator(
 	{
 		Inbox: {
 			screen: InboxScreen,
 			navigationOptions: {
-				tabBarIcon: ({tintColor}) => <TabIcon name="email" size={35} color={tintColor} />
+				tabBarIcon: ({tintColor}) => <TabIcon name="email" size={screenHeight/20} color={tintColor} />
 			}
 		},
 		Grafer: {
 			screen: GraphsScreen,
 			navigationOptions: {
-				tabBarIcon: ({tintColor}) => <TabIcon name="bar-graph" size={35} color={tintColor} />
+				tabBarIcon: ({tintColor}) => <TabIcon name="bar-graph" size={screenHeight/20} color={tintColor} />
 			}
 		},
 		Home: {
@@ -34,14 +39,17 @@ const Router = createBottomTabNavigator(
 		Kalender: {
 			screen: CalendarScreen,
 			navigationOptions: {
-				tabBarIcon: ({tintColor}) => <TabIcon name="calendar" size={35} color={tintColor} />
+				tabBarIcon: ({tintColor}) => <TabIcon name="calendar" size={screenHeight/20} color={tintColor} />
 			}
 		},
 	  	Profil: {
 		  	screen: ProfileScreen,
 		  	navigationOptions: {
-		  		tabBarIcon: ({tintColor}) => <TabIcon name="user" size={35} color={tintColor} />
+		  		tabBarIcon: ({tintColor}) => <TabIcon name="user" size={screenHeight/20} color={tintColor} />
 		  	}
+		},
+		MainNavigator: {
+			screen: MainNavigator
 		}
 	},
 	{

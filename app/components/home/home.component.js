@@ -6,24 +6,38 @@ import {
   View,
   Text,
   StatusBar,
-  Button
+  Button,
+  Dimensions
 } from 'react-native';
 
 
 class Home extends Component {
-  componentDidMount() {
-    console.log('jeg mountede (main)');
-  }
-  componentWillUnmount() {
-    console.log('jeg unmountede (stadig main)');
-  }
   render(){
+    const screenHeight = Math.round(Dimensions.get('window').height);
+    const screenWidth = Math.round(Dimensions.get('window').width);
     return (
-      <Fragment>
-        <SafeAreaView style={{flex: 1, alignContent: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0'}}>
-                 <Text style={{textAlign: 'center', fontSize: 30}}>Hjem</Text>
-        </SafeAreaView>
-      </Fragment>
+        <View style={{borderWidth: 1, borderColor: 'green', height: screenHeight, width: '100%', paddingTop: screenHeight/9, alignContent: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0', borderWidth: 2, borderColor: 'green'}}>
+          <ScrollView style={{paddingLeft: '5%', paddingRight: '5%', paddingBottom: screenHeight/6}}>
+            <View style={{height: screenHeight*0.6, width: '100%', borderWidth: 2}}>
+              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
+              <Button title={'sup'} style={{alignSelf: 'center', backgroundColor: 'green', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+            </View>
+            <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
+              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
+              <Button title={'sup'} style={{alignSelf: 'center', backgroundColor: 'green', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+            </View>
+            <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
+              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
+              <Button title={'sup'} style={{alignSelf: 'center', backgroundColor: 'green', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+            </View>
+            <View style={{height: screenHeight* 0.7, width: '100%', borderWidth: 2}}>
+              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
+              <Button title={'sup'} style={{alignSelf: 'center', backgroundColor: 'green', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+            </View>
+            <View style={{height: screenHeight/5}}>
+            </View>
+          </ScrollView>
+        </View>
     );
   }
 };

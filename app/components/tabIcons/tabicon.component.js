@@ -13,12 +13,7 @@ const TabIcon = ({ name, color, size, style, ...props }) => {
   		</View>
   	);
   }
-  else if (name==='home'){
-  	return (
-  		<View style={{flex: 5}}>
-  		</View>
-  	);
-  }
+
   else{
   	return(
   		<View style={[{flex: 1}, style]}>

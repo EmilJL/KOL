@@ -1,7 +1,5 @@
-
-
-
-
+import { normalize, schema } from 'normalizr';
+import fetch from 'cross-fetch';
 
 
 const POPULATE_QUESTIONNAIRE_ANSWERS = 'POPULATE_QUESTIONNAIRE_ANSWERS';
@@ -17,12 +15,77 @@ const ADD_MESSAGE = 'ADD_MESSAGE';
 const ADD_CALENDAR_ENTRY = 'ADD_CALENDAR_ENTRY';
 
 const NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE = 'NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE';
-const NOTIFY_NEW_MESSAGE = 'NOTIFY_NEW_MESSAGE';
+
 const NOTIFY_NEW_FORUM_REPLY = 'NOTIFY_FORUM_REPLY';
 
 
-const ADD_NOTIFICATIONS = 'ADD_NOTIFICATIONS';
+
+
 const REMOVE_NOTIFICATIONS = 'REMOVE_NOTIFICATIONS';
+
+
+
+export const requestCreateUser = (email, password) => {
+	return (dispatch) => {
+		dispatch(createUserAttempt());
+		fetch('https://local.my.kolapp.dk/wp-json/wp/v2/users/register', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type' : 'application/json',
+			},
+			body: JSON.stringify({
+				username: email,
+				email: email,
+				password: password
+			}),
+		})
+		.then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
+			if (responseJson) {
+				if(responseJson.code === 200){
+					var user = {
+						email: email,
+						password: pasword
+					}
+					return dispatch(createUserSuccess(user));		
+				}
+				else{
+						return dispatch(createUserFailure(responseJson.message));
+					}
+			}
+			else{
+				console.log('wtf?')
+				return null;
+			}
+		})
+		.catch(err => console.log('kig her: ' + err));
+	}
+}
+
+const CREATE_USER_ATTEMPT = 'CREATE_USER_ATTEMPT';
+const createUserAttempt = () => {
+	return {
+		type: CREATE_USER_ATTEMPT
+	}
+}
+const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
+const createUserSuccess = (user) => {
+	return {
+		type: CREATE_USER_SUCCESS,
+		payload: user
+	}
+}
+
+const CREATE_USER_FAILURE = 'CREATE_USER_FAILURE';
+const createUserFailure = (reason) => {
+	return {
+		type: CREATE_USER_FAILURE,
+		payload: reason
+	}
+}
+
+
+
 
 
 const LOG_OUT = 'LOG_OUT';
@@ -39,12 +102,27 @@ export const authenticateUser = success => {
 		payload: success
 	}
 }
-
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-export const setCurrentPage = key => {
+const ATTEMPT_AUTHENTICATION = 'ATTEMPT_AUTHENTICATION';
+export const attemptAuthentication = value => {
 	return {
-		type: SET_CURRENT_PAGE,
-		payload: key
+		type: ATTEMPT_AUTHENTICATION,
+		payload: value
+	}
+}
+
+const DECLINE_AUTHENTICATION_USER = 'DECLINE_AUTHENTICATION_USER'
+export const declineAuthenticationUser = success => {
+	return {
+		type: DECLINE_AUTHENTICATION_USER,
+		payload: success
+	}
+}
+
+const SET_CURRENT_TITLE = 'SET_CURRENT_TITLE';
+export const setCurrentTitle = title => {
+	return {
+		type: SET_CURRENT_TITLE,
+		payload: title
 	}
 }
 
@@ -74,31 +152,26 @@ function failFetchingUserData(fetching){
 	}
 }
 
-
-
-
-
-
 function populateQuestionnaireAnswers(questionnaireAnswers){
 	return {
 		type: POPULATE_QUESTIONNAIRE_ANSWERS,
 		questionnaireAnswers
 	}
 }
+
 function populateMessages(messages){
 	return {
 		type: POPULATE_MESSAGES,
 		messages
 	}
 }
+
 function populateCalendar(calendarEntries){
 	return {
 		type: POPULATE_CALENDAR,
 		calendarEntries
 	}
 }
-
-
 
 function addQuestionnaireAnswer(questionnaireAnswer){
 	return {
@@ -118,8 +191,6 @@ function addCalendarEntry(calendarEntry){
 		calendarEntry
 	}
 }
-
-
 
 function fetchForumData(fetching){
 	return {
@@ -148,10 +219,11 @@ function notifyNewQuestionnaireAvailable(notification){
 	}
 }
 
-function notifyNewMessage(notification){
+const NOTIFY_NEW_MESSAGE = 'NOTIFY_NEW_MESSAGE';
+export const notifyNewMessage = (notification) => {
 	return {
 		type: NOTIFY_NEW_MESSAGE,
-		notification
+		payload: notification
 	}
 }
 
@@ -178,3 +250,10 @@ export const toggleNotificationVisibility = (isVisible) =>{
 	}
 }
 
+const ADD_NOTIFICATIONS = 'ADD_NOTIFICATIONS';
+export const addNotifications = (notifications) => {
+	return{
+		type: ADD_NOTIFICATIONS,
+		payload: notifications
+	}
+}

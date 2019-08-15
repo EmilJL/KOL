@@ -9,32 +9,45 @@ const initialState = {
 	calendarEntries: [],
 	forumComments: [],
 	forumPosts: [],
+	authenticationFailed: false,
+	authenticating: false,
 	fetchinUserData: false,
 	fetchingForumData: false,
 	isLoggedIn: false,
 	failedFetching: false,
-	headerIsVisible: false,
+	headerIsVisible: true,
 	notificationIsVisible: false,
+	attemptingCreateUser: false,
+	failedToCreateUser: ''
 }
 
 const initialNavigationState = {
-	currentPage: 'k'
+	currentTitle: 'DASHBOARD'
 }
 
 const user = (state = initialState, action) => {
-	console.log(action.type);
 	switch (action.type) {
-		case 'AUTHENTICATE_USER':
-			console.log("hej2");
-			console.log(action.success);
+		case 'ATTEMPT_AUTHENTICATION':
 			return {
 				...state,
-				isLoggedIn: action.payload
+				authenticating: action.payload
+			}
+		case 'AUTHENTICATE_USER':
+			return {
+				...state,
+				isLoggedIn: action.payload,
+				authenticating: false
+			};
+		case 'DECLINE_AUTHENTICATION_USER':
+			return {
+				...state,
+				authenticationFailed: action.payload,
+				authenticating: false
 			};
 		case 'LOG_OUT':
 			return {
 				...state,
-				isLoggedIn: false
+				notifications: []
 			};
 		case 'FETCH_USER_DATA':
 			return Object.assign({}, state, {
@@ -98,26 +111,20 @@ const user = (state = initialState, action) => {
 				]
 			});
 		case 'NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE':
-			return Object.assign({}, state, {
-				notifications: [
-					...state.calendarEntries,
-					action.notification
-				]
-			});
+			return {
+				...state,
+				notifications: [...state.notifications, action.payload]
+			};
 		case 'NOTIFY_NEW_MESSAGE':
-			return Object.assign({}, state, {
-				notifications: [
-					...state.calendarEntries,
-					action.notification
-				]
-			});
+			return {
+				...state,
+				notifications: [...state.notifications, action.payload]
+			};
 		case 'NOTIFY_NEW_FORUM_REPLY':
-			return Object.assign({}, state, {
-				notifications: [
-					...state.calendarEntries,
-					action.notification
-				]
-			});
+			return {
+				...state,
+				notifications: [...state.notifications, action.payload]
+			};
 		case 'TOGGLE_HEADER_VISIBILITY':
 			return {
 				...state,
@@ -128,24 +135,40 @@ const user = (state = initialState, action) => {
 				...state,
 				notificationIsVisible: action.payload
 			};
+		case 'CREATE_USER_ATTEMPT':
+			return {
+				...state,
+				attemptingCreateUser: true
+			}
+		case 'CREATE_USER_SUCCESS':
+			return {
+				...state,
+				attemptingCreateUser: false,
+				user: action.payload
+			}
+		case 'CREATE_USER_FAILURE':
+			return {
+				...state,
+				attemptingCreateUser: false,
+				failedToCreateUser: action.payload
+			}
 		default:
-			console.log('wtf');
-			console.log(action.type);
-			console.log('wtf2');
 			return state;
 	}
 	
 }
 const navigation = (state = initialNavigationState, action) => {
-	console.log(action.type);
 	switch(action.type) {
-		case 'SET_CURRENT_PAGE':
-			console.log('this working?');
-			console.log(action.payload);
+		case 'SET_CURRENT_TITLE':
 			return {
 				...state,
-				currentPage: action.payload
+				currentTitle: action.payload
 			};
+		case 'LOG_OUT':
+			return {
+				...state,
+				currentTitle: 'DASHBOARD'
+			}
 		default:
 			return state;
 	}
