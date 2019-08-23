@@ -108,16 +108,12 @@ class TabBar extends React.Component {
 							        const isRouteActive = routeIndex === activeRouteIndex;
 							        const tintColor = isRouteActive ? activeTintColor : inactiveTintColor;
 							        var extraStyles = {};
-							        if (route.key == 'Home') {
-							        	extraStyles = {flex: 2};
-							        }
-							        else{
-							        	extraStyles = {flex: 1, paddingBottom: '12%', paddingTop: '12%'}
-							        }
-							        if (route.key == 'MainNavigator' || route.key == 'Home') 
+							        extraStyles = {flex: 1, paddingBottom: '12%', paddingTop: '12%'};
+							        if (route.key == 'MainNavigator') 
 							        {
 							        	return null;
 							        }
+							    
 							        else{
 							        	return (
 								          <TouchableOpacity

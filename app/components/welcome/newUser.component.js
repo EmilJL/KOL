@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import { requestCreateUser } from '../../redux/actions/actions.js';
 import LoadingComponent from '../loading/loadingComponent.js';
+import CreateUserStepTwo from './createUserStepTwo.js';
 
 const S = StyleSheet.create({
   inputValid: {borderColor: '#565BF6'},
@@ -109,17 +110,8 @@ class NewUser extends Component{
   handleCreateUser = () => {
     var allValid = this.validateAll();
     if (allValid) {
-      return new Promise(() => this.props.createUser(this.state.email, this.state.password)).then((response) => {
+      return new Promise(() => this.props.createUser(this.state.name, this.state.email, this.state.password)).then((response) => {
         console.log('respnse: ' + response);
-        if (this.props.isLoggedIn) {
-          return this.props.navigation.navigate('DrawerFlow')
-        }
-        else if (this.props.failedCreateMessage == ''){
-          return console.log('woooh!');
-        }
-        else {
-          return console.log('faack');
-        }
       }).catch(err => console.log(err));
 
     }
@@ -234,7 +226,7 @@ class NewUser extends Component{
     const currentImage = this.state.currentImage;
     if (this.props.isLoggedIn) {
       return(
-        <LoadingComponent navigation={this.props.navigation} isLoggedIn={true}/>
+        <LoadingComponent path={'CreateUserStepTwo'} isLoggedIn={false} navigation={this.props.navigation} />
       );
     }
     else{
@@ -315,14 +307,15 @@ class NewUser extends Component{
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.users.isLoggedIn,
-    failedCreateMessage: state.users.failedToCreateUser
+    failedCreateMessage: state.users.failedToCreateUser,
+    token: state.users.token
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    createUser: (email, password) => {
-      dispatch(requestCreateUser(email, password));
+    createUser: (name, email, password) => {
+      dispatch(requestCreateUser(name, email, password));
     }
   }
 }

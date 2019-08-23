@@ -9,7 +9,6 @@ const initialState = {
 	calendarEntries: [],
 	forumComments: [],
 	forumPosts: [],
-	authenticationFailed: false,
 	authenticating: false,
 	fetchinUserData: false,
 	fetchingForumData: false,
@@ -41,34 +40,20 @@ const user = (state = initialState, action) => {
 		case 'AUTHENTICATE_USER':
 			return {
 				...state,
-				isLoggedIn: action.payload,
+				isLoggedIn: true,
 				authenticating: false
 			};
 		case 'DECLINE_AUTHENTICATION_USER':
 			return {
 				...state,
-				authenticationFailed: action.payload,
-				authenticating: false
+				authenticating: false,
+				isLoggedIn: false
 			};
 		case 'LOG_OUT':
 			return {
 				...state,
-				notifications: []
+				isLoggedIn: false
 			};
-		case 'FETCH_USER_DATA':
-			return Object.assign({}, state, {
-				fetchingUserData: action.fetching
-			});
-		case 'RECEIVE_USER_DATA':
-			return Object.assign({}, state, {
-				userData: action.userData,
-				fetchingUserData: false
-			});
-		case 'FAIL_FETCHING_USER_DATA':
-			return Object.assign({}, state, {
-				failedFetching: true,
-				fetchingUserData: action.fetching
-			});
 		case 'FETCH_FORUM_DATA':
 			return Object.assign({}, state, {
 				fetchingForumData: action.fetching
@@ -103,6 +88,11 @@ const user = (state = initialState, action) => {
 					action.message
 				]
 			});
+		case 'POPULATE_USER_DATA':
+			return {
+				...state,
+				userData: action.payload
+			}
 		case 'POPULATE_CALENDAR':
 			return Object.assign({}, state, {
 				calendarEntries: action.calendarEntries

@@ -17,32 +17,27 @@ const screenHeight = Math.round(Dimensions.get('window').height);
 
 const Router = createBottomTabNavigator(
 	{
+		Home: {
+		  	screen: HomeScreen,
+		  	navigationOptions: {
+		  		tabBarIcon: ({tintColor}) => <TabIcon name="home" size={screenHeight/20} color={tintColor} />
+	  		}
+		},
 		Inbox: {
 			screen: InboxScreen,
-			navigationOptions: {
-				tabBarIcon: ({tintColor}) => <TabIcon name="email" size={screenHeight/20} color={tintColor} />
-			}
-		},
-		Grafer: {
-			screen: GraphsScreen,
 			navigationOptions: {
 				tabBarIcon: ({tintColor}) => <TabIcon name="bar-graph" size={screenHeight/20} color={tintColor} />
 			}
 		},
-		Home: {
-		  	screen: HomeScreen,
-		  	navigationOptions: {
-		  		tabBarIcon: ({tintColor}) => <TabIcon name="home" size={0} color={tintColor} />
-	  		}
-		},
-		Kalender: {
-			screen: CalendarScreen,
+		
+		Grafer: {
+			screen: GraphsScreen,
 			navigationOptions: {
 				tabBarIcon: ({tintColor}) => <TabIcon name="calendar" size={screenHeight/20} color={tintColor} />
 			}
 		},
-	  	Profil: {
-		  	screen: ProfileScreen,
+	  	Kalender: {
+		  	screen: CalendarScreen,
 		  	navigationOptions: {
 		  		tabBarIcon: ({tintColor}) => <TabIcon name="user" size={screenHeight/20} color={tintColor} />
 		  	}

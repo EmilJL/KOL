@@ -12,13 +12,17 @@ import {
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import SideMenu from '../sideMenu/sideMenu.component.js';
-import { setCurrentTitle } from '../../redux/actions/actions.js';
+import { setCurrentTitle, logOut } from '../../redux/actions/actions.js';
 
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 
 
 class Home extends Component {
+  handleLogout = () => {
+      this.props.logOut();
+      this.props.navigation.navigate('AuthenticationFlow');
+  }
   render(){
     this.props.setHeaderTitle('DASHBOARD');
     return (
@@ -31,11 +35,11 @@ class Home extends Component {
             </View>
             <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
               <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => this.handleLogout()}/>
             </View>
             <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
               <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => console.log(this.props.userData)}/>
             </View>
             <View style={{height: screenHeight* 0.7, width: '100%', borderWidth: 2}}>
               <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
@@ -53,12 +57,16 @@ mapDispatchToProps = dispatch => {
   return {
     setHeaderTitle: (title) => {
       dispatch(setCurrentTitle(title));
+    },
+    logOut: () => {
+      dispatch(logOut())
     }
   }
 } 
 mapStateToProps = state => {
   return {
-    sideMenuIsVisible: state.users.sideMenuIsVisible
+    sideMenuIsVisible: state.users.sideMenuIsVisible,
+    userData: state.users.userData
   }
 }
 

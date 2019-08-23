@@ -10,6 +10,7 @@ import ForgotInfo from '../components/welcome/forgotInfo.component';
 import Login from '../components/welcome/login.component';
 import Start from '../components/welcome/start.component';
 import Header from '../components/header/header.component';
+import CreateUserStepTwo from '../components/welcome/createUserStepTwo.js';
 
 const AuthenticationNavigator = createStackNavigator(
 	{
@@ -35,6 +36,12 @@ const AuthenticationNavigator = createStackNavigator(
 			screen: NewUserScreen,
 			navigationOptions: {
 				header: props => <Header notificationIsVisible={false} title={'OPRET BRUGER'} {...props} />
+			}
+		},
+		CreateUserStepTwo: {
+			screen: CreateUserStepTwo,
+			navigationOptions: {
+				header: props => <Header notificationIsVisible={false} title={'UDFYLD SPØRGESKEMA'} {...props} />
 			}
 		}
 	},

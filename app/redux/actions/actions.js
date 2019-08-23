@@ -82,6 +82,7 @@ const setQuestionsFromOthers = (questions) => {
 
 export const getUserQuestionsForTimespan = (startDate, endDate) => {
 	return (dispatch, state) => {
+		console.log(state.user.token);
 		fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/get', {
 			method: 'POST',
 			headers: new Headers({
@@ -103,13 +104,14 @@ export const getUserQuestionsForTimespan = (startDate, endDate) => {
 }
 
 const getUserAnswers = () => {
-	return (dispatch, state) => {
+	return (dispatch, getState) => {
+		var token = getState(users).token;
 		fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/get', {
 			method: 'POST',
 			headers: new Headers({
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + state.users.token
+				'Authorization': 'Bearer ' + token
 			}),
 			body: JSON.stringify({
 			}),
@@ -123,13 +125,14 @@ const getUserAnswers = () => {
 }
 
 const getUserQuestions = () => {
-	return (dispatch, state) => {
+	return (dispatch, getState) => {
+		var token = getState(users).token;
 		fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/get', {
 			method: 'POST',
 			headers: new Headers({
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + state.users.token
+				'Authorization': 'Bearer ' + token
 			}),
 			body: JSON.stringify({
 			}),
@@ -143,13 +146,14 @@ const getUserQuestions = () => {
 }
 
 const getUserQuestionsAnswered = () => {
-	return (dispatch, state) => {
+	return (dispatch, getState) => {
+		var token = getState(users).token;
 		fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/get', {
 			method: 'POST',
 			headers: new Headers({
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + state.users.token
+				'Authorization': 'Bearer ' + token
 			}),
 			body: JSON.stringify({
 			}),
@@ -176,7 +180,7 @@ export const getQuestionnairesForUser = (startDate, endDate) => {
 			headers: new Headers({
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + state.user.token
+				'Authorization': 'Bearer ' + state.users.token
 			}),
 			body: JSON.stringify({
 				startdate: startDate,
@@ -196,9 +200,16 @@ export const getQuestionnairesForUser = (startDate, endDate) => {
 const CHECK_QUESTIONNAIRE_ANSWERED = 'CHECK_QUESTIONNAIRE_ANSWERED';
 
 
+export const attemptAddQuestionnaire = (questionnaire) => {
+	return (getState, dispatch) => {
+		return fetch('https://my.kolapp.dk/wp-json/keq/v1/questions/insert', {
+
+		})
+	}
+}
 
 const ADD_QUESTIONNAIRE = 'ADD_QUESTIONNAIRE_ANSWER';
-export const addQuestionaire = (questionnaire) => {
+const addQuestionnaire = (questionnaire) => {
 	return {
 		type: ADD_QUESTIONNAIRE,
 		payload: questionnaire
@@ -206,7 +217,63 @@ export const addQuestionaire = (questionnaire) => {
 }
 
 
+export const authenticateWithToken = () => {
+	return (dispatch) => {
+		dispatch(attemptAuthentication());
+		AsyncStorage.getItem('userId')
+		.then((token) => {
+			if (token !== null) {
+				console.log(token);
+				return fetch('https://my.kolapp.dk/wp-json/keq/v1/me/get', {
+						method: 'POST',
+						headers: new Headers({
+							Accept: 'application/json',
+							'Content-Type': 'application/json',
+							'Authorization': 'Bearer ' + token
+						})
+					}).then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
+						console.log(responseJson);
+						dispatch(populateUserData(responseJson.data));
+						return dispatch(authenticateUser());
+					})
+					.catch((err) => {
+						console.log(err);
+						return dispatch(declineAuthenticationUser());
+					});
+			}
+			else{
+				return dispatch(declineAuthenticationUser());
+			}
+		})
+		.catch(err => { 
+			console.log(err)
+			return dispatch(declineAuthenticationUser());
+		})
+	}
+	console.log()
+	
+}
 
+const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
+const authenticateUser = () => {
+	return {
+		type: AUTHENTICATE_USER
+	}
+}
+const ATTEMPT_AUTHENTICATION = 'ATTEMPT_AUTHENTICATION';
+const attemptAuthentication = value => {
+	return {
+		type: ATTEMPT_AUTHENTICATION,
+		payload: value
+	}
+}
+
+const DECLINE_AUTHENTICATION_USER = 'DECLINE_AUTHENTICATION_USER'
+const declineAuthenticationUser = () => {
+	return {
+		type: DECLINE_AUTHENTICATION_USER
+	}
+}
 
 export const getSavedToken = () => {
 	return (dispatch) => {
@@ -243,13 +310,39 @@ export const createTokenAttempt = (user) => {
 			console.log(responseJson);
 			AsyncStorage.setItem('userId', responseJson.token);
 			dispatch(setToken(responseJson.token));
+			return responseJson.token;
+		})
+		.then((token) => {
+		return fetch('https://my.kolapp.dk/wp-json/keq/v1/me/update', {
+			method: 'POST',
+			headers: new Headers({
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
+			}),
+			body: JSON.stringify({
+				metadata: {
+					nickname: user.nickname
+				}
+			}),
+		})
+		.then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
+			console.log(responseJson);
 			return dispatch(createUserSuccess(user));
 		})
-		.catch(err => console.log(err));
+		.catch((err) => {
+			console.log(err);
+			return dispatch(declineAuthenticationUser());
+		});
+	})
+	.catch((err) => {
+		console.log(err);
+		return dispatch(declineAuthenticationUser());
+	});
 	}
 }
 
-export const requestCreateUser = (email, password) => {
+export const requestCreateUser = (name, email, password) => {
 	return (dispatch) => {
 		dispatch(createUserAttempt());
 		fetch('https://my.kolapp.dk/wp-json/wp/v2/users/register', {
@@ -269,10 +362,11 @@ export const requestCreateUser = (email, password) => {
 				
 				if(responseJson.code === 200){
 					var user = {
+						nickname: name,
 						email: email,
 						password: password
 					}
-					dispatch(createTokenAttempt(user))
+					return dispatch(createTokenAttempt(user))
 				}
 				else
 				{
@@ -280,12 +374,6 @@ export const requestCreateUser = (email, password) => {
 					  'Fejl ved oprettelse!',
 					  responseJson.message,
 					  [
-					    {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-					    {
-					      text: 'Cancel',
-					      onPress: () => console.log('Cancel Pressed'),
-					      style: 'cancel',
-					    },
 					    {text: 'OK', onPress: () => console.log('OK Pressed')},
 					  ],
 					  {cancelable: false},
@@ -332,28 +420,7 @@ export const logOut = () => {
 	}
 }
 
-const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
-export const authenticateUser = success => {
-	return {
-		type: AUTHENTICATE_USER,
-		payload: success
-	}
-}
-const ATTEMPT_AUTHENTICATION = 'ATTEMPT_AUTHENTICATION';
-export const attemptAuthentication = value => {
-	return {
-		type: ATTEMPT_AUTHENTICATION,
-		payload: value
-	}
-}
 
-const DECLINE_AUTHENTICATION_USER = 'DECLINE_AUTHENTICATION_USER'
-export const declineAuthenticationUser = success => {
-	return {
-		type: DECLINE_AUTHENTICATION_USER,
-		payload: success
-	}
-}
 
 const SET_CURRENT_TITLE = 'SET_CURRENT_TITLE';
 export const setCurrentTitle = title => {
@@ -363,21 +430,11 @@ export const setCurrentTitle = title => {
 	}
 }
 
-
-
-const FETCH_USER_DATA = 'FETCH_USER_DATA';
-function fetchUserData(fetching){
+const POPULATE_USER_DATA = 'POPULATE_USER_DATA';
+const populateUserData = (data) => {
 	return {
-		type: FETCH_USER_DATA,
-		fetching
-	}
-}
-
-const RECEIVE_USER_DATA = 'RECEIVE_USER_DATA';
-function receiveUserData(userData){
-	return {
-		type: RECEIVE_USER_DATA,
-		userData
+		type: POPULATE_USER_DATA,
+		payload: data
 	}
 }
 
