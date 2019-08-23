@@ -32,8 +32,7 @@ const Router = createBottomTabNavigator(
 		Home: {
 		  	screen: HomeScreen,
 		  	navigationOptions: {
-		  		tabBarIcon: ({tintColor}) => <TabIcon name="home" size={0} color={tintColor} />,
-		  		title: ''
+		  		tabBarIcon: ({tintColor}) => <TabIcon name="home" size={0} color={tintColor} />
 	  		}
 		},
 		Kalender: {
@@ -50,7 +49,7 @@ const Router = createBottomTabNavigator(
 		},
 		MainNavigator: {
 			screen: MainNavigator
-		}
+		},
 	},
 	{
 	    tabBarComponent: TabBar,

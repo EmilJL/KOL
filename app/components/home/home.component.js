@@ -9,30 +9,37 @@ import {
   Button,
   Dimensions
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import SideMenu from '../sideMenu/sideMenu.component.js';
+import { setCurrentTitle } from '../../redux/actions/actions.js';
+
+const screenHeight = Math.round(Dimensions.get('window').height);
+const screenWidth = Math.round(Dimensions.get('window').width);
 
 
 class Home extends Component {
   render(){
-    const screenHeight = Math.round(Dimensions.get('window').height);
-    const screenWidth = Math.round(Dimensions.get('window').width);
+    this.props.setHeaderTitle('DASHBOARD');
     return (
-        <View style={{borderWidth: 1, borderColor: 'green', height: screenHeight, width: '100%', paddingTop: screenHeight/9, alignContent: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0', borderWidth: 2, borderColor: 'green'}}>
-          <ScrollView style={{paddingLeft: '5%', paddingRight: '5%', paddingBottom: screenHeight/6}}>
+        <View style={{flexDirection: 'row', height: screenHeight, width: screenWidth, paddingBottom: screenHeight/9, paddingTop: 20, alignContent: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0'}}>
+        
+          <ScrollView style={{paddingLeft: '5%', paddingRight: '5%', paddingBottom: screenHeight/6, width: screenWidth}}>
             <View style={{height: screenHeight*0.6, width: '100%', borderWidth: 2}}>
               <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', backgroundColor: 'green', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => this.props.setHeaderTitle('DASHBOARD')}/>
             </View>
             <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
               <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', backgroundColor: 'green', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
             </View>
             <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
               <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', backgroundColor: 'green', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
             </View>
             <View style={{height: screenHeight* 0.7, width: '100%', borderWidth: 2}}>
               <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', backgroundColor: 'green', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
             </View>
             <View style={{height: screenHeight/5}}>
             </View>
@@ -42,5 +49,17 @@ class Home extends Component {
   }
 };
 
+mapDispatchToProps = dispatch => {
+  return {
+    setHeaderTitle: (title) => {
+      dispatch(setCurrentTitle(title));
+    }
+  }
+} 
+mapStateToProps = state => {
+  return {
+    sideMenuIsVisible: state.users.sideMenuIsVisible
+  }
+}
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(Home));

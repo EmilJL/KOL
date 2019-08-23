@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground, 
 import { setCurrentTitle, toggleHeaderVisibility } from '../../redux/actions/actions.js';
 import ButtonMenu from '../buttonMenu/buttonMenu.component.js';
 import Header from '../header/header.component';
-
+import { DrawerActions } from 'react-navigation';
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 const S = StyleSheet.create({
@@ -24,14 +24,16 @@ class TabBar extends React.Component {
 		buttonPressed: false
 	}
 	handleButtonPress = () => {
-		if (this.state.buttonStyle === S.middleButton ) {
+		console.log(this.props.navigation);
+		this.props.navigation.dispatch(DrawerActions.toggleDrawer())
+		/*if (this.state.buttonStyle === S.middleButton ) {
 			this.setState({buttonStyle: S.middleButtonPressed, buttonPressed: true});
 			this.props.toggleHeaderVisibility(false);
 		}
 		else{
 			this.setState({buttonStyle: S.middleButton, buttonPressed: false});
 			this.props.toggleHeaderVisibility(true);
-		}
+		}*/
 	}
 	handleNavigation = (routeName) => {
 		switch(routeName){
@@ -112,9 +114,8 @@ class TabBar extends React.Component {
 							        else{
 							        	extraStyles = {flex: 1, paddingBottom: '12%', paddingTop: '12%'}
 							        }
-							        if (route.key == 'MainNavigator') 
+							        if (route.key == 'MainNavigator' || route.key == 'Home') 
 							        {
-							        	console.log(route);
 							        	return null;
 							        }
 							        else{

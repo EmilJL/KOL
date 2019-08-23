@@ -18,7 +18,13 @@ const initialState = {
 	headerIsVisible: true,
 	notificationIsVisible: false,
 	attemptingCreateUser: false,
-	failedToCreateUser: ''
+	userQuestions: [],
+	userAnswers: [],
+	userQuestionsAnswered: [],
+	userQuestionsOthers: [],
+	failedToCreateUser: '',
+	token: '',
+	sideMenuIsVisible: false
 }
 
 const initialNavigationState = {
@@ -81,13 +87,11 @@ const user = (state = initialState, action) => {
 			return Object.assign({}, state, {
 				questionnaireAnswers: action.questionnaireAnswers
 			})
-		case 'ADD_QUESTIONNAIRE_ANSWER':
-			return Object.assign({}, state, {
-				questionnaireAnswers: [
-					...state.questionnaireAnswers,
-					action.questionnaireAnswer
-				]
-			});
+		case 'ADD_QUESTIONNAIRE':
+				return {
+				...state,
+				notifications: [...state.notifications, action.payload]
+			};
 		case 'POPULATE_MESSAGES':
 			return Object.assign({}, state, {
 				messages: action.messages
@@ -128,7 +132,7 @@ const user = (state = initialState, action) => {
 		case 'TOGGLE_HEADER_VISIBILITY':
 			return {
 				...state,
-				headerIsVisible: action.payload
+				headerIsVisible: !state.headerIsVisible
 			};
 		case 'TOGGLE_NOTIFICATION_VISIBILITY':
 			return {
@@ -144,13 +148,44 @@ const user = (state = initialState, action) => {
 			return {
 				...state,
 				attemptingCreateUser: false,
-				user: action.payload
+				user: action.payload,
+				isLoggedIn: true
 			}
 		case 'CREATE_USER_FAILURE':
 			return {
 				...state,
 				attemptingCreateUser: false,
 				failedToCreateUser: action.payload
+			}
+		case 'SET_USER_QUESTIONS':
+			return {
+				...state,
+				userQuestions: action.payload
+			}
+		case 'SET_USER_QUESTIONS_ANSWERED':
+			return {
+				...state,
+				userQuestionsAnswered: action.payload
+			}
+		case 'SET_USER_QUESTIONS_FROM_OTHERS':
+			return {
+				...state,
+				userQuestionsOthers: action.payload
+			}
+		case 'SET_USER_ANSWERS':
+			return {
+				...state,
+				userAnswers: action.payload
+			}
+		case 'SET_TOKEN':
+			return {
+				...state,
+				token: action.payload
+			}
+		case 'TOGGLE_SIDE_MENU':
+			return {
+				...state,
+				sideMenuIsVisible: !state.sideMenuIsVisible
 			}
 		default:
 			return state;

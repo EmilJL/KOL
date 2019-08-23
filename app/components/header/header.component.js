@@ -11,6 +11,7 @@ import {
   Button,
   Image
 } from 'react-native';
+import { DrawerActions } from 'react-navigation'
 import { setCurrentTitle } from '../../redux/actions/actions.js';
 import { logOut } from '../../redux/actions/actions.js';
 
@@ -19,16 +20,21 @@ class Header extends Component {
       this.props.logOut();
       this.props.navigation.navigate('AuthenticationFlow');
     }
+    handleBurgerMenuClick = () => {
+         return this.props.navigation.dispatch(DrawerActions.toggleDrawer())
+    }    
     render(){
         const screenHeight = Math.round(Dimensions.get('window').height);
         const screenWidth = Math.round(Dimensions.get('window').width);
+        
+        console.log('logget in? ' + this.props.isLoggedIn);
         const styleNotifications = this.props.notifications ? (this.props.notifications.length>0 ? {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%', backgroundColor: 'red'} : {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}) : {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'};
         if (this.props.isLoggedIn) {
-          if (this.props.isVisible) {
+            console.log('yo');
             return(
-              <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, zIndex: 4, position: 'absolute', top: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 
-                <TouchableNativeFeedback onPress={() => {this.handleLogout()}}>
+                <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
                   <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
                     <Image style={{width: '27%', marginLeft: '27%', marginTop: '12.5%'}} source={require('../../assets/menuHeader.png')}/>
                   </View>
@@ -48,13 +54,10 @@ class Header extends Component {
 
               </View>
             );
-          }
-          else{
-            return null;
-          }
           
         }
         else{
+          console.log('yoYOO');
           return(
             <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, zIndex: 4, position: 'absolute', top: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
               <TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('Login')}}>
@@ -79,7 +82,6 @@ class Header extends Component {
 const mapStateToProps = state => {
   return{
     currentTitle: state.nav.currentTitle,
-    isVisible: state.users.headerIsVisible,
     notifications: state.users.notifications,
     isLoggedIn: state.users.isLoggedIn
   }

@@ -8,6 +8,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.6.1",
     "cross-fetch": "^3.0.4",
     "normalizr": "^3.4.1",
     "react": "16.8.6",

@@ -1,8 +1,9 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import Router from '../router/router.js';
 import AuthenticationNavigator from './authentication.navigator.js';
 import Header from '../components/header/header.component';
+import Router from '../router/router.js';
+import DrawerNavigator from './drawerNavigator.js';
 
 const TopNavigator = createStackNavigator(
 	{
@@ -12,15 +13,16 @@ const TopNavigator = createStackNavigator(
 				header: null
 			}
 		},
-		MainFlow: {
-			screen: Router,
+		DrawerFlow: {
+			screen: DrawerNavigator,
 			navigationOptions: {
-				header: props => <Header {...props} />
+			header: props => <Header {...props} />
 			}
-		}
+		},
 	},
 	{
-	    initialRouteName: 'AuthenticationFlow'
+	    initialRouteName: 'AuthenticationFlow',
+	    header: null
   	}
 );
 export default createAppContainer(TopNavigator);

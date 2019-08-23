@@ -19,15 +19,18 @@ import { connect } from 'react-redux';
 import { authenticateUser } from '../../redux/actions/actions.js';
 
 
+const Login = ({auth, navigation, token}) => {
 
-const Login = ({auth, navigation}) => {
-	const screenWidth = Math.round(Dimensions.get('window').width);
-	const screenHeight = Math.round(Dimensions.get('window').height);
-	const statusbarHeight = StatusBar.currentHeight;
+	
 	const handleLogin = () => {
 		auth(true);
 		navigation.navigate('MainFlow');
 	}
+	
+
+	const screenWidth = Math.round(Dimensions.get('window').width);
+	const screenHeight = Math.round(Dimensions.get('window').height);
+	const statusbarHeight = StatusBar.currentHeight;
 	return(
 		<View style={{height: screenHeight-statusbarHeight, width: screenWidth}}>
 		<ImageBackground resizeMode='cover' source={require('../../assets/welcome.png')} style={{flex: 1}}>
@@ -71,6 +74,7 @@ const Login = ({auth, navigation}) => {
 	);
 }
 
+
 const mapDispatchToProps = dispatch => {
   return {
     auth: (success) => {
@@ -78,5 +82,10 @@ const mapDispatchToProps = dispatch => {
     }
   }
 }
+const mapStateToProps = state => {
+	return {
+		token: state.users.token
+	}
+}
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
