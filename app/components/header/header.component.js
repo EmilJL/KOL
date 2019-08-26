@@ -26,11 +26,16 @@ class Header extends Component {
     render(){
         const screenHeight = Math.round(Dimensions.get('window').height);
         const screenWidth = Math.round(Dimensions.get('window').width);
-    
         const styleNotifications = this.props.notifications ? (this.props.notifications.length>0 ? {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%', backgroundColor: 'red'} : {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}) : {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'};
         if (this.props.navigation.state.routeName != 'AuthenticationFlow') {
-            console.log('yo');
-            return(
+            if(this.props.navigation.state.routes[1].isDrawerOpen){
+              return (
+                <View style={{width: 0, height: 0}}>
+                </View>
+              );
+            }
+            else{
+              return(
               <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
@@ -53,8 +58,11 @@ class Header extends Component {
 
               </View>
             );
+            }
+            
           
         }
+        
         else{
           console.log('yoYOO');
           return(

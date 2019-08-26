@@ -16,7 +16,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getSavedToken } from './redux/actions/actions.js';
+import { getSavedToken, authenticateWithToken } from './redux/actions/actions.js';
 import TopNavigator from './navigators/topNavigator.js';
 
 class App extends Component{
@@ -35,7 +35,7 @@ class App extends Component{
     failedFetching: false
   }
   componentDidMount(){
-   
+    this.props.authenticateWithToken();
   }
 
   authenticationHandler = (value) => {
@@ -58,6 +58,9 @@ const mapDispatchToProps = dispatch => {
   return {
     checkForToken: () => {
       dispatch(getSavedToken())
+    },
+    authenticateWithToken: () => {
+      dispatch(authenticateWithToken())
     }
   }
 }

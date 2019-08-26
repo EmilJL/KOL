@@ -30,7 +30,7 @@ class Home extends Component {
         
           <ScrollView style={{paddingLeft: '5%', paddingRight: '5%', paddingBottom: screenHeight/6, width: screenWidth}}>
             <View style={{height: screenHeight*0.6, width: '100%', borderWidth: 2}}>
-              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
+              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Velkommen {this.props.userData.metadata.nickname ? this.props.userData.metadata.nickname : 'Ukendt'}</Text>
               <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => this.props.setHeaderTitle('DASHBOARD')}/>
             </View>
             <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
