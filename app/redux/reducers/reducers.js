@@ -3,15 +3,10 @@ import { combineReducers } from 'redux';
 const initialState = {
 	notifications: [],
 	userData: {},
-	forumData: {},
-	messages: [],
+	userDiary: {},
 	questionnaireAnswers: [],
-	calendarEntries: [],
-	forumComments: [],
-	forumPosts: [],
 	authenticating: false,
 	fetchinUserData: false,
-	fetchingForumData: false,
 	isLoggedIn: false,
 	failedFetching: false,
 	headerIsVisible: true,
@@ -23,7 +18,8 @@ const initialState = {
 	userQuestionsOthers: [],
 	failedToCreateUser: '',
 	token: '',
-	sideMenuIsVisible: false
+	sideMenuIsVisible: false,
+	fetchingData: false
 }
 
 const initialNavigationState = {
@@ -54,56 +50,28 @@ const user = (state = initialState, action) => {
 				...state,
 				isLoggedIn: false
 			};
-		case 'FETCH_FORUM_DATA':
-			return Object.assign({}, state, {
-				fetchingForumData: action.fetching
-			});
-		case 'RECEIVE_FORUM_DATA':
-			return Object.assign({}, state, {
-				forumData: action.forumData,
-				fetchingForumData: false
-			});
-		case 'FAIL_FETCHING_FORUM_DATA':
-			return Object.assign({}, state, {
-				failedFetching: true,
-				fetchingForumData: action.fetching
-			});
-		case 'POPULATE_QUESTIONNAIRE_ANSWER':
-			return Object.assign({}, state, {
-				questionnaireAnswers: action.questionnaireAnswers
-			})
-		case 'ADD_QUESTIONNAIRE':
-				return {
+		case 'ATTEMPT_GET_DIARY_FOR_USER':
+		case 'ATTEMPT_GET_QUESTIONS_FOR_USER':
+		case 'ATTEMPT_GET_ANSWERS_FOR_USER':
+		case 'ATTEMPT_GET_QUESTIONS_FROM_OTHERS':
+		case 'ATTEMT_GET_ANSWERS_FROM_OTHERS':
+		case 'ATTEMPT_GET_DIARIES_FROM_OTHERS':
+		case 'ATTEMPT_ADD_DIARY_COMMENT':
+			return {
 				...state,
-				notifications: [...state.notifications, action.payload]
-			};
-		case 'POPULATE_MESSAGES':
-			return Object.assign({}, state, {
-				messages: action.messages
-			});
-		case 'ADD_MESSAGE':
-			return Object.assign({}, state, {
-				messages: [
-					...state.messages,
-					action.message
-				]
-			});
+				fetchingData: true
+			}
+		case 'SET_DIARY_FOR_USER':
+			return {
+				...state,
+				fetchingData: false,
+				userDiary: action.payload
+			}
 		case 'POPULATE_USER_DATA':
 			return {
 				...state,
 				userData: action.payload
-			}
-		case 'POPULATE_CALENDAR':
-			return Object.assign({}, state, {
-				calendarEntries: action.calendarEntries
-			});
-		case 'ADD_CALENDAR_ENTRY':
-			return Object.assign({}, state, {
-				calendarEntries: [
-					...state.calendarEntries,
-					action.calendarEntry
-				]
-			});
+			};
 		case 'NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE':
 			return {
 				...state,

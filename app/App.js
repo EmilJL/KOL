@@ -15,7 +15,7 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import { connect } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { getSavedToken, authenticateWithToken } from './redux/actions/actions.js';
 import TopNavigator from './navigators/topNavigator.js';
 
@@ -47,7 +47,9 @@ class App extends Component{
   render(){
    
     return(
-      <TopNavigator />
+
+        <TopNavigator />
+
     );
         
   }

@@ -30,8 +30,27 @@ class Header extends Component {
         if (this.props.navigation.state.routeName != 'AuthenticationFlow') {
             if(this.props.navigation.state.routes[1].isDrawerOpen){
               return (
-                <View style={{width: 0, height: 0}}>
+                <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                
+                <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
+                  <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
+                    <Image style={{width: '27%', marginLeft: '27%', marginTop: '12.5%'}} source={require('../../assets/menuHeader.png')}/>
+                  </View>
+                </TouchableNativeFeedback>
+
+                <View style={{justifyContent: 'center', alignItems: 'center', flex: 7}}>
+                  <Text style={{fontSize: 14, textAlign: 'center'}}>
+                   MENU
+                  </Text>
                 </View>
+
+                <TouchableNativeFeedback onPress={() => console.log(this.props.notifications)}>
+                  <View style={styleNotifications}>
+                      <Image style={{width: '50%', marginLeft: '25%', marginTop: '12.5%'}} source={require('../../assets/notificationHeader.png')}/>
+                  </View>
+                </TouchableNativeFeedback>
+
+              </View>
               );
             }
             else{
