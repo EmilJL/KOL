@@ -35,7 +35,7 @@ class App extends Component{
     failedFetching: false
   }
   componentDidMount(){
-    this.props.authenticateWithToken();
+   /* this.props.authenticateWithToken();*/
   }
 
   authenticationHandler = (value) => {

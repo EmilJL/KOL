@@ -24,13 +24,13 @@ class Login extends Component {
 	handleLogin = () => {
 	}
 	componentDidMount() {
-		this.props.auth();
+		/*this.props.auth();*/
 	}
 	render(){
 		const screenWidth = Math.round(Dimensions.get('window').width);
 		const screenHeight = Math.round(Dimensions.get('window').height);
 		const statusbarHeight = StatusBar.currentHeight;
-		if (this.props.isLoggedIn) {
+		if (false) {
 			return (
 				<LoadingComponent isLoggedIn={true} navigation={this.props.navigation} token={this.props.token} path={'DrawerFlow'} />
 			);
@@ -55,7 +55,7 @@ class Login extends Component {
 											</Text>
 										</View>
 									</TouchableNativeFeedback>
-									<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('NewUser')}}>
+									<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('CreateUserStepTwo')}}>
 										<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', marginBottom: screenHeight/75, width: screenWidth*0.54, borderWidth: 1.5, borderColor: 'grey', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54, backgroundColor: 'white'}}>
 											<Text style={{fontSize: 14, color: 'grey', textAlign: 'center', fontWeight: '700', letterSpacing: 0.5, paddingBottom: '1%'}}>
 												Opret bruger

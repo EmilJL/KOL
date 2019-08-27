@@ -30,7 +30,7 @@ class Header extends Component {
         if (this.props.navigation.state.routeName != 'AuthenticationFlow') {
             if(this.props.navigation.state.routes[1].isDrawerOpen){
               return (
-                <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{position: 'absolute', top: 0, borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
                   <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
@@ -55,7 +55,7 @@ class Header extends Component {
             }
             else{
               return(
-              <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{position: 'absolute', top: 0, borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
                   <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>

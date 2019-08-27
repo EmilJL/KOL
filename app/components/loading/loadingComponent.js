@@ -22,7 +22,7 @@ class LoadingComponent extends Component {
   render(){
     return(
       <View style={{flex: 1, backgroundColor: '#565BF6', alignItems: 'center', justifyContent: 'center'}}>
-      <StatusBar hidden={true} />
+      
       
         <Image source={require('../../assets/welcome.png')} style={{width: '70%'}} />
       </View>

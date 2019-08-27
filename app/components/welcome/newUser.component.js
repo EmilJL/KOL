@@ -219,7 +219,7 @@ class NewUser extends Component{
 
 	render(){
     
-    
+    console.log(this.props.isLoggedIn);
 		const screenWidth = Math.round(Dimensions.get('window').width);
 		const screenHeight = Math.round(Dimensions.get('window').height);
     const statusBarHeight = StatusBar.currentHeight;
