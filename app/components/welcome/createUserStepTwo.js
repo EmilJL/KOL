@@ -108,7 +108,9 @@ const S = StyleSheet.create({
   textSizeFour: {
     fontSize: 16,
     color: '#414D55',
-    fontWeight: '600'
+    fontWeight: '600',
+    alignSelf: 'flex-start',
+    paddingLeft: 20
   },
   textBubble: {
     marginTop: 17,
@@ -321,10 +323,21 @@ class CreateUserStepTwo extends Component{
   handleSelectGender = (gender) => {
     this.setState({genderSelected: gender});
   }
-  handleQuestionAnswered = (answerValue) => {
-    var answers = this.state.questionAnswers;
-    answers.push[answerValue];
+  handleQuestionAnswered = (answerValue, index) => {
+    var answers;
+    if (index === this.state.questionAnswers.length) {
+      answers = this.state.questionAnswers.concat(answerValue);
+    }
+    else {
+      answers = this.state.questionAnswers;
+      answers[index] = answerValue;
+    }
+    console.log(answers);
     this.setState({questionAnswers: answers});
+    console.log(this.state.questionAnswers);
+  }
+  componentDidMount() {
+    this.setState({genderSelected: 'male'});
   }
 	render(){
     
@@ -375,15 +388,15 @@ class CreateUserStepTwo extends Component{
             </Text>
             {/*insert dropdown stuff her*/}
           </View>
-          <QuestionnaireQuestion S={S} title={'HVORDAN ER DIT HUMØR?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={1}/>
-          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Rigtig meget'} title={'HVOR MEGET HOSTER DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={2}/>
-          <QuestionnaireQuestion S={S} leftText={'Intet slim'} rightText={'Meget slim'} title={'HVOR MEGET SLIM HAR DU I LUNGERNE?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={3}/>
-          <QuestionnaireQuestion S={S} leftText={'Intet'} rightText={'Meget'} title={'HVOR MEGET TRYKKEN FOR BRYSTET HAR DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={4}/>
-          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'HVOR FORPUSTET BLIVER DU NÅR DU GÅR OP AF ÉN ETAGE, ELLER OP AF EN BAKKE?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={5}/>
-          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'ER DU BEGRÆNSET AF NOGEN FORM FOR AKTIVITETER I DIT HJEM?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={6}/>
-          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'ER DU TRYG VED AT FORLADE DIT HJEM PÅ TRODS AF DIN LUNGESYGDOM?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={7}/>
-          <QuestionnaireQuestion S={S} leftText={'Nej slet ikke'} rightText={'Ja meget'} title={'SOVER DU DYBT?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={8}/>
-          <QuestionnaireQuestion S={S} leftText={'Nej slet ikke'} rightText={'Ja meget'} title={'HAR DU MASSERE AF ENERGI?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer) => this.handleQuestionAnswered(answer)} questionNumber={9}/>
+          <QuestionnaireQuestion S={S} title={'HVORDAN ER DIT HUMØR?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={1}/>
+          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Rigtig meget'} title={'HVOR MEGET HOSTER DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={2}/>
+          <QuestionnaireQuestion S={S} leftText={'Intet slim'} rightText={'Meget slim'} title={'HVOR MEGET SLIM HAR DU I LUNGERNE?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={3}/>
+          <QuestionnaireQuestion S={S} leftText={'Intet'} rightText={'Meget'} title={'HVOR MEGET TRYKKEN FOR BRYSTET HAR DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={4}/>
+          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'HVOR FORPUSTET BLIVER DU NÅR DU GÅR OP AF ÉN ETAGE, ELLER OP AF EN BAKKE?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={5}/>
+          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'ER DU BEGRÆNSET AF NOGEN FORM FOR AKTIVITETER I DIT HJEM?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={6}/>
+          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'ER DU TRYG VED AT FORLADE DIT HJEM PÅ TRODS AF DIN LUNGESYGDOM?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={7}/>
+          <QuestionnaireQuestion S={S} leftText={'Nej slet ikke'} rightText={'Ja meget'} title={'SOVER DU DYBT?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={8}/>
+          <QuestionnaireQuestion S={S} leftText={'Nej slet ikke'} rightText={'Ja meget'} title={'HAR DU MASSERE AF ENERGI?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={9}/>
           <Text style={S.outro}>
             Dine svar kan bruges af dig og din læge til at hjælpe med at forbedre behandlingen af din KOL, så du får størst muligt gavn af den.
           </Text>
