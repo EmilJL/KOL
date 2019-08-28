@@ -42,6 +42,7 @@ import Svg,{
     Mask,
 } from 'react-native-svg';
 
+
 const S = StyleSheet.create({
   intro: {
     paddingTop: 30,
@@ -232,20 +233,25 @@ const S = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
         textAlign: 'center',
-        margin: 0
+        margin: 0,
+        fontSize: 14,
+        lineHeight: 22
   },
    btn: {
         /*display: 'block',*/
+        alignSelf: 'center',
         backgroundColor: '#565BF6',
-        borderRadius: 8,
-        width: '70%',
+        borderRadius: 25,
         marginTop: 20,
-        marginBottom: 20
+        marginBottom: 20,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center'
   },
   btn_text: {
      textAlign: 'center',
      color: '#fff',
-     fontWeight: '600'
+     fontWeight: '700',
   },
   biFooter: {
        /* position: 'fixed',*/
@@ -306,27 +312,34 @@ const S = StyleSheet.create({
         zIndex: 2
   }
 });
+
+
+
+
+
+
+
 class CreateUserStepTwo extends Component{
   state={
     genderSelected: '',
-    questionAnswers: []
-/*    firstQuestionStyle: '',
-    secondQuestionStyle: '',
-    thirdQuestionStyle: '',
-    fourthQuestionStyle: '',
-    fifthQuestionStyle: '',
-    sixthQuestionStyle: '',
-    seventhQuestionStyle: '',
-    eigthQuestionStyle: '',
-    ninthQuestionStyle: ''*/
+    questionAnswers: [],
+    topQuestionPosition: 0
   }
+
+  _onLayout = ({ nativeEvent: { layout: { x, y, width, height } } }) => {
+   	this.setState({topQuestionPosition: y+height});
+  }
+
   handleSelectGender = (gender) => {
     this.setState({genderSelected: gender});
   }
+
   handleQuestionAnswered = (answerValue, index) => {
     var answers;
     if (index === this.state.questionAnswers.length) {
       answers = this.state.questionAnswers.concat(answerValue);
+      var position = this.state.topQuestionPosition;
+      this.myScroll.scrollTo({x: 0, y: position+(index*149), animated: true})
     }
     else {
       answers = this.state.questionAnswers;
@@ -342,13 +355,13 @@ class CreateUserStepTwo extends Component{
 	render(){
     
 
-		const screenWidth = Math.round(Dimensions.get('window').width);
-		const screenHeight = Math.round(Dimensions.get('window').height);
+	const screenWidth = Math.round(Dimensions.get('window').width);
+	const screenHeight = Math.round(Dimensions.get('window').height);
     const statusBarHeight = StatusBar.currentHeight;
     
-		return(
-      <View style={{height: screenHeight, width: screenWidth, position: 'absolute', top: screenHeight/13, paddingBottom: 50}}>
-        <ScrollView>
+	return(
+      <View style={{height: screenHeight, width: screenWidth, position: 'absolute', top: screenHeight/13, paddingBottom: 90}}>
+        <ScrollView ref={(ref) => {this.myScroll = ref}}>
           <View style={S.intro}>
             <Text style={S.intro_welcome}>
               Velkommen
@@ -382,7 +395,7 @@ class CreateUserStepTwo extends Component{
               </View>
             </View>
           </View>
-          <View style={S.section}>
+          <View style={S.section} onLayout={this._onLayout}>
             <Text style={S.section_title}>
               HVAD ER DIN ALDER?
             </Text>
@@ -401,9 +414,11 @@ class CreateUserStepTwo extends Component{
             Dine svar kan bruges af dig og din læge til at hjælpe med at forbedre behandlingen af din KOL, så du får størst muligt gavn af den.
           </Text>
           <TouchableOpacity>
-            <Text style={[S.btn, S.btn_text]}>
+          <View style={[S.btn, {width: screenWidth*0.6}]}>
+            <Text style={S.btn_text}>
               Gem
             </Text>
+            </View>
           </TouchableOpacity>
         {/*  <View style={S.biFooter}>
             <View style={S.biFooter_numbers}>

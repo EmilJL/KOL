@@ -16,6 +16,8 @@ import {
   Image,
   TextInput
 } from 'react-native';
+import Logo from "../../assets/smileyZero.svg";
+
 
  const S = StyleSheet.create({
   intro: {
@@ -57,7 +59,6 @@ import {
     borderRadius: 7,
     padding: 20,
     marginBottom: 25,
-    borderWidth: 0.5,
     opacity: 1
   },
   box_smallPadding: {
@@ -134,7 +135,7 @@ import {
       color: '#414D55',
       fontSize: 14,
       textAlign: 'center',
-      opacity: .35
+      opacity: 1
     /*  svg: {
           width: '100%',
           marginBottom: 5
@@ -302,7 +303,9 @@ import {
                 </Text>
                 <View style={[S.box, {flexDirection: 'row'}, questionAnswers.length >= questionNumber ? S.box_active : (genderSelected === '' ? null : S.box_current)]}>
                     <TouchableOpacity onPress={() => handleQuestionAnswered(0, questionNumber-1)} style={[S.smiley, questionAnswers.length > questionNumber ? (questionAnswers[questionNumber-1] === 0 ? S.smiley_active : null) : null]}>
-                      <Text>ok</Text> 
+                      <View style={{width:30, height:30}}>
+                      <Logo width={30} height={30}/>
+                      </View> 
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleQuestionAnswered(1, questionNumber-1)} style={[S.smiley, questionAnswers.length > questionNumber ? (questionAnswers[questionNumber-1] === 1 ? S.smiley_active : null) : null]}>
                      {/*insert SVG stuff here*/}
@@ -330,40 +333,40 @@ import {
                   {title}
                 </Text>
               
-                    <View style={[S.box, questionAnswers.length >= questionNumber-1 ? (questionAnswers.length > questionNumber-1 ? S.box_active : S.box_current) : null]}>
-                        <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity onPress={() => handleQuestionAnswered(0, questionNumber-1)} >
-                             <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 0 ? S.circle_active : S.circle_current) : null)]}>0</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleQuestionAnswered(1, questionNumber-1)} >
-                             <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 1 ? S.circle_active : S.circle_current) : null)]}>1</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleQuestionAnswered(2, questionNumber-1)} >
-                             <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 2 ? S.circle_active : S.circle_current) : null)]}>2</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleQuestionAnswered(3, questionNumber-1)} >
-                             <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 3 ? S.circle_active : S.circle_current) : null)]}>3</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleQuestionAnswered(4, questionNumber-1)} >
-                             <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 4 ? S.circle_active : S.circle_current) : null)]}>4</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleQuestionAnswered(5, questionNumber-1)} >
-                             <Text style={[S.circle, S.circle_lastChild, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 5 ? S.circle_active : S.circle_current) : null)]}>5</Text>
-                            </TouchableOpacity>
-                        </View>
-                        
-
-                        <View style={[S.scala, {flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: 'center'}]}>
-                            <Text style={[S.scala_text_left, questionAnswers.length === questionNumber-1 ? S.scala_text_current : (questionAnswers.length >= questionNumber ? S.scala_text_current : null)]}>
-                                {leftText}
-                            </Text>
-                            <Text style={[S.scala_text_right, questionAnswers.length === questionNumber-1 ? S.scala_text_current : (questionAnswers.length >= questionNumber ? S.scala_text_current : null)]}>
-                                {rightText}
-                            </Text>
-                        </View>
-                  
+                <View style={[S.box, questionAnswers.length >= questionNumber-1 ? (questionAnswers.length > questionNumber-1 ? S.box_active : S.box_current) : null]}>
+                    <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity onPress={() => handleQuestionAnswered(0, questionNumber-1)} >
+                         <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 0 ? S.circle_active : null) : null)]}>0</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleQuestionAnswered(1, questionNumber-1)} >
+                         <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 1 ? S.circle_active : null) : null)]}>1</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleQuestionAnswered(2, questionNumber-1)} >
+                         <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 2 ? S.circle_active : null) : null)]}>2</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleQuestionAnswered(3, questionNumber-1)} >
+                         <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 3 ? S.circle_active : null) : null)]}>3</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleQuestionAnswered(4, questionNumber-1)} >
+                         <Text style={[S.circle, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 4 ? S.circle_active : null) : null)]}>4</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleQuestionAnswered(5, questionNumber-1)} >
+                         <Text style={[S.circle, S.circle_lastChild, questionAnswers.length === questionNumber-1 ? S.circle_current : ( questionAnswers.length >= questionNumber ? (questionAnswers[questionNumber-1] === 5 ? S.circle_active : null) : null)]}>5</Text>
+                        </TouchableOpacity>
+                    </View>
                     
-                </View>
+
+                    <View style={[S.scala, {flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: 'center'}]}>
+                        <Text style={[S.scala_text_left, questionAnswers.length === questionNumber-1 ? S.scala_text_current : (questionAnswers.length >= questionNumber ? S.scala_text_current : null)]}>
+                            {leftText}
+                        </Text>
+                        <Text style={[S.scala_text_right, questionAnswers.length === questionNumber-1 ? S.scala_text_current : (questionAnswers.length >= questionNumber ? S.scala_text_current : null)]}>
+                            {rightText}
+                        </Text>
+                    </View>
+              
+                
+                 </View>
             </View>
         );
  } 
