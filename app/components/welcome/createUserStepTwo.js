@@ -14,34 +14,15 @@ import {
   Modal,
   StatusBar,
   Image,
-  TextInput
+  TextInput,
+  Picker
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import QuestionnaireQuestion from './questionnaireQuestion.component.js';
-import Svg,{
-    Circle,
-    Ellipse,
-    G,
-    TSpan,
-    TextPath,
-    Path,
-    Polygon,
-    Polyline,
-    Line,
-    Rect,
-    Use,
-    Symbol,
-    Defs,
-    LinearGradient,
-    RadialGradient,
-    Stop,
-    ClipPath,
-    Pattern,
-    Mask,
-} from 'react-native-svg';
-
+import Male from "../../assets/male.svg";
+import Female from "../../assets/female.svg";
 
 const S = StyleSheet.create({
   intro: {
@@ -52,16 +33,19 @@ const S = StyleSheet.create({
   },
   intro_welcome: {
     color: '#414D55',
-    fontSize: 18
+    fontSize: 18,
+    lineHeight: 22
   },
   intro_welcome_span: {
     color: '#414D55',
     fontSize: 24,
-    fontWeight: '700'
+    fontWeight: '700',
+    lineHeight: 28
   },
   intro_date: {
     fontSize: 12,
-    color: '#AEACBE'
+    color: '#AEACBE',
+    lineHeight: 14
   },
   section: {
     alignSelf: 'center',
@@ -83,8 +67,7 @@ const S = StyleSheet.create({
     borderRadius: 7,
     padding: 20,
     marginBottom: 25,
-    borderWidth: 0.5,
-    opacity: .6
+    opacity: 1
   },
   box_smallPadding: {
    
@@ -109,9 +92,8 @@ const S = StyleSheet.create({
   textSizeFour: {
     fontSize: 16,
     color: '#414D55',
-    fontWeight: '600',
-    alignSelf: 'flex-start',
-    paddingLeft: 20
+    fontWeight: 'bold',
+    alignSelf: 'flex-start'
   },
   textBubble: {
     marginTop: 17,
@@ -121,6 +103,8 @@ const S = StyleSheet.create({
     paddingRight: 20,
     paddingBottom: 20,
     color: '#414D55',
+    fontSize: 14,
+    lineHeight: 24,
     borderRadius: 10,
     position: 'relative',
     minHeight: 180
@@ -194,33 +178,43 @@ const S = StyleSheet.create({
       /*display: 'flex' */
   },
   gender_box: {
-    height: 150
+    marginBottom: 25,
+    height: 150,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  gender_box_span: {
+  gender_box_choice: {
+  	height: '100%',
+  	width: '47%',
+  	justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderColor: '#F7F8FA',
+    borderWidth: 2,
+    borderRadius: 12
+  },
+  gender_box_choice_active: {
+  	borderColor: '#565BF6'
+  },
+  gender_box_choice_text: {
     color: '#989BB0',
     fontSize: 12,
     position: 'absolute',
     bottom: 30,
-    left: '50%',
-    transform: ([{translateX: '-50%'}]),
+    /*fontWeight: 600*/
+  },
+  gender_box_choice_text_active: {
+    color: '#414D55',
+    fontWeight: 'bold'
     /*fontWeight: 600*/
   },
   gender_box_svg: {
-    position: 'absolute',
-    top: 34,
-    left: '50%',
-    transform:([{translateX: '-50%'}])
+  	position: 'absolute',
+    top: 34
   },
   gender_box_active_span: {
     color: '#414D55'
-      /*  svg {
-        path {
-            fill: #565BF6;
-        }
-        }*/
-        /*span {
-            color: #414D55;
-        }*/
   },
   select_box: {
       height: 63,
@@ -242,7 +236,7 @@ const S = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: '#565BF6',
         borderRadius: 25,
-        marginTop: 20,
+        marginTop: 30,
         marginBottom: 20,
         height: 50,
         justifyContent: 'center',
@@ -323,7 +317,9 @@ class CreateUserStepTwo extends Component{
   state={
     genderSelected: '',
     questionAnswers: [],
-    topQuestionPosition: 0
+    topQuestionPosition: 0,
+    ages: [],
+    pickedAge: 0
   }
 
   _onLayout = ({ nativeEvent: { layout: { x, y, width, height } } }) => {
@@ -335,22 +331,29 @@ class CreateUserStepTwo extends Component{
   }
 
   handleQuestionAnswered = (answerValue, index) => {
-    var answers;
-    if (index === this.state.questionAnswers.length) {
-      answers = this.state.questionAnswers.concat(answerValue);
-      var position = this.state.topQuestionPosition;
-      this.myScroll.scrollTo({x: 0, y: position+(index*149), animated: true})
+
+    if (!(index > this.state.questionAnswers.length)) {
+    	var answers;
+    	if (index === this.state.questionAnswers.length) {
+	        answers = this.state.questionAnswers.concat(answerValue);
+	        var position = this.state.topQuestionPosition;
+	        this.myScroll.scrollTo({x: 0, y: position+(index*149), animated: true})
+	    }
+	    else{
+	    	answers = this.state.questionAnswers;
+	      	answers[index] = answerValue;
+	    }
+	    this.setState({questionAnswers: answers});
     }
-    else {
-      answers = this.state.questionAnswers;
-      answers[index] = answerValue;
-    }
-    console.log(answers);
-    this.setState({questionAnswers: answers});
-    console.log(this.state.questionAnswers);
   }
   componentDidMount() {
-    this.setState({genderSelected: 'male'});
+  	var ages = [];
+ 
+  	for (var i = 18; i <= 99; i++) {
+  		ages.push({i});
+
+  	}
+  	this.setState({ages});
   }
 	render(){
     
@@ -358,13 +361,13 @@ class CreateUserStepTwo extends Component{
 	const screenWidth = Math.round(Dimensions.get('window').width);
 	const screenHeight = Math.round(Dimensions.get('window').height);
     const statusBarHeight = StatusBar.currentHeight;
-    
+    const ages = this.state.ages;
 	return(
-      <View style={{height: screenHeight, width: screenWidth, position: 'absolute', top: screenHeight/13, paddingBottom: 90}}>
-        <ScrollView ref={(ref) => {this.myScroll = ref}}>
+      <View style={{height: screenHeight, width: screenWidth, position: 'absolute', top: screenHeight/13, paddingBottom: 90, backgroundColor: '#F7F8FA'}}>
+        <ScrollView style={{backgroundColor: '#F7F8FA'}} ref={(ref) => {this.myScroll = ref}}>
           <View style={S.intro}>
             <Text style={S.intro_welcome}>
-              Velkommen
+              Velkommen,
             </Text>
             <Text style={S.intro_welcome_span}>
               Nicolai Knudsen
@@ -387,19 +390,32 @@ class CreateUserStepTwo extends Component{
           <View style={S.section}>
             <Text style={S.section_title}>
               VÆLG DIT KØN
-            </Text>
-            <View style={{flex: 1}}>
-              <View style={[S.box, this.state.genderSelected === 'male' ? S.box_active : null]}>
-              </View>
-              <View style={[S.box, this.state.genderSelected === 'female' ? S.box_active : null]}>
-              </View>
-            </View>
+            </Text>  
+	            <View style={S.gender_box}>
+	              <TouchableOpacity onPress={() => this.setState({genderSelected: 'male'})} style={[S.gender_box_choice, {left: 0, position: 'absolute'}, this.state.genderSelected === 'male' ? S.gender_box_choice_active : null]}>
+	              	<Male width={55} height={58} style={S.gender_box_svg} stroke={this.state.genderSelected === 'male' ? '#565BF6' : '#989BB0'} />
+	              	<Text style={[S.gender_box_choice_text, this.state.genderSelected === 'male' ? S.gender_box_choice_text_active : null]}>Mand</Text>
+	              </TouchableOpacity>
+	              <TouchableOpacity onPress={() => this.setState({genderSelected: 'female'})} style={[S.gender_box_choice, {right: 0, position: 'absolute'}, this.state.genderSelected === 'female' ? S.gender_box_choice_active : null]}>
+	              	<Female width={55} height={58} style={S.gender_box_svg} stroke={this.state.genderSelected === 'female' ? '#565BF6' : '#989BB0'} />
+	              	<Text style={[S.gender_box_choice_text, this.state.genderSelected === 'female' ? S.gender_box_choice_text_active : null]}>Dame</Text>
+	              </TouchableOpacity>
+	            </View>
           </View>
           <View style={S.section} onLayout={this._onLayout}>
             <Text style={S.section_title}>
               HVAD ER DIN ALDER?
             </Text>
-            {/*insert dropdown stuff her*/}
+            <Picker
+			  selectedValue={this.state.pickedAge}
+			  style={[S.box, {height: 63}]}
+			  onValueChange={(itemValue, itemIndex) =>
+			    this.setState({pickedAge: itemValue})
+			  }>
+			  {ages.map((item, index) => {
+				   return (<Picker.Item label={item} value={index} key={index} />);
+				})}   
+			</Picker>
           </View>
           <QuestionnaireQuestion S={S} title={'HVORDAN ER DIT HUMØR?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={1}/>
           <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Rigtig meget'} title={'HVOR MEGET HOSTER DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={2}/>

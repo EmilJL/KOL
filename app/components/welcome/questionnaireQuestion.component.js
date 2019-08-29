@@ -16,29 +16,14 @@ import {
   Image,
   TextInput
 } from 'react-native';
-import Logo from "../../assets/smileyZero.svg";
+import SmileyOne from "../../assets/smileyOne.svg";
+import SmileyTwo from "../../assets/smileyTwo.svg";
+import SmileyThree from "../../assets/smileyThree.svg";
+import SmileyFour from "../../assets/smileyFour.svg";
+import SmileyFive from "../../assets/smileyFive.svg";
 
 
  const S = StyleSheet.create({
-  intro: {
-    paddingTop: 30,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginBottom: 27,
-  },
-  intro_welcome: {
-    color: '#414D55',
-    fontSize: 18
-  },
-  intro_welcome_span: {
-    color: '#414D55',
-    fontSize: 24,
-    fontWeight: '700'
-  },
-  intro_date: {
-    fontSize: 12,
-    color: '#AEACBE'
-  },
   section: {
     alignSelf: 'center',
     width: '90%',
@@ -81,33 +66,6 @@ import Logo from "../../assets/smileyZero.svg";
     borderWidth: 2,
     opacity: 1
   },
-  textSizeFour: {
-    fontSize: 16,
-    color: '#414D55',
-    fontWeight: '600'
-  },
-  textBubble: {
-    marginTop: 17,
-    backgroundColor: '#F8F9FF',
-    paddingTop: 25,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 20,
-    color: '#414D55',
-    borderRadius: 10,
-    position: 'relative',
-    minHeight: 180
-  },
-  textBubble_before: {
-    /*content: '',*/
-    position: 'absolute',
-    backgroundColor: '#F8F9FF',
-    width: 8,
-    height: 8,
-    top: -4,
-    left: 12,
-    transform:[{ rotateZ: '45deg'} ]
-  },
   circle: {
     borderRadius: 22,
     borderWidth: 2,
@@ -117,7 +75,7 @@ import Logo from "../../assets/smileyZero.svg";
     height: 44,
     lineHeight: 44,
     textAlign: 'center',
-    marginRight: '1.5%'
+    marginRight: '1.2%'
 /*    marginRight: auto*/
   },
   circle_active: {
@@ -132,21 +90,26 @@ import Logo from "../../assets/smileyZero.svg";
     marginRight: 0
   },
   smiley: {
-      color: '#414D55',
-      fontSize: 14,
-      textAlign: 'center',
-      opacity: 1
-    /*  svg: {
-          width: '100%',
-          marginBottom: 5
-      }*/
+      marginBottom: 5
   },
-  smiley_active: {
-      opacity: 1,
-      color: '#565BF6'
-    /*  svg path {
-          fill: '#565BF6';
-      }*/
+  smiley_box_active: {
+      opacity: 1
+  },
+  smiley_box_current: {
+      opacity: 0.55
+  },
+  smiley_box_text: {
+    opacity: 1
+  },
+  smiley_box: {
+    opacity: 0.2,
+    width: 44,
+    height: 44,
+    lineHeight: 44,
+    textAlign: 'center',
+    marginRight: '2.8%',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   scala: {
       /*display: 'flex',*/
@@ -175,152 +138,47 @@ import Logo from "../../assets/smileyZero.svg";
   scala_text_active: {
     color: 'black'
   },  
-  selectOption: {
-      /*display: 'flex' */
-  },
-  gender_box: {
-    height: 150
-  },
-  gender_box_span: {
-    color: '#989BB0',
-    fontSize: 12,
-    position: 'absolute',
-    bottom: 30,
-    left: '50%',
-    transform: ([{translateX: '-50%'}]),
-    /*fontWeight: 600*/
-  },
-  gender_box_svg: {
-    position: 'absolute',
-    top: 34,
-    left: '50%',
-    transform:([{translateX: '-50%'}])
-  },
-  gender_box_active_span: {
-    color: '#414D55'
-      /*  svg {
-        path {
-            fill: #565BF6;
-        }
-        }*/
-        /*span {
-            color: #414D55;
-        }*/
-  },
-  select_box: {
-      height: 63,
-      fontSize: 22,
-      lineHeight: 1
-  },
-  outro: {
-        paddingTop: 0,
-        paddingBottom: 0,
-        paddingLeft: 20,
-        paddingRight: 20,
-        textAlign: 'center',
-        margin: 0
-  },
-   btn: {
-        /*display: 'block',*/
-        backgroundColor: '#565BF6',
-        borderRadius: 8,
-        width: '70%',
-        marginTop: 20,
-        marginBottom: 20
-  },
-  btn_text: {
-     textAlign: 'center',
-     color: '#fff',
-     fontWeight: '600'
-  },
-  biFooter: {
-       /* position: 'fixed',*/
-        bottom: 0,
-        left: 0,
-        width: '100%',
-        height: 76,
-        backgroundColor: '#fff',
-       /* borderRadius: 8 8 0 0,*/
-        /*-webkit-box-shadow: 0px -8px 9px 0px rgba(0,0,0,0.06);
-        -moz-box-shadow: 0px -8px 9px 0px rgba(0,0,0,0.06);
-        box-shadow: 0px -8px 9px 0px rgba(0,0,0,0.06);*/
-        padding: 20
-  },
-  biFooter_numbers: {
-          /*display: flex;*/
-        position: 'relative'
-  },
-  biFooter_numbers_after: {
-        /*      content: "";*/
-        position: 'absolute',
-        width: '70%',
-        height: 1,
-        backgroundColor: '#DDDEFD',
-        left: 20,
-        bottom: 5
-  },
-  biFooter_numbers_span: {
-        fontSize: 14,
-        textAlign: 'center',
-       /* flexBasis: 11.11%;*/
-        position: 'relative',
-        height: 36,
-        fontWeight: '400',
-        color: '#E7E6EB'
-  },
-  biFooter_numbers_span_active: {
-        opacity: 1,
-        fontWeight: '600',
-        color: '#000'
-  },
-  biFooter_numbers_span_active_after: {
-        backgroundColor: '#565BF6',
-        borderColor: '#565BF6'
-  },
-  biFooter_numbers_span_after: {
-/*        content: "";*/
-        position: 'absolute',
-        width: 8,
-        height: 8,
-        backgroundColor: 'white',
-        left: '50%',
-        transform:([{translateX:'-50%'}]),
-        bottom: 0,
-        borderRadius: 4,
-        borderWidth: 2,
-        borderColor: '#DDDEFD',
-        zIndex: 2
-  }
+  
 });
 
  const QuestionnaireQuestion = ({leftText, rightText, isSmiley, questionAnswers, genderSelected, handleQuestionAnswered, questionNumber, title}) => {
-    
+    var status = (questionAnswers.length === questionNumber-1 ? 'current' : (questionAnswers.length >= questionNumber ? 'active' : ''));
     if (questionNumber === 1) {
         return (
             <View style={S.section}>
                 <Text style={S.section_title}>
                   {title}
                 </Text>
-                <View style={[S.box, {flexDirection: 'row'}, questionAnswers.length >= questionNumber ? S.box_active : (genderSelected === '' ? null : S.box_current)]}>
-                    <TouchableOpacity onPress={() => handleQuestionAnswered(0, questionNumber-1)} style={[S.smiley, questionAnswers.length > questionNumber ? (questionAnswers[questionNumber-1] === 0 ? S.smiley_active : null) : null]}>
-                      <View style={{width:30, height:30}}>
-                      <Logo width={30} height={30}/>
-                      </View> 
+                <View style={[S.box, {flexDirection: 'row'}, status=='active' ? S.box_active : (genderSelected === '' ? null : S.box_current)]}>
+                    <TouchableOpacity onPress={() => handleQuestionAnswered(1, questionNumber-1)} >
+                      <View style={[S.smiley_box, status === 'current' ? S.smiley_box_current : (status === 'active' ? (questionAnswers[0] === 1 ? S.smiley_box_active : null) : null)]}>
+                      <SmileyOne width={40} height={40} stroke={'#1C1D46'} style={S.smiley}/>
+                      <Text style={status === 'current' ? S.smiley_box_text : null}>1</Text>
+                      </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleQuestionAnswered(1, questionNumber-1)} style={[S.smiley, questionAnswers.length > questionNumber ? (questionAnswers[questionNumber-1] === 1 ? S.smiley_active : null) : null]}>
-                     {/*insert SVG stuff here*/}
+                    <TouchableOpacity onPress={() => handleQuestionAnswered(2, questionNumber-1)} >
+                      <View style={[S.smiley_box, status === 'current' ? S.smiley_box_current : (status === 'active' ? (questionAnswers[0] === 2 ? S.smiley_box_active : null) : null)]}>
+                      <SmileyTwo width={40} height={40} stroke={'#69368B'} style={S.smiley} />
+                      <Text style={status === 'current' ? S.smiley_box_text : null}>2</Text>
+                      </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleQuestionAnswered(2, questionNumber-1)} style={[S.smiley, questionAnswers.length > questionNumber ? (questionAnswers[questionNumber-1] === 2 ? S.smiley_active : null) : null]}>
-                     {/*insert SVG stuff here*/}
+                    <TouchableOpacity onPress={() => handleQuestionAnswered(3, questionNumber-1)} >
+                    <View style={[S.smiley_box, status === 'current' ? S.smiley_box_current : (status === 'active' ? (questionAnswers[0] === 3 ? S.smiley_box_active : null) : null)]}>
+                       <SmileyThree width={40} height={40} stroke={'#B556F6'}  style={S.smiley}/>
+                        <Text style={status === 'current' ? S.smiley_box_text : null}>3</Text>
+                     </View>           
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleQuestionAnswered(3)} style={[S.smiley, questionAnswers.length > questionNumber ? (questionAnswers[questionNumber-1] === 3 ? S.smiley_active : null) : null]}>
-                     {/*insert SVG stuff here*/}
+                    <TouchableOpacity onPress={() => handleQuestionAnswered(4, questionNumber-1)} >
+                     <View style={[S.smiley_box, status === 'current' ? S.smiley_box_current : (status === 'active' ? (questionAnswers[0] === 4 ? S.smiley_box_active : null) : null)]}>
+                     <SmileyFour width={40} height={40} stroke={'#7456F6'}  style={S.smiley}/>
+                      <Text style={status === 'current' ? S.smiley_box_text : null}>4</Text>
+                      </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleQuestionAnswered(4, questionNumber-1)} style={[S.smiley, questionAnswers.length > questionNumber ? (questionAnswers[questionNumber-1] === 4 ? S.smiley_active : null) : null]}>
-                     {/*insert SVG stuff here*/}
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleQuestionAnswered(5, questionNumber-1)} style={[S.smiley, questionAnswers.length > questionNumber ? (questionAnswers[questionNumber-1] === 5 ? S.smiley_active : null) : null]}>
-                     {/*insert SVG stuff here*/}
+                    <TouchableOpacity onPress={() => handleQuestionAnswered(5, questionNumber-1)} >
+                     <View style={[S.smiley_box, status === 'current' ? S.smiley_box_current : (status === 'active' ? (questionAnswers[0] === 5 ? S.smiley_box_active : null) : null)]}>
+                     <SmileyFive width={40} height={40} stroke={'#565BF6'}  style={S.smiley}/>
+                      <Text style={status === 'current' ? S.smiley_box_text : null}>5</Text>
+                      </View>
                     </TouchableOpacity>
                 </View>
             </View>
