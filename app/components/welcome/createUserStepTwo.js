@@ -15,16 +15,31 @@ import {
   StatusBar,
   Image,
   TextInput,
-  Picker
+  Picker,
+  Animated
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
+import SlidingUpPanel from 'rn-sliding-up-panel';
 import QuestionnaireQuestion from './questionnaireQuestion.component.js';
 import Male from "../../assets/male.svg";
 import Female from "../../assets/female.svg";
 
+import FooterItem from './footerItem.component.js';
+
 const S = StyleSheet.create({
+	footer: {
+		flexDirection: 'row',
+		padding: 13,
+		height: 76,
+		width: '100%',
+		position: "absolute",
+	    bottom: 0,
+	    left: 0,
+	    right: 0,
+	    backgroundColor: "#FFFFFF",
+	},
   intro: {
     paddingTop: 30,
     paddingLeft: 20,
@@ -194,6 +209,9 @@ const S = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 12
   },
+  gender_box_choice_current: {
+  	borderColor: 'grey'
+  },
   gender_box_choice_active: {
   	borderColor: '#565BF6'
   },
@@ -318,8 +336,30 @@ class CreateUserStepTwo extends Component{
     genderSelected: '',
     questionAnswers: [],
     topQuestionPosition: 0,
-    ages: [],
-    pickedAge: 0
+    pickedAge: 0,
+    showFooter: false,
+    bounceValue: new Animated.Value(78)
+  }
+
+  _toggleFooter() {
+  	console.log('asdfafsfasdadvvv');
+  	var toValue = 78;
+  	var show = this.state.showFooter;
+  	if (show === false) {
+  		toValue = 0;
+  	}
+
+  	Animated.timing(
+      this.state.bounceValue,
+      {
+      	duration: 1200,
+        toValue: toValue,
+        velocity: 3,
+        tension: 2,
+        friction: 8,
+      }
+    ).start();
+    this.setState({showFooter: !show});
   }
 
   _onLayout = ({ nativeEvent: { layout: { x, y, width, height } } }) => {
@@ -328,10 +368,14 @@ class CreateUserStepTwo extends Component{
 
   handleSelectGender = (gender) => {
     this.setState({genderSelected: gender});
+    this.myScroll.scrollTo({x: 0, y: 400, animated: true});
   }
 
   handleQuestionAnswered = (answerValue, index) => {
-
+  	if (index === 0) {
+  		console.log('eeey');
+  		this._toggleFooter();
+  	}
     if (!(index > this.state.questionAnswers.length)) {
     	var answers;
     	if (index === this.state.questionAnswers.length) {
@@ -342,18 +386,13 @@ class CreateUserStepTwo extends Component{
 	    else{
 	    	answers = this.state.questionAnswers;
 	      	answers[index] = answerValue;
+	      	
 	    }
 	    this.setState({questionAnswers: answers});
     }
   }
   componentDidMount() {
-  	var ages = [];
- 
-  	for (var i = 18; i <= 99; i++) {
-  		ages.push({i});
-
-  	}
-  	this.setState({ages});
+  	console.log(this.state.pickedAge);
   }
 	render(){
     
@@ -361,9 +400,10 @@ class CreateUserStepTwo extends Component{
 	const screenWidth = Math.round(Dimensions.get('window').width);
 	const screenHeight = Math.round(Dimensions.get('window').height);
     const statusBarHeight = StatusBar.currentHeight;
-    const ages = this.state.ages;
+    const ages = this.props.ages;
 	return(
-      <View style={{height: screenHeight, width: screenWidth, position: 'absolute', top: screenHeight/13, paddingBottom: 90, backgroundColor: '#F7F8FA'}}>
+      <View style={{height: this.state.showFooter ? screenHeight-76 : screenHeight, width: screenWidth, position: 'absolute', paddingBottom: 80, top: screenHeight/13, paddingBottom: 90, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+       
         <ScrollView style={{backgroundColor: '#F7F8FA'}} ref={(ref) => {this.myScroll = ref}}>
           <View style={S.intro}>
             <Text style={S.intro_welcome}>
@@ -392,13 +432,13 @@ class CreateUserStepTwo extends Component{
               VÆLG DIT KØN
             </Text>  
 	            <View style={S.gender_box}>
-	              <TouchableOpacity onPress={() => this.setState({genderSelected: 'male'})} style={[S.gender_box_choice, {left: 0, position: 'absolute'}, this.state.genderSelected === 'male' ? S.gender_box_choice_active : null]}>
+	              <TouchableOpacity onPress={() => this.handleSelectGender('male')} style={[S.gender_box_choice, {left: 0, position: 'absolute'}, this.state.genderSelected === 'male' ? S.gender_box_choice_active : (this.state.genderSelected === '' ? S.gender_box_choice_current : null)]}>
 	              	<Male width={55} height={58} style={S.gender_box_svg} stroke={this.state.genderSelected === 'male' ? '#565BF6' : '#989BB0'} />
-	              	<Text style={[S.gender_box_choice_text, this.state.genderSelected === 'male' ? S.gender_box_choice_text_active : null]}>Mand</Text>
+	              	<Text style={[S.gender_box_choice_text, this.state.genderSelected === 'male' ? S.gender_box_choice_text_active : (this.state.genderSelected === '' ? S.gender_box_choice_text_active : null)]}>Mand</Text>
 	              </TouchableOpacity>
-	              <TouchableOpacity onPress={() => this.setState({genderSelected: 'female'})} style={[S.gender_box_choice, {right: 0, position: 'absolute'}, this.state.genderSelected === 'female' ? S.gender_box_choice_active : null]}>
+	              <TouchableOpacity onPress={() => this.handleSelectGender('female')} style={[S.gender_box_choice, {right: 0, position: 'absolute'}, this.state.genderSelected === 'female' ? S.gender_box_choice_active : (this.state.genderSelected === '' ? S.gender_box_choice_current : null)]}>
 	              	<Female width={55} height={58} style={S.gender_box_svg} stroke={this.state.genderSelected === 'female' ? '#565BF6' : '#989BB0'} />
-	              	<Text style={[S.gender_box_choice_text, this.state.genderSelected === 'female' ? S.gender_box_choice_text_active : null]}>Dame</Text>
+	              	<Text style={[S.gender_box_choice_text, this.state.genderSelected === 'female' ? S.gender_box_choice_text_active : (this.state.genderSelected === '' ? S.gender_box_choice_text_active : null)]}>Dame</Text>
 	              </TouchableOpacity>
 	            </View>
           </View>
@@ -406,18 +446,24 @@ class CreateUserStepTwo extends Component{
             <Text style={S.section_title}>
               HVAD ER DIN ALDER?
             </Text>
-            <Picker
-			  selectedValue={this.state.pickedAge}
-			  style={[S.box, {height: 63}]}
-			  onValueChange={(itemValue, itemIndex) =>
-			    this.setState({pickedAge: itemValue})
-			  }>
-			  {ages.map((item, index) => {
-				   return (<Picker.Item label={item} value={index} key={index} />);
-				})}   
-			</Picker>
+            <View style={[S.section, {width: '100%', paddingLeft: 0, paddingRight: 0}]}>
+	          	<View style={[S.box, this.state.pickedAge == 0 ? (this.state.genderSelected == '' ? null : S.box_current) : S.box_active, {height: 63, width: '100%', backgroundColor: 'white'}]}>
+		            <Picker
+					  selectedValue={this.state.pickedAge}
+					  style={{height: 63, width: '100%'}}
+					  mode='dropdown'
+					  itemStyle={{fontWeight: 'bold'}}
+					  onValueChange={(itemValue, itemIndex) =>
+					    this.setState({pickedAge: itemValue})
+					  }>
+					  {ages.map((item) => {
+					  		return <Picker.Item label={' ' + item.toString()} value={item} key={item} /> 
+						})}   
+					</Picker>
+	          	</View>
+            </View>
           </View>
-          <QuestionnaireQuestion S={S} title={'HVORDAN ER DIT HUMØR?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={1}/>
+          <QuestionnaireQuestion S={S} title={'HVORDAN ER DIT HUMØR?'} questionAnswers={this.state.questionAnswers} agePicked={this.state.pickedAge} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={1}/>
           <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Rigtig meget'} title={'HVOR MEGET HOSTER DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={2}/>
           <QuestionnaireQuestion S={S} leftText={'Intet slim'} rightText={'Meget slim'} title={'HVOR MEGET SLIM HAR DU I LUNGERNE?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={3}/>
           <QuestionnaireQuestion S={S} leftText={'Intet'} rightText={'Meget'} title={'HVOR MEGET TRYKKEN FOR BRYSTET HAR DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={4}/>
@@ -436,14 +482,32 @@ class CreateUserStepTwo extends Component{
             </Text>
             </View>
           </TouchableOpacity>
-        {/*  <View style={S.biFooter}>
-            <View style={S.biFooter_numbers}>
-
-            </View>
-          </View>*/}
         </ScrollView>
+
+      <Animated.View
+            style={[S.footer,
+              {transform: [{translateY: this.state.bounceValue}]}]}
+          >
+            <FooterItem questionNumber={1} isActive={this.state.questionAnswers.length >= 1 ? true : false} /> 
+			<FooterItem questionNumber={2} isActive={this.state.questionAnswers.length >= 2 ? true : false} />
+			<FooterItem questionNumber={3} isActive={this.state.questionAnswers.length >= 3 ? true : false} />
+			<FooterItem questionNumber={4} isActive={this.state.questionAnswers.length >= 4 ? true : false} />
+			<FooterItem questionNumber={5} isActive={this.state.questionAnswers.length >= 5 ? true : false} />
+			<FooterItem questionNumber={6} isActive={this.state.questionAnswers.length >= 6 ? true : false} />
+			<FooterItem questionNumber={7} isActive={this.state.questionAnswers.length >= 7 ? true : false} />
+			<FooterItem questionNumber={8} isActive={this.state.questionAnswers.length >= 8 ? true : false} />
+			<FooterItem questionNumber={9} isActive={this.state.questionAnswers.length >= 9 ? true : false} />
+			
+          </Animated.View>
+
       </View>
+      
     );
+	}
+}
+const mapStateToProps = state => {
+	return {
+		ages: state.users.ages
 	}
 }
 
@@ -456,4 +520,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default CreateUserStepTwo;
+export default connect(mapStateToProps)(CreateUserStepTwo);

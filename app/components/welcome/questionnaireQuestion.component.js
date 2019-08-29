@@ -83,8 +83,8 @@ import SmileyFive from "../../assets/smileyFive.svg";
     borderColor: '#565BF6'
   },
   circle_current: {
-    color: 'black',
-    borderColor: 'black'
+   
+   
   },
   circle_lastChild: {
     marginRight: 0
@@ -141,15 +141,16 @@ import SmileyFive from "../../assets/smileyFive.svg";
   
 });
 
- const QuestionnaireQuestion = ({leftText, rightText, isSmiley, questionAnswers, genderSelected, handleQuestionAnswered, questionNumber, title}) => {
+ const QuestionnaireQuestion = ({leftText, rightText, isSmiley, questionAnswers, agePicked, handleQuestionAnswered, questionNumber, title}) => {
     var status = (questionAnswers.length === questionNumber-1 ? 'current' : (questionAnswers.length >= questionNumber ? 'active' : ''));
     if (questionNumber === 1) {
+      console.log(agePicked);
         return (
             <View style={S.section}>
                 <Text style={S.section_title}>
                   {title}
                 </Text>
-                <View style={[S.box, {flexDirection: 'row'}, status=='active' ? S.box_active : (genderSelected === '' ? null : S.box_current)]}>
+                <View style={[S.box, {flexDirection: 'row'}, status=='active' ? S.box_active : (agePicked != 0 ? S.box_current : null)]}>
                     <TouchableOpacity onPress={() => handleQuestionAnswered(1, questionNumber-1)} >
                       <View style={[S.smiley_box, status === 'current' ? S.smiley_box_current : (status === 'active' ? (questionAnswers[0] === 1 ? S.smiley_box_active : null) : null)]}>
                       <SmileyOne width={40} height={40} stroke={'#1C1D46'} style={S.smiley}/>

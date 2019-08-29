@@ -34,6 +34,23 @@ const attemptGetDiaryForUser = () => {
 	}
 }
 
+const SET_AGES = 'SET_AGES';
+const setAges = (ages) => {
+	return {
+		type: SET_AGES,
+		payload: ages
+	}
+}
+export const setAgesNow = () => {
+	return (dispatch) => {
+		var ages = [];
+	  	for (var i = 17; i <= 99; i++) {
+	  		ages.push(i);
+		}
+		return dispatch(setAges(ages))
+	}
+}
+
 export const getDiaryForUser = (offset, limit) => {
 	return (dispatch, getState) => {
 		var token = getState().users.token;

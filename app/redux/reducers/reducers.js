@@ -19,7 +19,8 @@ const initialState = {
 	failedToCreateUser: '',
 	token: '',
 	sideMenuIsVisible: false,
-	fetchingData: false
+	fetchingData: false,
+	ages: []
 }
 
 const initialNavigationState = {
@@ -28,6 +29,11 @@ const initialNavigationState = {
 
 const user = (state = initialState, action) => {
 	switch (action.type) {
+		case 'SET_AGES':
+			return {
+				...state,
+				ages: action.payload
+			}
 		case 'ATTEMPT_AUTHENTICATION':
 			return {
 				...state,
