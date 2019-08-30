@@ -2,9 +2,11 @@ import { combineReducers } from 'redux';
 
 const initialState = {
 	notifications: [],
+	user: {},
 	userData: {},
 	userDiary: {},
-	questionnaireAnswers: [],
+	questionnaires: [],
+	questionnaireQuestions: ['k', 'lul'],
 	authenticating: false,
 	fetchinUserData: false,
 	isLoggedIn: false,
@@ -55,6 +57,11 @@ const user = (state = initialState, action) => {
 			return {
 				...state,
 				isLoggedIn: false
+			};
+		case 'GET_QUESTIONNAIRE_QUESTIONS_SUCCESS': 
+			return {
+				...state,
+				questionnaireQuestions: action.payload
 			};
 		case 'ATTEMPT_GET_DIARY_FOR_USER':
 		case 'ATTEMPT_GET_QUESTIONS_FOR_USER':

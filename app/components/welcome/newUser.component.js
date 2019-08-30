@@ -19,7 +19,7 @@ import {
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
-import { requestCreateUser } from '../../redux/actions/actions.js';
+import { requestCreateUser, attemptGetQuestionnaireQuestions } from '../../redux/actions/actions.js';
 import LoadingComponent from '../loading/loadingComponent.js';
 import CreateUserStepTwo from './createUserStepTwo.js';
 
@@ -112,6 +112,10 @@ class NewUser extends Component{
     if (allValid) {
       return new Promise(() => this.props.createUser(this.state.name, this.state.email, this.state.password)).then((response) => {
         console.log('respnse: ' + response);
+
+      })
+      .then(() =>{
+        this.props.navigation.navigate('CreateUserStepTwo');
       }).catch(err => console.log(err));
 
     }
@@ -125,7 +129,8 @@ class NewUser extends Component{
       height: 150,
       cropping: true,
       cropperCircleOverlay: true,
-      mediaType: "photo"
+      mediaType: "photo",
+      includeBase64: true
     }).then(image => {
       console.log(image); 
       return this.setState({image});
@@ -216,6 +221,7 @@ class NewUser extends Component{
           return null
       }
     }
+
 
 	render(){
     
@@ -316,6 +322,9 @@ const mapDispatchToProps = dispatch => {
   return {
     createUser: (name, email, password) => {
       dispatch(requestCreateUser(name, email, password));
+    },
+    getQuestions: () => {
+      dispatch(attemptGetQuestionnaireQuestions());
     }
   }
 }

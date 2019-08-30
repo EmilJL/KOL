@@ -416,6 +416,8 @@ class CreateUserStepTwo extends Component{
   }
   componentDidMount() {
   	console.log(this.state.pickedAge);
+  	console.log('please herunder?');
+  	console.log(this.props.questionnaireQuestions);
   }
 	render(){
     
@@ -424,9 +426,10 @@ class CreateUserStepTwo extends Component{
 	const screenHeight = Math.round(Dimensions.get('window').height);
     const statusBarHeight = StatusBar.currentHeight;
     const ages = this.props.ages;
+    const questionnaireQuestions = this.props.questionnaireQuestions
 	return(
 		
-      <View style={{height:  screenHeight, width: screenWidth, paddingTop: screenHeight/13, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+      <View style={{position: 'absolute', bottom: 0, height:  screenHeight, width: screenWidth, paddingTop: screenHeight/13+statusBarHeight, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
        <View style={{flex: 1, backgroundColor: '#F7F8FA'}}>
         <ScrollView style={{flex: 1, backgroundColor: '#F7F8FA'}} ref={(ref) => {this.myScroll = ref}}>
           <View style={S.intro}>
@@ -434,7 +437,7 @@ class CreateUserStepTwo extends Component{
               Velkommen,
             </Text>
             <Text style={S.intro_welcome_span}>
-              Nicolai Knudsen
+              {this.props.nickname}
             </Text>
             <Text style={S.intro_date}>
               Fredag d. 12 maj 2019
@@ -487,19 +490,19 @@ class CreateUserStepTwo extends Component{
 	          	</View>
             </View>
           </View>
-          <QuestionnaireQuestion S={S} title={'HVORDAN ER DIT HUMØR?'} questionAnswers={this.state.questionAnswers} agePicked={this.state.pickedAge} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={1}/>
-          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Rigtig meget'} title={'HVOR MEGET HOSTER DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={2}/>
-          <QuestionnaireQuestion S={S} leftText={'Intet slim'} rightText={'Meget slim'} title={'HVOR MEGET SLIM HAR DU I LUNGERNE?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={3}/>
-          <QuestionnaireQuestion S={S} leftText={'Intet'} rightText={'Meget'} title={'HVOR MEGET TRYKKEN FOR BRYSTET HAR DU?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={4}/>
-          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'HVOR FORPUSTET BLIVER DU NÅR DU GÅR OP AF ÉN ETAGE, ELLER OP AF EN BAKKE?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={5}/>
-          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'ER DU BEGRÆNSET AF NOGEN FORM FOR AKTIVITETER I DIT HJEM?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={6}/>
-          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={'ER DU TRYG VED AT FORLADE DIT HJEM PÅ TRODS AF DIN LUNGESYGDOM?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={7}/>
-          <QuestionnaireQuestion S={S} leftText={'Nej slet ikke'} rightText={'Ja meget'} title={'SOVER DU DYBT?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={8}/>
-          <QuestionnaireQuestion S={S} leftText={'Nej slet ikke'} rightText={'Ja meget'} title={'HAR DU MASSERE AF ENERGI?'} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={9}/>
+          <QuestionnaireQuestion S={S} title={questionnaireQuestions[0]} questionAnswers={this.state.questionAnswers} agePicked={this.state.pickedAge} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={1}/>
+          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Rigtig meget'} title={questionnaireQuestions[1]} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={2}/>
+          <QuestionnaireQuestion S={S} leftText={'Intet slim'} rightText={'Meget slim'} title={questionnaireQuestions[2]} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={3}/>
+          <QuestionnaireQuestion S={S} leftText={'Intet'} rightText={'Meget'} title={questionnaireQuestions[3]} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={4}/>
+          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={questionnaireQuestions[4]} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={5}/>
+          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={questionnaireQuestions[5]} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={6}/>
+          <QuestionnaireQuestion S={S} leftText={'Slet ikke'} rightText={'Meget'} title={questionnaireQuestions[6]} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={7}/>
+          <QuestionnaireQuestion S={S} leftText={'Nej slet ikke'} rightText={'Ja meget'} title={questionnaireQuestions[7]} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={8}/>
+          <QuestionnaireQuestion S={S} leftText={'Nej slet ikke'} rightText={'Ja meget'} title={questionnaireQuestions[8]} questionAnswers={this.state.questionAnswers} genderSelected={this.state.genderSelected} handleQuestionAnswered={(answer, index) => this.handleQuestionAnswered(answer, index)} questionNumber={9}/>
           <Text style={S.outro}>
             Dine svar kan bruges af dig og din læge til at hjælpe med at forbedre behandlingen af din KOL, så du får størst muligt gavn af den.
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log(this.props.questionnaireQuestions)}>
           <View style={[S.btn, {width: screenWidth*0.6}]}>
             <Text style={S.btn_text}>
               Gem
@@ -532,7 +535,8 @@ class CreateUserStepTwo extends Component{
 const mapStateToProps = state => {
 	return {
 		ages: state.users.ages,
-		questions: state.users.questions
+		questionnaireQuestions: state.users.questionnaireQuestions,
+		nickname: state.users.user.nickname
 	}
 }
 

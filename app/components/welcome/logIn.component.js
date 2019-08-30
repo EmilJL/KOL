@@ -24,7 +24,7 @@ class Login extends Component {
 	handleLogin = () => {
 	}
 	componentDidMount() {
-		this.props.navigation.navigate('DrawerFlow');
+	/*	this.props.navigation.navigate('DrawerFlow');*/
 	/*	this.props.auth();*/
 	}
 	render(){
@@ -49,14 +49,14 @@ class Login extends Component {
 						<View style={{flex: 4}}>
 							<View style={{height: screenHeight/4.35, width: '100%', justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: screenHeight/15}}>
 								<View style={{flex: 4, justifyContent: 'space-between', alignItems: 'center'}}>
-									<TouchableNativeFeedback onPress={() => {this.handleLogin()}}>
+									<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('Start')}}>
 										<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', width: screenWidth*0.54, backgroundColor: '#565BF6', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54}}>
 											<Text style={{fontSize: 14, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>
 												Log ind
 											</Text>
 										</View>
 									</TouchableNativeFeedback>
-									<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('CreateUserStepTwo')}}>
+									<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('NewUser')}}>
 										<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', marginBottom: screenHeight/75, width: screenWidth*0.54, borderWidth: 1.5, borderColor: 'grey', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54, backgroundColor: 'white'}}>
 											<Text style={{fontSize: 14, color: 'grey', textAlign: 'center', fontWeight: '700', letterSpacing: 0.5, paddingBottom: '1%'}}>
 												Opret bruger
