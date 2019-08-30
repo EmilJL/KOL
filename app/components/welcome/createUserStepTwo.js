@@ -426,7 +426,7 @@ class CreateUserStepTwo extends Component{
     const ages = this.props.ages;
 	return(
 		
-      <View style={{height:  screenHeight+26, width: screenWidth, paddingTop: screenHeight/13, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+      <View style={{height:  screenHeight, width: screenWidth, paddingTop: screenHeight/13, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
        <View style={{flex: 1, backgroundColor: '#F7F8FA'}}>
         <ScrollView style={{flex: 1, backgroundColor: '#F7F8FA'}} ref={(ref) => {this.myScroll = ref}}>
           <View style={S.intro}>
