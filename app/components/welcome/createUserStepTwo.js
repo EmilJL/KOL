@@ -25,7 +25,7 @@ import SlidingUpPanel from 'rn-sliding-up-panel';
 import QuestionnaireQuestion from './questionnaireQuestion.component.js';
 import Male from "../../assets/male.svg";
 import Female from "../../assets/female.svg";
-
+import { createUserStepTwo } from '../../redux/actions/actions.js';
 import FooterItem from './footerItem.component.js';
 
 const S = StyleSheet.create({
@@ -254,8 +254,8 @@ const S = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: '#565BF6',
         borderRadius: 25,
-        marginTop: 30,
-        marginBottom: 20,
+        marginTop: 20,
+        marginBottom: 30,
         height: 50,
         justifyContent: 'center',
         alignItems: 'center'
@@ -366,6 +366,27 @@ class CreateUserStepTwo extends Component{
    	this.setState({topQuestionPosition: y+height});
   }
 
+  handleSaveClick = () => {
+  	if (this.state.questionnaireAnswers.length == 9) {
+  		var answers = 
+    	[
+    		{1: this.state.questionnaireAnswers[0]},
+    		{2: this.state.questionnaireAnswers[1]},
+    		{3: this.state.questionnaireAnswers[2]},
+    		{4: this.state.questionnaireAnswers[3]},
+    		{5: this.state.questionnaireAnswers[4]},
+    		{6: this.state.questionnaireAnswers[5]},
+    		{7: this.state.questionnaireAnswers[6]},
+    		{8: this.state.questionnaireAnswers[7]},
+    		{9: this.state.questionnaireAnswers[8]},
+    	];
+    	var age = this.state.pickedAge;
+    	var sex = this.state.genderSelected;
+    	this.props.createUser(age, sex, answers);
+  	}
+  	
+  }
+
   handleSelectGender = (gender) => {
     this.setState({genderSelected: gender});
     this.myScroll.scrollTo({x: 0, y: 400, animated: true});
@@ -386,9 +407,11 @@ class CreateUserStepTwo extends Component{
 	    else{
 	    	answers = this.state.questionAnswers;
 	      	answers[index] = answerValue;
-	      	
 	    }
 	    this.setState({questionAnswers: answers});
+    }
+    if (index === 8) {
+    	this._toggleFooter();
     }
   }
   componentDidMount() {
@@ -402,9 +425,10 @@ class CreateUserStepTwo extends Component{
     const statusBarHeight = StatusBar.currentHeight;
     const ages = this.props.ages;
 	return(
-      <View style={{height: this.state.showFooter ? screenHeight-76 : screenHeight, width: screenWidth, position: 'absolute', paddingBottom: 80, top: screenHeight/13, paddingBottom: 90, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
-       
-        <ScrollView style={{backgroundColor: '#F7F8FA'}} ref={(ref) => {this.myScroll = ref}}>
+		
+      <View style={{height:  screenHeight+26, width: screenWidth, paddingTop: screenHeight/13, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+       <View style={{flex: 1, backgroundColor: '#F7F8FA'}}>
+        <ScrollView style={{flex: 1, backgroundColor: '#F7F8FA'}} ref={(ref) => {this.myScroll = ref}}>
           <View style={S.intro}>
             <Text style={S.intro_welcome}>
               Velkommen,
@@ -483,7 +507,7 @@ class CreateUserStepTwo extends Component{
             </View>
           </TouchableOpacity>
         </ScrollView>
-
+		</View>
       <Animated.View
             style={[S.footer,
               {transform: [{translateY: this.state.bounceValue}]}]}
@@ -499,7 +523,7 @@ class CreateUserStepTwo extends Component{
 			<FooterItem questionNumber={9} isActive={this.state.questionAnswers.length >= 9 ? true : false} />
 			
           </Animated.View>
-
+          
       </View>
       
     );
@@ -507,17 +531,17 @@ class CreateUserStepTwo extends Component{
 }
 const mapStateToProps = state => {
 	return {
-		ages: state.users.ages
+		ages: state.users.ages,
+		questions: state.users.questions
 	}
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    createUser: (email, password) => {
-      dispatch(requestCreateUser(email, password));
+    createUser: (age, sex, answers) => {
+      dispatch(attemptCreateUserStepTwo(age, sex, answers));
     }
-  }
+ }
 }
 
-
-export default connect(mapStateToProps)(CreateUserStepTwo);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateUserStepTwo);

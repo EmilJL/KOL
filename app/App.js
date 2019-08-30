@@ -35,7 +35,8 @@ class App extends Component{
     failedFetching: false
   }
   componentDidMount(){
-   /* this.props.authenticateWithToken();*/
+    this.props.authenticateWithToken();
+   console.log(this.props.token);
    this.props.setAges();
   }
 

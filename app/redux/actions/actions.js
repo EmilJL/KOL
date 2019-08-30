@@ -305,7 +305,8 @@ const setQuestionnairesForUser = (questionnaires) => {
 	}
 }
 export const getQuestionnairesForUser = (startDate, endDate) => {
-	return (state, dispatch) => {
+	return (getState, dispatch) => {
+		var token = getState().users.token;
 		fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/get', {
 			method: 'POST',
 			headers: new Headers({
@@ -331,11 +332,25 @@ export const getQuestionnairesForUser = (startDate, endDate) => {
 const CHECK_QUESTIONNAIRE_ANSWERED = 'CHECK_QUESTIONNAIRE_ANSWERED';
 
 
-export const attemptAddQuestionnaire = (questionnaire) => {
+export const attemptAddQuestionnaire = (questionnaireAnswers) => {
 	return (getState, dispatch) => {
-		return fetch('https://my.kolapp.dk/wp-json/keq/v1/questions/insert', {
-
+		var token = getState().users.token;
+		fetch('https://my.kolapp.dk/wp-json/keq/v1/questions/insert', {
+			method: 'POST',
+			headers: new Headers({
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + state.users.token
+			}),
+			body: JSON.stringify({
+				answers: questionnaireAnswers
+			}),
 		})
+		.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+			console.log(responseJson);
+			return dispatch(setQuestionnairesForUser(questionnaireAnswers));
+		})
+		.catch(err => console.log(err));
 	}
 }
 
@@ -472,6 +487,66 @@ export const createTokenAttempt = (user) => {
 	});
 	}
 }
+
+const CREATE_USER_STEP_TWO = 'CREATE_USER_STEP_TWO';
+const createUserStepTwo = (userData) => {
+	return {
+		type: CREATE_USER_STEP_TWO,
+		payload: userData
+	}
+}
+
+const CREATE_USER_STEP_TWO_ATTEMPT = 'CREATE_USER_STEP_TWO_ATTEMPT';
+const createUserStepTwoAttempt = () => {
+	return {
+		type: CREATE_USER_STEP_TWO_ATTEMPT
+	}
+}
+
+const CREATE_USER_STEP_TWO_FAILURE = 'CREATE_USER_STEP_TWO_FAILURE';
+const createUserStepTwoFailure = () => {
+	return {
+		type: CREATE_USER_STEP_TWO_FAILURE
+	}
+}
+
+const CREATE_USER_STEP_TWO_SUCCESS = 'CREATE_USER_STEP_TWO_SUCCESS';
+const createUserStepTwoSuccess = () => {
+	return {
+		type: CREATE_USER_STEP_TWO_SUCCESS
+	}
+}
+
+export const attemptCreateUserStepTwo = (age, sex, questionnaire) => {
+	return (getState, dispatch) => {
+		var token = getState().users.token;
+		return fetch('https://my.kolapp.dk/wp-json/keq/v1/me/update', {
+			method: 'POST',
+			headers: new Headers({
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
+			}),
+			body: JSON.stringify({
+				metadata: {
+					age: age,
+					sex: sex
+				}
+			}),
+		})
+		.then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
+			
+			return dispatch(createUserSuccess(user));
+		})
+		.catch((err) => {
+			console.log(err);
+			return dispatch(declineAuthenticationUser());
+		});
+	}
+}
+
+
+
 
 export const requestCreateUser = (name, email, password) => {
 	return (dispatch) => {
