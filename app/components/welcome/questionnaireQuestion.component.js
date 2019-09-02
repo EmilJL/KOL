@@ -16,12 +16,12 @@ import {
   Image,
   TextInput
 } from 'react-native';
+import { connect } from 'react-redux';
 import SmileyOne from "../../assets/smileyOne.svg";
 import SmileyTwo from "../../assets/smileyTwo.svg";
 import SmileyThree from "../../assets/smileyThree.svg";
 import SmileyFour from "../../assets/smileyFour.svg";
 import SmileyFive from "../../assets/smileyFive.svg";
-import getQuestions from '../../redux/actions/actions.js'
 
  const S = StyleSheet.create({
   section: {
@@ -141,10 +141,11 @@ import getQuestions from '../../redux/actions/actions.js'
   
 });
 
- const QuestionnaireQuestion = ({leftText, rightText, isSmiley, questionAnswers, agePicked, handleQuestionAnswered, questionNumber, title}) => {
+ const QuestionnaireQuestion = ({leftText, rightText, isSmiley, questionAnswers, agePicked, handleQuestionAnswered, questionNumber, questions}) => {
     var status = (questionAnswers.length === questionNumber-1 ? 'current' : (questionAnswers.length >= questionNumber ? 'active' : ''));
-    console.log('når de så langt?: ' + title);
-    if (questionNumber === 1) {
+     var title = questions && questions.length > 0 ? questions[questionNumber-1].sQuestion : questionNumber;
+     if (questionNumber === 1) {
+      
       console.log(agePicked);
         return (
             <View style={S.section}>
@@ -231,6 +232,11 @@ import getQuestions from '../../redux/actions/actions.js'
         );
  } 
 
+mapStateToProps = state => {
+  return {
+    questions: state.users.questionnaireQuestions
+  }
+}
 
-export default QuestionnaireQuestion;
+export default connect(mapStateToProps)(QuestionnaireQuestion);
  

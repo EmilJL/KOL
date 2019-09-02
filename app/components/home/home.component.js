@@ -13,10 +13,14 @@ import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import SideMenu from '../sideMenu/sideMenu.component.js';
 import { setCurrentTitle, logOut } from '../../redux/actions/actions.js';
+import styles from '../../styles/styles.js';
+import Menu from '../menu/menu.js';
+import Graphs from '../graphs/graphs.js'
 
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
-
+const statusBarHeight = StatusBar.currentHeight;
+const S = styles;
 
 class Home extends Component {
   handleLogout = () => {
@@ -26,26 +30,31 @@ class Home extends Component {
   render(){
     this.props.setHeaderTitle('DASHBOARD');
     return (
-        <View style={{flexDirection: 'row', height: screenHeight, width: screenWidth, paddingBottom: screenHeight/9, paddingTop: 20, alignContent: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0'}}>
+        <View style={{flexDirection: 'row', position: 'absolute', paddingLeft: 10, paddingRight: 10, height:  screenHeight, width: screenWidth, paddingTop: screenHeight/13+statusBarHeight, backgroundColor: '#F7F8FA'}}>
         
-          <ScrollView style={{paddingLeft: '5%', paddingRight: '5%', paddingBottom: screenHeight/6, width: screenWidth}}>
-            <View style={{height: screenHeight*0.6, width: '100%', borderWidth: 2}}>
-              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Velkommen {this.props.userData.metadata.nickname ? this.props.userData.metadata.nickname : 'Ukendt'}</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => this.props.setHeaderTitle('DASHBOARD')}/>
+          <ScrollView style={{flex: 1}}>
+            <View style={S.intro}>
+              <Text style={S.intro_welcome}>
+                Velkommen til dit dashboard,
+              </Text>
+              <Text style={S.intro_welcome_span}>
+                {this.props.user.nickname}
+              </Text>
+              <Text style={S.intro_date}>
+                Fredag d. 12 maj 2019
+              </Text>
             </View>
-            <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
-              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => this.handleLogout()}/>
+            <View style={{height: 340, width: '100%', marginTop: 20}}>
+              <Menu />
             </View>
-            <View style={{height: screenHeight*0.7, width: '100%', borderWidth: 2}}>
-              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => console.log(this.props.userData)}/>
+            <View style={{height: 536, width: '100%', marginTop: 20, }}>
+              <Graphs />
             </View>
-            <View style={{height: screenHeight* 0.7, width: '100%', borderWidth: 2}}>
-              <Text style={{alignSelf: 'center', textAlign: 'center', fontSize: 30}}>Hjem</Text>
-              <Button title={'sup'} style={{alignSelf: 'center', height: 50, width: 50}} onPress={() => console.log('hejmeddig')}/>
+            <View style={{height: 536, width: '100%', marginTop: 20, }}>
+              <Graphs />
             </View>
-            <View style={{height: screenHeight/5}}>
+            <View style={{height: 536, width: '100%', marginTop: 20, }}>
+              <Graphs />
             </View>
           </ScrollView>
         </View>
@@ -66,7 +75,8 @@ mapDispatchToProps = dispatch => {
 mapStateToProps = state => {
   return {
     sideMenuIsVisible: state.users.sideMenuIsVisible,
-    userData: state.users.userData
+    userData: state.users.userData,
+    user: state.users.user
   }
 }
 

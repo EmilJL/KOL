@@ -79,6 +79,7 @@ const mapStateToProps = state => {
     forumData: state.users.forumData,
     messages: state.users.messages,
     questionnaireAnswers: state.users.questionnaireAnswers,
+    questionnaireQuestions: state.users.questionnaireQuestions,
     calendarEntries: state.users.calendarEntries,
     forumComments: state.users.forumComments,
     forumPosts: state.users.forumPosts,

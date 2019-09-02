@@ -24,7 +24,7 @@ class Login extends Component {
 	handleLogin = () => {
 	}
 	componentDidMount() {
-	/*	this.props.navigation.navigate('DrawerFlow');*/
+		this.props.navigation.navigate('DrawerFlow');
 	/*	this.props.auth();*/
 	}
 	render(){

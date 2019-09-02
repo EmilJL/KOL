@@ -435,7 +435,8 @@ export const getSavedToken = () => {
 		.then((token) => { 
 			if (token !== null) {
 				console.log(token);
-				return dispatch(setToken(token));
+				dispatch(setToken(token));
+				return token;
 			}
 			else{
 				console.log('motherfucker')
@@ -546,12 +547,7 @@ const attemptGetQuestionnaireQuestions = (token) => {
 			})
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
 				console.log('kig her lige nu: ', responseJson);
-				var questions = responseJson.map((item) => {
-					console.log(item);
-					return item.sQuestion;
-				})
-				console.log(questions);
-				dispatch(getQuestionnaireQuestionsSuccess(questions));
+				dispatch(getQuestionnaireQuestionsSuccess(responseJson))
 			})
 			.catch(err => console.log(err));
 		}
@@ -586,11 +582,16 @@ const setQuestionnaireQuestions = (questions) => {
 		payload: questions
 	}
 }
+const CREATE_USER_COMPLETE = 'CREATE_USER_COMPLETE';
+const createUserComplete = () => {
+	return {
+		type: CREATE_USER_COMPLETE
+	}
+}
 
-export const attemptCreateUserStepTwo = (age, sex, questionnaire) => {
-	return (getState, dispatch) => {
-		var token = getState().users.token;
-		return fetch('https://my.kolapp.dk/wp-json/keq/v1/me/update', {
+export const attemptCreateUserStepTwo = (age, sex, questionnaire, token) => {
+	return (dispatch, getState) => {
+		fetch('https://my.kolapp.dk/wp-json/keq/v1/me/update', {
 			method: 'POST',
 			headers: new Headers({
 				Accept: 'application/json',
@@ -609,6 +610,25 @@ export const attemptCreateUserStepTwo = (age, sex, questionnaire) => {
 			user.age = age;
 			user.sex = sex;
 			return dispatch(createUserSuccess(user));
+		})
+		.then(() => {
+			return fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/insert', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + token
+				}),
+				body: JSON.stringify({
+					metadata: {
+						answers: questionnaire
+					}
+				})
+			})
+			.then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
+				return dispatch(createUserComplete());;
+			}).
+			catch((err) => console.log(err));
 		})
 		.catch((err) => {
 			console.log(err);

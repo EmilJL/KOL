@@ -34,7 +34,7 @@ class Header extends Component {
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
                   <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
-                    <Image style={{width: '27%', marginLeft: '27%', marginTop: '12.5%'}} source={require('../../assets/menuHeader.png')}/>
+                    <Text style={{fontWeight: 'bold', paddingLeft: 10}}>X</Text>
                   </View>
                 </TouchableNativeFeedback>
 
