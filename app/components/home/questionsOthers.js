@@ -129,6 +129,7 @@ class QuestionsOthers extends Component {
 		offset: 0,
 		numbersShown: 1,
 		pageNumber: 1,
+		maxPages: 16
 	}
 	questionList() {
 		return this.props.questions.map((question, index) => {
@@ -147,9 +148,20 @@ class QuestionsOthers extends Component {
 			}
 		})
 	}
-	handleQuestionsClick = () => {
-		
-	}
+	handleQuestionsClick = (type) => {
+		var pageNumber = this.state.pageNumber;
+		var offSet = this.state.offset;
+		if(type === 'back' && pageNumber != 1){
+			this.setState({pageNumber: pageNumber--, off});
+		}
+		else if(type === 'forward'){
+
+		}
+		else{
+
+		}
+		type == 'back' ? (pageNumber != 1 ? this.setState({pageNumber: pageNumber--}) : null) : type == 'forward' ? (pageNumber != this.state.maxPages ? this.setState({pageNumber: pageNumber++}) : null) : null; 
+	}	
 	componentDidMount() {
 		this.props.getQuestions(0, 1);
 	}
@@ -202,7 +214,7 @@ class QuestionsOthers extends Component {
 					</TouchableOpacity>
 					<View style={[S.paginationActions, {flex: 2, justifyContent: 'center', alignItems: 'center'}]}>
 						<Text style={[S.paginationText, S.paginationPageCount, {justifyContent: 'center', alignItems: 'center'}]}>
-							{'Side ' + this.state.pageNumber + 'af 19'}
+							{'Side ' + this.state.pageNumber + ' af ' this.state.maxPages}
 						</Text>
 					</View>
 					<TouchableOpacity onPress={() => this.props.getQuestions(1, 1)}>

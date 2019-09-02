@@ -31,7 +31,7 @@ import SmileyFive from "../../assets/smileyFive.svg";
     marginBottom: 0
   },
   section_title: {
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontSize: 12,
     color: '#AEACBE',
     marginBottom: 15,
