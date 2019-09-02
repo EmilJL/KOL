@@ -12,7 +12,9 @@ import {
 
 const S = StyleSheet.create({
 	background: {
-		flex: 1
+		flex: 1,
+		marginLeft: 20,
+		marginRight: 20 
 	},
 	menuTitle: {
 		textTransform: 'uppercase',
@@ -44,12 +46,12 @@ class Menu extends Component {
 		return(
 			<View style={S.background}>
 				<View style={S.boxWrapper}>
-					<View style={S.singleBox}>
+					<View style={[S.singleBox, {marginLeft: 0}]}>
 						<Text style={S.boxText}>
 							Få hjælp
 						</Text>
 					</View>
-					<View style={S.singleBox}>
+					<View style={[S.singleBox, {marginRight: 0}]}>
 						<Text style={S.boxText}>
 							Hjælp andre
 						</Text>
@@ -57,12 +59,12 @@ class Menu extends Component {
 				</View>
 
 				<View style={S.boxWrapper}>
-					<View style={S.singleBox}>
+					<View style={[S.singleBox, {marginLeft: 0}]}>
 						<Text style={S.boxText}>
 							Send SMS
 						</Text>
 					</View>
-					<View style={S.singleBox}>
+					<View style={[S.singleBox, {marginRight: 0}]}>
 						<Text style={S.boxText}>
 							Dagbog
 						</Text>

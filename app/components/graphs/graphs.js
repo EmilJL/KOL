@@ -13,8 +13,6 @@ import {
 const S = StyleSheet.create({
 	background: {
 		backgroundColor: '#F7F8FA',
-		width: '100%',
-		height: '100%',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
@@ -35,11 +33,12 @@ const S = StyleSheet.create({
 	box: {
 	    backgroundColor: '#fff',
 	    borderRadius: 7,
-	    marginBottom: 25,
-	    opacity: .6
+	    paddingBottom: 25, 
 	},
 	boxInner: {
-	    padding: 20,
+	    paddingLeft: 20,
+	    paddingRight: 20,
+	    paddingTop: 16
 	},
 	textBubble: {
 	    marginTop: 25,
@@ -73,9 +72,11 @@ const S = StyleSheet.create({
 	graphScore: {
 		fontWeight: 'bold',
 		fontSize: 28,
+		lineHeight: 40
 	},
 	boxTitle: {
 		fontSize: 16,
+		paddingBottom: 10
 	},
 	subText: {
 	  	marginTop: 11,
@@ -85,6 +86,7 @@ const S = StyleSheet.create({
 	graphWrapper: {
 	  	flexDirection: 'row',
 	  	width: '100%',
+	  	marginTop: 22,
 	  	height: 234,
 	  	alignItems: 'flex-end',
 	},
@@ -100,7 +102,7 @@ const S = StyleSheet.create({
 	graphPile: {
 		flexGrow: 1,
 		width: 7,
-		height: 180,
+		height: 234,
 		backgroundColor: '#FAFBFD',
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -121,6 +123,8 @@ const S = StyleSheet.create({
 		position: 'absolute',
 		top: -28,
 		left: -10.5,
+		fontSize: 10,
+		lineHeight: 20,
 		borderRadius: 8,
 	},
 });
@@ -147,7 +151,7 @@ class Graphs extends Component {
 
 	render(){
 		return(
-			<View style={{flex: 1}}>
+			<View style={{flex: 1,}}>
 
 				<View style={S.section}>
 
@@ -202,7 +206,7 @@ class Graphs extends Component {
 					             </View>
 					             
 					            <View style={S.graphPile}>
-			              			<View style={{height: '50%', backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
+			              			<View style={{height: '100%', backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
 			              				<Text style={S.graphPileCount}>
 			              					29
 			              				</Text>

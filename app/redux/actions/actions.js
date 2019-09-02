@@ -237,11 +237,46 @@ const attemptGetQuestionsFromOthers = () => {
 		type: ATTEMPT_GET_QUESTIONS_FROM_OTHERS
 	}
 }
+
+export const markQuestionAsRead = (id) => {
+	return (getState, dispatch) => {
+		var token = getState().users.token;
+		var questionsRead = getState().users.questionsRead;
+		questionsRead.push(id);
+		fetch('https://my.kolapp.dk/wp-json/keq/v1/me/update', {
+			method: 'POST',
+			headers: new Headers({
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + token
+			}),
+			body: JSON.stringify({
+				metadata: {
+					questionsRead: questionsRead
+				}
+			})
+		})
+		.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+			return dispatch(setUserQuestions(questions));
+		})
+		.catch(err => console.log(err));
+	}
+
+}
+
+const SET_QUESTIONS_READ = 'SET_QUESTIONS_READ';
+const setQuestionsRead = (questionsRead) => {
+	return {
+		type: SET_QUESTIONS_READ,
+		payload: questionsRead
+	}
+}
+
 export const getUserQuestionsFromOthers = (offset, limit) => {
 	return (dispatch, getState) => {
 		dispatch(attemptGetQuestionsFromOthers());
-		var token = getState().users.token;
-		fetch('https://my.kolapp.dk/wp-json/keu/v1/userquestions/all', {
+		AsyncStorage.getItem('userId').
+		then((token) => fetch('https://my.kolapp.dk/wp-json/keu/v1/userquestions/all', {
 			method: 'POST',
 			headers: new Headers({
 				Accept: 'application/json',
@@ -252,23 +287,31 @@ export const getUserQuestionsFromOthers = (offset, limit) => {
 				offset: offset,
 				limit: limit
 			}),
-		})
-		.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
-			var questions = responseJson.map(function(el) {
-				var o = Object.assign({}, el);
-				var q = {};
-				q.id = o.ID
-				q.userID = o.post_author; 
-				q.title = o.post_title;
-				q.posted = o.post_date;
-				q.text = o.post_content;
-				q.edited = o.post_modified;
-				q.comments = o.comments;
-				return q;
-			});
-			return dispatch(setQuestionsFromOthers(responseJson));
-		})
-		.catch(err => console.log(err));
+			})
+			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				console.log('the response: ');
+				console.log(responseJson);
+				var questions = responseJson;
+				var smh = questions.map(function(el) {
+					var o = Object.assign({}, el);
+					var q = {};
+					q.id = o.ID
+					q.userID = o.post_author; 
+					q.title = o.post_title;
+					q.posted = o.post_date;
+					q.text = o.post_content;
+					q.edited = o.post_modified;
+					q.comments = o.comments;
+					console.log('question: ');
+					console.log(q);
+					return q;
+				});
+				dispatch(setQuestionsFromOthers(smh));
+			})
+			.catch(err => console.log(err))
+		)
+		.catch(err => console.log(err))
+		
 	}
 }
 const SET_QUESTIONS_FROM_OTHERS = 'SET_QUESTIONS_FROM_OTHERS';
@@ -386,8 +429,10 @@ export const authenticateWithToken = () => {
 							'Authorization': 'Bearer ' + token
 						})
 					}).then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
-						console.log(responseJson)
+						console.log('userData:');
+						console.log(responseJson);
 ;						dispatch(populateUserData(responseJson.data));
+						responseJson.data.metadata.questionsRead ? dispatch(setQuestionsRead(responseJson.data.metadata.questionsRead)) : null; 
 						return dispatch(authenticateUser());
 					})
 					.catch((err) => {

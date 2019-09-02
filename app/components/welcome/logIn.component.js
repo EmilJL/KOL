@@ -24,14 +24,14 @@ class Login extends Component {
 	handleLogin = () => {
 	}
 	componentDidMount() {
-		this.props.navigation.navigate('DrawerFlow');
-	/*	this.props.auth();*/
+		/*this.props.navigation.navigate('DrawerFlow');*/
+		this.props.auth();
 	}
 	render(){
 		const screenWidth = Math.round(Dimensions.get('window').width);
 		const screenHeight = Math.round(Dimensions.get('window').height);
 		const statusbarHeight = StatusBar.currentHeight;
-		if (false) {
+		if (this.props.isLoggedIn) {
 			return (
 				<LoadingComponent isLoggedIn={true} navigation={this.props.navigation} token={this.props.token} path={'DrawerFlow'} />
 			);

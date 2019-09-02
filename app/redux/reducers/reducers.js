@@ -5,6 +5,7 @@ const initialState = {
 	user: {},
 	userData: {},
 	userDiary: {},
+	questionsRead: [],
 	questionnaires: [],
 	questionnaireQuestions: [{dtCreated:
 "2019-08-30 10:09:37",
@@ -104,6 +105,11 @@ const initialNavigationState = {
 
 const user = (state = initialState, action) => {
 	switch (action.type) {
+		case 'SET_QUESTIONS_FROM_OTHERS':
+			return {
+				...state,
+				userQuestionsOthers: action.payload
+			};
 		case 'CREATE_USER_COMPLETE':
 			return{
 				...state,
@@ -141,6 +147,11 @@ const user = (state = initialState, action) => {
 				...state,
 				questionnaireQuestions: state.questionnaireQuestions.concat(action.payload)
 			};
+		case 'SET_QUESTIONS_READ':
+			return {
+				...state,
+				questionsRead: action.payload
+			};
 		case 'ATTEMPT_GET_DIARY_FOR_USER':
 		case 'ATTEMPT_GET_QUESTIONS_FOR_USER':
 		case 'ATTEMPT_GET_ANSWERS_FOR_USER':
@@ -161,7 +172,7 @@ const user = (state = initialState, action) => {
 		case 'POPULATE_USER_DATA':
 			return {
 				...state,
-				userData: action.payload
+				user: action.payload
 			};
 		case 'NOTIFY_NEW_QUESTIONNAIRE_AVAILABLE':
 			return {

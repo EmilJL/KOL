@@ -16,7 +16,7 @@ import { setCurrentTitle, logOut } from '../../redux/actions/actions.js';
 import styles from '../../styles/styles.js';
 import Menu from '../menu/menu.js';
 import Graphs from '../graphs/graphs.js'
-
+import QuestionsOthers from './questionsOthers.js';
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 const statusBarHeight = StatusBar.currentHeight;
@@ -30,7 +30,7 @@ class Home extends Component {
   render(){
     this.props.setHeaderTitle('DASHBOARD');
     return (
-        <View style={{flexDirection: 'row', position: 'absolute', paddingLeft: 10, paddingRight: 10, height:  screenHeight, width: screenWidth, paddingTop: screenHeight/13+statusBarHeight, backgroundColor: '#F7F8FA'}}>
+        <View style={{flexDirection: 'row', position: 'absolute', bottom: 0, height:  '100%', width: screenWidth, paddingTop: screenHeight/13+statusBarHeight, paddingBottom: screenHeight/5, backgroundColor: '#F7F8FA'}}>
         
           <ScrollView style={{flex: 1}}>
             <View style={S.intro}>
@@ -38,23 +38,20 @@ class Home extends Component {
                 Velkommen til dit dashboard,
               </Text>
               <Text style={S.intro_welcome_span}>
-                {this.props.user.nickname}
+                {this.props.user ? (this.props.user.nickname ? this.props.user.nickname : this.props.user.metadata.nickname) : null}
               </Text>
               <Text style={S.intro_date}>
                 Fredag d. 12 maj 2019
               </Text>
             </View>
-            <View style={{height: 340, width: '100%', marginTop: 20}}>
+            <View style={{width: '100%', marginTop: 20}}>
               <Menu />
             </View>
-            <View style={{height: 536, width: '100%', marginTop: 20, }}>
+            <View style={{width: '100%', marginTop: 40}}>
               <Graphs />
             </View>
-            <View style={{height: 536, width: '100%', marginTop: 20, }}>
-              <Graphs />
-            </View>
-            <View style={{height: 536, width: '100%', marginTop: 20, }}>
-              <Graphs />
+            <View style={{width: '100%', marginTop: 20}}>
+              <QuestionsOthers />
             </View>
           </ScrollView>
         </View>
@@ -75,7 +72,6 @@ mapDispatchToProps = dispatch => {
 mapStateToProps = state => {
   return {
     sideMenuIsVisible: state.users.sideMenuIsVisible,
-    userData: state.users.userData,
     user: state.users.user
   }
 }
