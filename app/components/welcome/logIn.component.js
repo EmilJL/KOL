@@ -25,7 +25,7 @@ class Login extends Component {
 	}
 	componentDidMount() {
 		/*this.props.navigation.navigate('DrawerFlow');*/
-		/*this.props.auth();*/
+		this.props.auth();
 	}
 	render(){
 		const screenWidth = Math.round(Dimensions.get('window').width);

@@ -238,6 +238,13 @@ const attemptGetQuestionsFromOthers = () => {
 	}
 }
 
+export const testOfDoom = () => {
+		return new Promise((resolve, reject) => {
+			var success = getState().users.token;
+			success ? resolve(console.log(success)) : reject('fuck');
+		})
+}
+
 export const markQuestionAsRead = (id) => {
 	return (getState, dispatch) => {
 		var token = getState().users.token;
@@ -274,6 +281,8 @@ const setQuestionsRead = (questionsRead) => {
 
 export const getUserQuestionsFromOthers = (offset, limit) => {
 	return (dispatch, getState) => {
+		var questions = [];
+		userIds = [];
 		dispatch(attemptGetQuestionsFromOthers());
 		AsyncStorage.getItem('userId').
 		then((token) => fetch('https://my.kolapp.dk/wp-json/keu/v1/userquestions/all', {
@@ -291,8 +300,8 @@ export const getUserQuestionsFromOthers = (offset, limit) => {
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
 				console.log('the response: ');
 				console.log(responseJson);
-				var questions = responseJson;
-				var smh = questions.map(function(el) {
+				var questionsRaw = responseJson;
+				questions = questions.map(function(el) {
 					var o = Object.assign({}, el);
 					var q = {};
 					q.id = o.ID
@@ -306,6 +315,7 @@ export const getUserQuestionsFromOthers = (offset, limit) => {
 					console.log(q);
 					return q;
 				});
+				fetch()
 				dispatch(setQuestionsFromOthers(smh));
 			})
 			.catch(err => console.log(err))
@@ -348,6 +358,27 @@ const setQuestionnairesForUser = (questionnaires) => {
 	}
 }
 
+export const getUseByID = (id) => {
+	return (dispatch, getState) => fetch('https://my.kolapp.dk/wp-json/keq/v1/me/get', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + token
+				}),
+				body: JSON.stringify({
+				userid: id
+			})
+		}).then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
+				console.log(responseJson);
+				responseJson.data.metadata.questionsRead ? dispatch(setQuestionsRead(responseJson.data.metadata.questionsRead)) : null; 
+				return dispatch(authenticateUser());
+			})
+			.catch((err) => {
+				console.log(err);
+				return dispatch(declineAuthenticationUser());
+			});
+}
 
 export const getQuestionnairesForUser = (startDate, endDate) => {
 	return (getState, dispatch) => {
@@ -379,29 +410,32 @@ const CHECK_QUESTIONNAIRE_ANSWERED = 'CHECK_QUESTIONNAIRE_ANSWERED';
 
 export const attemptAddQuestionnaire = (questionnaireAnswers) => {
 	return (getState, dispatch) => {
-		var token = getState().users.token;
-		fetch('https://my.kolapp.dk/wp-json/keq/v1/questions/insert', {
-			method: 'POST',
-			headers: new Headers({
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + state.users.token
-			}),
-			body: JSON.stringify({
-				answers: questionnaireAnswers
-			}),
-		})
-		.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
-			console.log(responseJson);
-			var questionnaire = {
-				id: responseJson,
-				answers: questionnaireAnswers
-			}
-			var questionnaires = getState().users.questionnaires;
-			questionnaires.push(questionnaireAnswers)
-			return dispatch(setQuestionnairesForUser(questionnaires));
-		})
-		.catch(err => console.log(err));
+		getState()
+		.then((state) => {
+			fetch('https://my.kolapp.dk/wp-json/keq/v1/questions/insert', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + state.users.token
+				}),
+				body: JSON.stringify({
+					answers: questionnaireAnswers
+				}),
+			})
+			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				console.log(responseJson);
+				var questionnaire = {
+					id: responseJson,
+					answers: questionnaireAnswers
+				}
+				var questionnaires = getState().users.questionnaires;
+				questionnaires.push(questionnaireAnswers)
+				return dispatch(setQuestionnairesForUser(questionnaires));
+			})
+			.catch(err => console.log(err))
+		}).catch(err => console.log(err))
+		
 	}
 }
 
@@ -654,6 +688,7 @@ export const attemptCreateUserStepTwo = (age, sex, questionnaire, token) => {
 			var user = getState().users.user;
 			user.age = age;
 			user.sex = sex;
+			console.log(user);
 			return dispatch(createUserSuccess(user));
 		})
 		.then(() => {

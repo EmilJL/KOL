@@ -11,7 +11,7 @@ import {
   ListView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserQuestionsFromOthers } from '../../redux/actions/actions.js';
+import { getUserQuestionsFromOthers, testOfDoom } from '../../redux/actions/actions.js';
 import QuestionItem from './questionItem.js';
 
 const S = StyleSheet.create({
@@ -127,7 +127,7 @@ const S = StyleSheet.create({
 class QuestionsOthers extends Component {
 	state={
 		offset: 0,
-		numbersShown: 1,
+		numbersShown: 2,
 		pageNumber: 1,
 		maxPages: 16
 	}
@@ -150,20 +150,20 @@ class QuestionsOthers extends Component {
 	}
 	handleQuestionsClick = (type) => {
 		var pageNumber = this.state.pageNumber;
-		var offSet = this.state.offset;
+		var offset = this.state.offset;
 		if(type === 'back' && pageNumber != 1){
-			this.setState({pageNumber: pageNumber--, off});
+			pageNumber--;
+			offset = offset-this.state.numbersShown;
 		}
-		else if(type === 'forward'){
-
+		else if(type === 'forward' && pageNumber != this.state.maxPages){
+			pageNumber++;
+			offset = offset+this.state.numbersShown;
 		}
-		else{
-
-		}
-		type == 'back' ? (pageNumber != 1 ? this.setState({pageNumber: pageNumber--}) : null) : type == 'forward' ? (pageNumber != this.state.maxPages ? this.setState({pageNumber: pageNumber++}) : null) : null; 
+		this.setState({pageNumber, offset});
+		this.props.getQuestions(offset, numbersShown);
 	}	
 	componentDidMount() {
-		this.props.getQuestions(0, 1);
+		this.props.getQuestions(this.state.offset, this.state.numbersShown);
 	}
 	render(){
 		
@@ -205,7 +205,7 @@ class QuestionsOthers extends Component {
 				</View>
 
 				<View style={[S.box, S.pagination]}>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={() => this.handleQuestionsClick('back')}>
 						<View style={S.paginationActions}>
 							<Text style={S.paginationText}>
 								{'<'}
@@ -214,10 +214,10 @@ class QuestionsOthers extends Component {
 					</TouchableOpacity>
 					<View style={[S.paginationActions, {flex: 2, justifyContent: 'center', alignItems: 'center'}]}>
 						<Text style={[S.paginationText, S.paginationPageCount, {justifyContent: 'center', alignItems: 'center'}]}>
-							{'Side ' + this.state.pageNumber + ' af ' this.state.maxPages}
+							{'Side ' + this.state.pageNumber + ' af ' + this.state.maxPages}
 						</Text>
 					</View>
-					<TouchableOpacity onPress={() => this.props.getQuestions(1, 1)}>
+					<TouchableOpacity onPress={() => this.props.test()}>
 						<View style={S.paginationActions}>
 							<Text style={[S.paginationText, S.paginationArrowRight]}>
 								>
@@ -241,6 +241,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		getQuestions: (offset, limit) => {
 			dispatch(getUserQuestionsFromOthers(offset, limit))
+		},
+		test: () => {
+			dispatch(testOfDoom());
 		}
 	}
 }
