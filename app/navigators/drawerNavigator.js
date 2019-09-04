@@ -26,7 +26,6 @@ const DrawerNavigator = createDrawerNavigator(
     drawerBackgroundColor: 'rgba(255,255,255,.9)',
     overlayColor: 'rgba(0,0,0,0)',
     contentComponent: DrawerContentComponent,
-    drawerWidth: screenWidth*0.7,
     contentOptions: {
       activeTintColor: '#fff',
       activeBackgroundColor: '#6b52ae',

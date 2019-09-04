@@ -11,8 +11,12 @@ import {
   Button,
   Image,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  StatusBar
 } from 'react-native';
+const screenWidth = Math.round(Dimensions.get('window').width);
+const screenHeight = Math.round(Dimensions.get('window').height);
+const statusbarHeight = StatusBar.currentHeight;
 
 const DrawerContentComponent = props => (
   <ScrollView>
@@ -25,6 +29,8 @@ const DrawerContentComponent = props => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: screenHeight*1/14,
+    zIndex: 20
   },
 });
 

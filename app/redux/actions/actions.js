@@ -315,8 +315,7 @@ export const getUserQuestionsFromOthers = (offset, limit) => {
 					console.log(q);
 					return q;
 				});
-				fetch()
-				dispatch(setQuestionsFromOthers(smh));
+				dispatch(setQuestionsFromOthers(questions));
 			})
 			.catch(err => console.log(err))
 		)

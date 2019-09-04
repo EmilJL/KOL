@@ -15,7 +15,7 @@ export default StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 20,
     paddingRight: 20,
-    marginBottom: 27,
+    marginBottom: 17,
   },
   intro_welcome: {
     color: '#414D55',

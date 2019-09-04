@@ -17,6 +17,7 @@ import styles from '../../styles/styles.js';
 import Menu from '../menu/menu.js';
 import Graphs from '../graphs/graphs.js'
 import QuestionsOthers from './questionsOthers.js';
+import DashboardWidget from './dashboardWidgetsl.js';
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 const statusBarHeight = StatusBar.currentHeight;
@@ -33,6 +34,7 @@ class Home extends Component {
         <View style={{flexDirection: 'row', position: 'absolute', bottom: 0, height:  '100%', width: screenWidth, paddingTop: screenHeight/13+statusBarHeight, paddingBottom: screenHeight/5, backgroundColor: '#F7F8FA'}}>
         
           <ScrollView style={{flex: 1}}>
+            <DashboardWidget />
             <View style={S.intro}>
               <Text style={S.intro_welcome}>
                 Velkommen til dit dashboard,

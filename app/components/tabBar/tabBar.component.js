@@ -8,9 +8,9 @@ import { DrawerActions } from 'react-navigation';
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 const S = StyleSheet.create({
-  container: { flexDirection: "row", justifyContent: 'center', alignItems: 'center', width: '100%', height: screenHeight/6.5, backgroundColor: 'rgba(0,0,0,0)', bottom: 0, position: 'absolute'},
+  container: { flexDirection: "row", justifyContent: 'center', alignItems: 'center', width: '100%', height: 107.29, backgroundColor: 'rgba(0,0,0,0)', bottom: 0, position: 'absolute'},
   containerTest: { flexDirection: "row", justifyContent: 'center', alignItems: 'center', width: '100%', position: 'absolute', bottom: 0, height: screenHeight, backgroundColor: '#f0f0f0' },
-  subContainer: { height: '76.42%', width: '100%', position: 'absolute', bottom: 0, opacity: 1},
+  subContainer: { height: 77.79	, width: '100%', position: 'absolute', bottom: 0, opacity: 1},
   subContainer_buttons: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingLeft: '2%', paddingRight: '2%', paddingBottom: '2%'},
   tabButton: { justifyContent: "center", alignItems: "center"},
   middleButton: {width: '100%', height: '100%' },
@@ -25,15 +25,12 @@ class TabBar extends React.Component {
 	}
 	handleButtonPress = () => {
 		console.log(this.props.navigation);
-		this.props.navigation.dispatch(DrawerActions.toggleDrawer())
-		/*if (this.state.buttonStyle === S.middleButton ) {
+		if (this.state.buttonStyle === S.middleButton ) {
 			this.setState({buttonStyle: S.middleButtonPressed, buttonPressed: true});
-			this.props.toggleHeaderVisibility(false);
 		}
 		else{
 			this.setState({buttonStyle: S.middleButton, buttonPressed: false});
-			this.props.toggleHeaderVisibility(true);
-		}*/
+		}
 	}
 	handleNavigation = (routeName) => {
 		switch(routeName){
@@ -94,7 +91,6 @@ class TabBar extends React.Component {
 		const { routes, index: activeRouteIndex } = navigation.state;
 		const buttonStyle = this.state.buttonStyle;
 		const buttonSize = screenHeight/6.5*0.4716;
-
 	  	return (	<View style={{height: screenHeight, width: screenWidth, position: 'absolute', bottom: 0, opacity: 1}}>
 	  					{this.state.buttonPressed ? <ButtonMenu setTitle={(routeName) => this.handleNavigation(routeName)} toggleMenu={() => this.handleButtonPress()} navigation={navigation} /> : null}
 					    <View style={S.container}>
@@ -113,8 +109,12 @@ class TabBar extends React.Component {
 							        {
 							        	return null;
 							        }
-							    
+
 							        else{
+							        	if(route.key === 'Inbox'){
+							    			extraStyles = {flex: 1, marginRight: '24%', paddingBottom: '12%', paddingTop: '12%'};
+										}
+										
 							        	return (
 								          <TouchableOpacity
 								            key={routeIndex}

@@ -14,6 +14,7 @@ import {
 import { DrawerActions } from 'react-navigation'
 import { setCurrentTitle } from '../../redux/actions/actions.js';
 import { logOut } from '../../redux/actions/actions.js';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 class Header extends Component {
     handleLogout = () => {
@@ -34,7 +35,9 @@ class Header extends Component {
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
                   <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
-                    <Text style={{fontWeight: 'bold', paddingLeft: 10}}>X</Text>
+                    <View style={{marginLeft: '20%', paddingTop: '5%'}}>
+                      <Icon color={'black'} name={'close'} size={25} />
+                    </View>
                   </View>
                 </TouchableNativeFeedback>
 
@@ -59,7 +62,7 @@ class Header extends Component {
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
                   <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
-                    <Image style={{width: '27%', marginLeft: '27%', marginTop: '12.5%'}} source={require('../../assets/menuHeader.png')}/>
+                    <Image style={{width: '27%', marginLeft: '27%', marginTop: '5%'}} source={require('../../assets/menuHeader.png')}/>
                   </View>
                 </TouchableNativeFeedback>
 

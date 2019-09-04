@@ -26,20 +26,20 @@ const Router = createBottomTabNavigator(
 		Inbox: {
 			screen: InboxScreen,
 			navigationOptions: {
-				tabBarIcon: ({tintColor}) => <TabIcon name="bar-graph" size={screenHeight/20} color={tintColor} />
+				tabBarIcon: ({tintColor}) => <TabIcon name="box" size={screenHeight/20} color={tintColor} />
 			}
 		},
 		
 		Grafer: {
 			screen: GraphsScreen,
 			navigationOptions: {
-				tabBarIcon: ({tintColor}) => <TabIcon name="calendar" size={screenHeight/20} color={tintColor} />
+				tabBarIcon: ({tintColor}) => <TabIcon name="bar-graph" size={screenHeight/20} color={tintColor} />
 			}
 		},
 	  	Kalender: {
 		  	screen: CalendarScreen,
 		  	navigationOptions: {
-		  		tabBarIcon: ({tintColor}) => <TabIcon name="user" size={screenHeight/20} color={tintColor} />
+		  		tabBarIcon: ({tintColor}) => <TabIcon name="calendar" size={screenHeight/20} color={tintColor} />
 		  	}
 		},
 		MainNavigator: {
