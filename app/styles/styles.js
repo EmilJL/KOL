@@ -1,5 +1,12 @@
 import { StyleSheet } from "react-native"
 export default StyleSheet.create({
+  scrollView: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 0,
+    height:  '100%',
+    backgroundColor: '#F7F8FA'
+  },
 	footer: {
 		flexDirection: 'row',
 		padding: 13,
@@ -15,7 +22,6 @@ export default StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 20,
     paddingRight: 20,
-    marginBottom: 17,
   },
   intro_welcome: {
     color: '#414D55',

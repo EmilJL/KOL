@@ -34,21 +34,21 @@ class Header extends Component {
               <View style={{position: 'absolute', top: 0, borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
-                  <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
+                  <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%', marginBottom: -3}}>
                     <View style={{marginLeft: '20%', paddingTop: '5%'}}>
                       <Icon color={'black'} name={'close'} size={25} />
                     </View>
                   </View>
                 </TouchableNativeFeedback>
 
-                <View style={{justifyContent: 'center', alignItems: 'center', flex: 7}}>
+                <View style={{justifyContent: 'center', alignItems: 'center', flex: 7, marginBottom: -3}}>
                   <Text style={{fontSize: 14, textAlign: 'center'}}>
                    MENU
                   </Text>
                 </View>
 
                 <TouchableNativeFeedback onPress={() => console.log(this.props.notifications)}>
-                  <View style={styleNotifications}>
+                  <View style={[styleNotifications, {marginBottom: -3}]}>
                       <Image style={{width: '50%', marginLeft: '25%', marginTop: '12.5%'}} source={require('../../assets/notificationHeader.png')}/>
                   </View>
                 </TouchableNativeFeedback>
@@ -61,19 +61,19 @@ class Header extends Component {
               <View style={{position: 'absolute', top: 0, borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
-                  <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}}>
+                  <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%', marginBottom: -3}}>
                     <Image style={{width: '27%', marginLeft: '27%', marginTop: '5%'}} source={require('../../assets/menuHeader.png')}/>
                   </View>
                 </TouchableNativeFeedback>
 
                 <View style={{justifyContent: 'center', alignItems: 'center', flex: 7}}>
-                  <Text style={{fontSize: 14, textAlign: 'center'}}>
+                  <Text style={{fontSize: 14, textAlign: 'center', marginBottom: -3}}>
                   {this.props.currentTitle}
                   </Text>
                 </View>
 
                 <TouchableNativeFeedback onPress={() => console.log(this.props.notifications)}>
-                  <View style={styleNotifications}>
+                  <View style={[styleNotifications, {marginBottom: -3}]}>
                       <Image style={{width: '50%', marginLeft: '25%', marginTop: '12.5%'}} source={require('../../assets/notificationHeader.png')}/>
                   </View>
                 </TouchableNativeFeedback>
@@ -90,17 +90,17 @@ class Header extends Component {
           return(
             <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, zIndex: 4, position: 'absolute', top: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
               <TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('Login')}}>
-                <View style={{flex: 1.5, height: screenHeight/13, alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{flex: 1.5, height: screenHeight/13, alignItems: 'center', justifyContent: 'center', marginBottom: -3}}>
                   <Image resizeMode='contain' style={{width: '30%'}} source={require('../../assets/backHeader.png')}/>
                 </View>
               </TouchableNativeFeedback>
 
               <View style={{justifyContent: 'center', alignItems: 'center', flex: 7}}>
-                <Text style={{fontSize: 14, textAlign: 'center'}}>
+                <Text style={{fontSize: 14, textAlign: 'center', marginBottom: -3}}>
                 {this.props.title}
                 </Text>
               </View>
-              <View style={{flex: 1.5}}>
+              <View style={{flex: 1.5, marginBottom: -3}}>
               </View>
             </View>
           );

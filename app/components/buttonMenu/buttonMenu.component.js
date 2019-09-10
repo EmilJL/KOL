@@ -31,7 +31,8 @@ const S = StyleSheet.create({
 		margin: 10,
 		borderRadius: 7,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		flexDirection: 'row'
 	},
 	boxText: {
 		fontWeight: 'bold',
@@ -53,37 +54,39 @@ const ButtonMenu = ({addMessageNotification, navigation, toggleMenu, setTitle}) 
 
 	return(
 		<View style={{paddingTop: screenHeight/13, paddingBottom: screenHeight/6.5, paddingLeft: 20, paddingRight: 20, width: screenWidth, height: screenHeight, backgroundColor: 'rgba(0,0,0,0.8)', alignItems: 'center', justifyContent: 'center', position: 'absolute', bottom: 0}}>
-			
+				<Text style={{fontSize: 16, color: 'white', lineHeight: 19, fontWeight: 'bold', marginBottom: 20.5}}>
+					HVAD VIL DU GERNE FORETAGE DIG?
+				</Text>
 				<View style={S.boxWrapper}>
-					<TouchableOpacity style={[S.singleBox, {marginLeft: 0}]}>
-						<View style={[S.singleBox, {marginLeft: 0}]}>
+					<TouchableOpacity onPress={() => this.handleClick('GetHelp')} style={[S.singleBox, {marginLeft: 0}]}>
+						<View style={S.singleBox}>
 							<GetHelp style={{marginBottom: 20}} width={51} height={58.29} />
 							<Text style={S.boxText}>
 								Få hjælp
 							</Text>
 						</View>
 					</TouchableOpacity>
-					<TouchableOpacity style={[S.singleBox, {marginLeft: 0}]}>
-						<View style={[S.singleBox, {marginRight: 0}]}>
+					<TouchableOpacity onPress={() => this.handleClick('HelpOthers')} style={[S.singleBox, {marginRight: 0}]}>
+						<View style={S.singleBox}>
 							<HelpOthers style={{marginBottom: 15}} width={53} height={53} />
-							<Text style={S.boxText}>
-								Hjælp andre
-							</Text>
+								<Text style={S.boxText}>
+									Hjælp andre
+								</Text>
 						</View>
 					</TouchableOpacity>
 				</View>
 
 				<View style={S.boxWrapper}>
-					<TouchableOpacity style={[S.singleBox, {marginLeft: 0}]}>
-						<View style={[S.singleBox, {marginLeft: 0}]}>
+					<TouchableOpacity onPress={() => this.handleClick('SendText')} style={[S.singleBox, {marginLeft: 0}]}>
+						<View style={S.singleBox}>
 							<SendSMS style={{marginBottom: 20, marginLeft: 12}} width={50} height={58} />
-							<Text style={S.boxText}>
+							<Text style={[S.boxText]}>
 								Send SMS
 							</Text>
 						</View>
 					</TouchableOpacity>
-					<TouchableOpacity style={[S.singleBox, {marginLeft: 0}]}>
-						<View style={[S.singleBox, {marginRight: 0}]}>
+					<TouchableOpacity onPress={() => this.handleClick('Diary')} style={[S.singleBox, {marginRight: 0}]}>
+						<View style={S.singleBox}>
 							<Diary style={{marginBottom: 15}} width={50} height={53} />
 							<Text style={S.boxText}>
 								Dagbog

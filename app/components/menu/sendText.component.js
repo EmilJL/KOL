@@ -1,0 +1,1 @@
+sendText.component.js

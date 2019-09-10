@@ -26,7 +26,7 @@ const S = StyleSheet.create({
 		textTransform: 'uppercase',
 		color: '#AEACBE',
 		marginBottom: 15,
-		fontWeight: 'bold'
+		fontWeight: 'bold',
 	},
 	box: {
 		backgroundColor: '#fff',

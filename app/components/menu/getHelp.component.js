@@ -1,0 +1,1 @@
+getHelp.component.js

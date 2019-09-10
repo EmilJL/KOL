@@ -1,0 +1,1 @@
+diary.component.js

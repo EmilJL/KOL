@@ -1,0 +1,1 @@
+helpOthers.component.js

@@ -28,12 +28,34 @@ class Home extends Component {
       this.props.logOut();
       this.props.navigation.navigate('AuthenticationFlow');
   }
+  handleNavigation = (routeName) => {
+    switch(routeName){
+      case 'HelpOthers':
+        return(
+          this.props.nav('HJÆLP ANDRE')   
+        );
+      case 'GetHelp':
+        return(
+          this.props.nav('FÅ HJÆLP')
+        );
+      case 'SendText':
+        return(
+          this.props.nav('SEND SMS')
+        );
+      case 'Diary':
+        return(
+          this.props.nav('MIN DAGBOG')
+        );
+      default:
+        return null;
+    }
+  }
   render(){
     this.props.setHeaderTitle('DASHBOARD');
     return (
-        <View style={{flexDirection: 'row', position: 'absolute', bottom: 0, height:  '100%', width: screenWidth, paddingTop: screenHeight/13+statusBarHeight, paddingBottom: screenHeight/5, backgroundColor: '#F7F8FA'}}>
+        <View style={[S.scrollView, {width: screenWidth, paddingTop: screenHeight/13}]}>
         
-          <ScrollView style={{flex: 1}}>
+          <ScrollView>
             <DashboardWidget />
             <View style={S.intro}>
               <Text style={S.intro_welcome}>
@@ -47,7 +69,7 @@ class Home extends Component {
               </Text>
             </View>
             <View style={{width: '100%', marginTop: 20}}>
-              <Menu />
+              <Menu handleNavigation={(routeName) => this.handleNavigation(routeName)} navigation={this.props.navigation} />
             </View>
             <View style={{width: '100%', marginTop: 40}}>
               <Graphs />
@@ -55,6 +77,7 @@ class Home extends Component {
             <View style={{width: '100%', marginTop: 20}}>
               <QuestionsOthers />
             </View>
+            <View style={{height: screenHeight/5}}></View>
           </ScrollView>
         </View>
     );
@@ -66,11 +89,15 @@ mapDispatchToProps = dispatch => {
     setHeaderTitle: (title) => {
       dispatch(setCurrentTitle(title));
     },
+    nav: (title) => {
+      dispatch(setCurrentTitle(title))
+    },
     logOut: () => {
       dispatch(logOut())
     }
   }
 } 
+
 mapStateToProps = state => {
   return {
     sideMenuIsVisible: state.users.sideMenuIsVisible,
