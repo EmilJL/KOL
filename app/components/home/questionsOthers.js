@@ -11,7 +11,7 @@ import {
   ListView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserQuestionsFromOthers, testOfDoom, attemptAddQuestionnaire } from '../../redux/actions/actions.js';
+import { getUserQuestionsFromOthers } from '../../redux/actions/actions.js';
 import QuestionItem from './questionItem.js';
 
 const S = StyleSheet.create({
@@ -153,8 +153,6 @@ class QuestionsOthers extends Component {
 		})
 	}
 	handleQuestionsClick = (type) => {
-	
-		console.log(this.props.questionnaires);
 		var pageNumber = this.state.pageNumber;
 		var questionsLoaded = this.state.questionsLoaded;
 		if(type === 'back' && pageNumber != 1){
@@ -244,8 +242,7 @@ class QuestionsOthers extends Component {
 
 const mapStateToProps = state => {
 	return {
-		questions: state.users.userQuestionsOthers,
-		questionnaires: state.users.questionnaires
+		questions: state.users.userQuestionsOthers
 	}
 }
 
@@ -253,12 +250,6 @@ const mapDispatchToProps = dispatch => {
 	return {
 		getQuestions: (offset, limit) => {
 			dispatch(getUserQuestionsFromOthers(offset, limit))
-		},
-		test: () => {
-			dispatch(testOfDoom())
-		},
-		addQuestionnaire: (questionnaireAnswers) => {
-			dispatch(attemptAddQuestionnaire(questionnaireAnswers))
 		}
 	}
 }

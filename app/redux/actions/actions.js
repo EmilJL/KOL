@@ -84,7 +84,7 @@ export const getDiaryForUser = (offset, limit) => {
 	return (dispatch) => {
 		AsyncStorage.getItem('userId').
 		then((token) =>{
-			fetch('https://my.kolapp.dk/wp-json/keu/v1/diary/my', {
+			fetch('https://my.kolapp.dk/wp-json/ked/v1/diary/my', {
 				method: 'POST',
 				headers: new Headers({
 					Accept: 'application/json',
@@ -138,7 +138,7 @@ export const addDiaryComment = (text, title = '', visible) => {
 				})
 			})
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
-				return dispatch(getDiaryForUser());
+				return dispatch(getDiaryForUser(0, 4));
 			})
 			.catch((err) => console.log('error: ' + err))
 		}).catch((err) => console.log('error: ' + err))
@@ -343,7 +343,7 @@ const setQuestionsFromOthers = (questions) => {
 	}
 }
 
-const SET_USER_QUESTIONS = 'SET_QUESTIONS_FOR_USER';
+const SET_USER_QUESTIONS = 'SET_USER_QUESTIONS';
 const setUserQuestions = (questions) => {
 	return {
 		type: SET_USER_QUESTIONS,
@@ -369,8 +369,14 @@ const setQuestionnairesForUser = (questionnaires) => {
 	}
 }
 
-export const getUseByID = (id) => {
-	return (dispatch, getState) => fetch('https://my.kolapp.dk/wp-json/keq/v1/me/get', {
+/*export const getUserByID = (id) => {
+	return (dispatch) => {
+		var questions = [];
+		userIds = [];
+		dispatch(attemptGetQuestionsFromOthers());
+		AsyncStorage.getItem('userId').
+		then((token) => {
+			fetch('https://my.kolapp.dk/wp-json/keq/v1/me/get', {
 				method: 'POST',
 				headers: new Headers({
 					Accept: 'application/json',
@@ -378,19 +384,20 @@ export const getUseByID = (id) => {
 					'Authorization': 'Bearer ' + token
 				}),
 				body: JSON.stringify({
-				userid: id
+					userid: id
+				})
 			})
-		}).then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
-				console.log(responseJson);
-				responseJson.data.metadata.questionsRead ? dispatch(setQuestionsRead(responseJson.data.metadata.questionsRead)) : null; 
-				return dispatch(authenticateUser());
+			.then((response) => response.json(), error => console.log('An error occured', error))
+			.then((responseJson) =>{
+				
 			})
 			.catch((err) => {
 				console.log(err);
-				return dispatch(declineAuthenticationUser());
 			});
+		}).catch(err => console.log(err));
+	}
 }
-
+*/
 export const getQuestionnairesForUser = (startDate, endDate) => {
 	return (dispatch) => {
 		AsyncStorage.getItem('userId').
@@ -479,8 +486,8 @@ export const authenticateWithToken = () => {
 						})
 					}).then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
 						console.log('userData:');
-						console.log(responseJson);
-;						dispatch(populateUserData(responseJson.data));
+						console.log(responseJson);						
+						dispatch(populateUserData(responseJson.data));
 						responseJson.data.metadata.questionsRead ? dispatch(setQuestionsRead(responseJson.data.metadata.questionsRead)) : null; 
 						return dispatch(authenticateUser());
 					})

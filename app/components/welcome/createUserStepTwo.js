@@ -145,9 +145,9 @@ class CreateUserStepTwo extends Component{
     else{
 		return(
 			
-	      <View style={{position: 'absolute', bottom: 0, height: screenHeight, width: screenWidth, paddingTop: statusBarHeight, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+	      <View style={{position: 'absolute', top: 0, height: '100%', width: '100%', paddingTop: statusBarHeight, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
 	       <View style={{flex: 1, backgroundColor: '#F7F8FA'}}>
-	        <ScrollView style={{flex: 1, backgroundColor: '#F7F8FA'}} ref={(ref) => {this.myScroll = ref}}>
+	        <ScrollView style={{flex: 1, backgroundColor: '#F7F8FA', paddingTop: 25}} ref={(ref) => {this.myScroll = ref}}>
 	          <View style={S.intro}>
 	            <Text style={S.intro_welcome}>
 	              Velkommen,
@@ -225,6 +225,8 @@ class CreateUserStepTwo extends Component{
 	            </Text>
 	            </View>
 	          </TouchableOpacity>
+	          <View style={{height: 30}}>
+	          </View>
 	        </ScrollView>
 			</View>
 	      <Animated.View

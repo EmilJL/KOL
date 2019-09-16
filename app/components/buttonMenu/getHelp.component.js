@@ -204,29 +204,29 @@ class GetHelp extends Component {
     console.log('amount of qs: ');
     console.log(this.props.questionsForUser);
     console.log(this.props.questionsForUser.length);
-    for (var i = 0; i < this.props.questionsForUser.length; i++) {
+    return this.props.questionsForUser.map((question, index) => {
       return (
-            <View style={S.yourQuestion}>
+            <View key={index} style={S.yourQuestion}>
               <View style={S.questionContent}>
                 <Image resizeMode={'contain'} style={S.profilePic} source={require('../../assets/testProfilePic.png')} />
                 <Text style={[S.questionCount, {opacity: 0}]}>
-                  0
+                  {question.comments.length}
                 </Text>
                 <View style={S.contentWrapper}>
                   <Text style={S.questionTitle}>
-                    Problemer med lungerne
+                    {question.post_title}
                   </Text>
                   <View style={{width: '100%'}}>
                     <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['transparent', '#fff']} style={S.linearGradient}>
                     </LinearGradient>
                     <Text multiline={false} style={S.questionDescription}>
-                      Hej, jeg har lige et hurtigt spørgsmål og og og og og og 
+                      {question.post_content}
                     </Text>
                   </View>
                 </View>
               </View>
               <TouchableOpacity style={{paddingLeft: 20, paddingRight: 20}}>
-                <View style={S.answerBtn}>
+                <View style={S.answerBtn}> 
                   <Text style={S.answerBtnText}>
                     Se svar
                   </Text>
@@ -234,14 +234,15 @@ class GetHelp extends Component {
               </TouchableOpacity>
             </View>
           );
-    } 
+    })
+    
   }
   hideModal = () => {
     this.setState({modalVisible: false});
   }
   render(){
     return (
-      <View style={[S.scrollView, {width: screenWidth, paddingTop: screenHeight/13}]}>
+      <View style={{width: '100%', height: '100%', paddingTop: screenHeight/13}}>
         {this.state.modalVisible ? <GenericModal hideModal={() => this.hideModal()} type={'userQuestion'}/> : null}
         <ScrollView>
         <View style={[S.section,{paddingTop: 20}]}>
@@ -274,8 +275,8 @@ class GetHelp extends Component {
           <Text style={S.section_title}>
               Dine spørgsmål
           </Text>
-          <View style={S.box}>
-            {this.props.questionsForUser && this.props.questionsForUser.length > 0 ? this.questionsList() : null}
+          <View style={[S.box, {minHeight: 200}]}>
+            {this.props.questionsForUser && this.props.questionsForUser[0] ? this.questionsList() : null}
           </View>
         </View>
           <View style={{height: screenHeight/5}}></View>
@@ -285,6 +286,13 @@ class GetHelp extends Component {
   }
 };
 
+
+mapStateToProps = state => {
+  return {
+    questionsForUser: state.users.userQuestions
+  }
+}
+
 mapDispatchToProps = dispatch => {
   return {
     getQuestions: () => {
@@ -292,11 +300,7 @@ mapDispatchToProps = dispatch => {
     }
   }
 }
-mapStateToProps = state => {
-  return {
-    questionsForUser: state.users.userQuestions
-  }
-}
+
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(GetHelp);

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,6 +12,10 @@ import {
   Dimensions,
   Image
 } from 'react-native';
+import { connect } from 'react-redux';
+import { getDiaryForUser } from '../../redux/actions/actions.js';
+import GenericModal from '../modal/modal.component.js'; 
+
 
 const S = StyleSheet.create({
       boxTop: {
@@ -186,9 +191,51 @@ class Diary extends Component {
   state={
     titleIsActive: false,
     textFieldIsActive: false,
-    diaryDate: 'Skrevet d. 29 Nov 2019', 
+    diaryDate: 'Skrevet d. 29 Nov 2019',
+    modalVisible: false,
+    modalVisibleWithValues: false,
+    title: '',
+    text: ''
   }
-
+  diaryEntriesList () {
+    var title = this.props.diary.post_title;
+    return this.props.diary.comments.map((entry, index) => {
+      return (
+          <View key={index} style={S.box}>
+            <View style={S.boxInner}>
+              <Text style={S.box_title}>
+                {title}
+              </Text>
+              <View style={S.textBubble}>
+                <Text numberOfLines={4} style={S.textBubbleText}>  
+                  {entry.comment_content}
+                </Text>
+                <Text style={S.diaryDate}>
+                  {entry.comment_date}
+                 </Text>
+              </View>
+           </View>
+              <View style={S.btnsWrapper}>
+                <View style={S.btn}>
+                  <TouchableOpacity onPress={()=> this.setState({title: title, text: entry.comment_content, modalVisibleWithValues: true})}>
+                    <Text style={[S.btnDark, S.btnInner]}>
+                      Rediger
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={S.btn}>
+                  <TouchableOpacity>
+                    <Text style={[S.btnLight, S.btnInner]}>
+                      Se inlæg
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+          </View>
+        )
+    })
+     
+  }
   handleFocusChanges = (type, isFocus)=> {
     switch (type) {
       case 'textFieldIsActive' :
@@ -201,139 +248,40 @@ class Diary extends Component {
         return null
     }
   }
-
+  hideModal = () => {
+    this.setState({modalVisible: false});
+  }
+  hideModalWithValues = () => {
+    this.setState({modalVisibleWithValues: false});
+  }
   render(){
     return(
       <View style={[S.scrollView, {width: screenWidth, paddingTop: screenHeight/13}]}>
+        {this.state.modalVisible ? <GenericModal hideModal={() => this.hideModal()} type={'diaryEntry'}/> : null}
+        {this.state.modalVisibleWithValues ? <GenericModal hideModal={() => this.hideModalWithValues()} title={this.state.title} text={this.state.text} type={'diaryEntry'}/> : null}
         <ScrollView>
               <View style={[S.section, {paddingTop: 20}]}>
                 <Text style={S.section_title}>
                     Tilføj nyt indlæg i min dagbog
                 </Text>
-                  <View style={S.boxTop}>
-                    <TouchableOpacity style={[S.btn_top, {width: screenWidth*0.8}]} onPress={() => this.handleSaveClick()}>
-                      <View>
-                        <Text style={S.btn_top_text}>
-                          Skriv nyt indlæg
-                        </Text>
-                      </View>
-                      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                        <Image resizeMode={'contain'} style={S.buttonPlus} source={require('../../assets/plus.png')}/>
-                      </View>
-                    </TouchableOpacity>
-                    
-
-                  </View>
+                <View style={S.boxTop}>
+                  <TouchableOpacity style={[S.btn_top, {width: screenWidth*0.8}]} onPress={() => this.setState({modalVisible: true})}>
+                    <View>
+                      <Text style={S.btn_top_text}>
+                        Skriv nyt indlæg
+                      </Text>
+                    </View>
+                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                      <Image resizeMode={'contain'} style={S.buttonPlus} source={require('../../assets/plus.png')}/>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </View>
               <View style={S.section}>
-                        <Text style={S.section_title}>
-                          Mine indlæg
-                        </Text>
-
-                      <View style={S.box}>
-
-                        <View style={S.boxInner}>
-
-                            <Text style={S.box_title}>
-                              Lungefibrose
-                            </Text>
-
-                            <View style={S.textBubble}>
-                              <Text numberOfLines={4} style={S.textBubbleText}>  
-                                Lungefibrose er en sjælden kronisk lungesygdom, hvor lungerne bliver stive og dårlige til at ilte blodet på grund af øget dannelse af arvæv i e til at ilte blodet på grund af øget dannelse af arvæv i e til at ilte blodet på grund af øget dannelse af arvæv i 
-                              </Text>
-
-                              <Text style={S.diaryDate}>
-                                {this.state.diaryDate}
-                              </Text>
-                          </View>
-
-                        </View>
-
-                    <View style={S.btnsWrapper}>
-                    <View style={S.btn}>
-                      <TouchableOpacity>
-                          <Text style={[S.btnDark, S.btnInner]}>
-                            Rediger
-                          </Text>
-                      </TouchableOpacity>
-                    </View>
-
-                    <View style={S.btn}>
-                      <TouchableOpacity>
-                          <Text style={[S.btnLight, S.btnInner]}>
-                            Se inlæg
-                          </Text>
-                      </TouchableOpacity>
-                    </View>
-                        </View>
-
-                </View>
-
-                <View style={S.box}>
-
-                        <View style={S.boxInner}>
-
-                            <Text style={S.box_title}>
-                              Lungefibrose
-                            </Text>
-
-                            <View style={S.textBubble}>
-                              <Text numberOfLines={4} style={S.textBubbleText}>  
-                                Lungefibrose er en sjælden kronisk lungesygdom, hvor lungerne bliver stive og dårlige til at ilte blodet på grund af øget dannelse af arvæv i e til at ilte blodet på grund af øget dannelse af arvæv i e til at ilte blodet på grund af øget dannelse af arvæv i 
-                              </Text>
-
-                              <Text style={S.diaryDate}>
-                                {this.state.diaryDate}
-                              </Text>
-                          </View>
-
-                          <View style={S.scalaWrapper}>
-                            <Text style={S.singleScala}>
-                              Smerter{"\n"}
-                              <View style={S.singleScalaBoxes}>
-                                <View style={[S.singleScalaBox, S.singleScalaBox_redActive]}></View>
-                                <View style={[S.singleScalaBox, S.singleScalaBox_redActive]}></View>
-                                <View style={[S.singleScalaBox, S.singleScalaBox_redActive]}></View>
-                                <View style={S.singleScalaBox}></View>
-                                <View style={S.singleScalaBox}></View>
-                              </View>
-                            </Text>
-
-                            <Text style={S.singleScala}>
-                              Humør{"\n"}
-                              <View style={S.singleScalaBoxes}>
-                                <View style={[S.singleScalaBox, S.singleScalaBox_greenActive]}></View>
-                                <View style={[S.singleScalaBox, S.singleScalaBox_greenActive]}></View>
-                                <View style={[S.singleScalaBox, S.singleScalaBox_greenActive]}></View>
-                                <View style={[S.singleScalaBox, S.singleScalaBox_greenActive]}></View>
-                                <View style={S.singleScalaBox}></View>
-                              </View>
-                            </Text>
-                          </View>
-
-                        </View>
-
-                    <View style={S.btnsWrapper}>
-                    <View style={S.btn}>
-                      <TouchableOpacity>
-                          <Text style={[S.btnDark, S.btnInner]}>
-                            Rediger
-                          </Text>
-                      </TouchableOpacity>
-                    </View>
-
-                    <View style={S.btn}>
-                      <TouchableOpacity>
-                          <Text style={[S.btnLight, S.btnInner]}>
-                            Se inlæg
-                          </Text>
-                      </TouchableOpacity>
-                    </View>
-                        </View>
-
-                </View>
-
+                  <Text style={S.section_title}>
+                    Mine indlæg
+                  </Text>
+                  {this.props.diary && this.props.diary.comments && this.props.diary.comments[0] ? this.diaryEntriesList() : null}
               </View>
               <View style={{height: screenHeight/5}}></View>
           </ScrollView>
@@ -342,4 +290,21 @@ class Diary extends Component {
   }
 }
 
-export default Diary;
+mapStateToProps = state => {
+  return {
+    diary: state.users.userDiary
+  }
+}
+
+mapDispatchToProps = dispatch => {
+  return {
+    getDiaryEntries: () => {
+      dispatch(getDiaryForUser(0, 4))
+    },
+
+  }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Diary);

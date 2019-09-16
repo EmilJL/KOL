@@ -10,7 +10,7 @@ export default StyleSheet.create({
 	footer: {
 		flexDirection: 'row',
 		padding: 13,
-		height: 76,
+		height: 78,
 		width: '100%',
 		position: "absolute",
 	    bottom: 0,

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Keyboard, Modal, Text, TouchableOpacity, View, Alert, Image, Dimensions, StatusBar, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { connect } from 'react-redux';
-import { addQuestionForUser } from '../../redux/actions/actions.js';
+import { addQuestionForUser, addDiaryComment } from '../../redux/actions/actions.js';
 
 const style = StyleSheet.create({
   section: {
@@ -58,7 +58,12 @@ class GenericModal extends Component {
   };
   handleSaveClick = () => {
     if (this.state.title != '' && this.state.text != '') {
-      this.props.addQuestion(this.state.title, this.state.text);
+      if (this.props.type == 'userQuestion') {
+        this.props.addQuestion(this.state.title, this.state.text);
+      }
+      else if (this.props.type == 'diaryEntry'){
+        this.props.addDiaryEntry(this.state.title, this.state.text);
+      }
       this.props.hideModal();
     }
   }
@@ -67,12 +72,13 @@ class GenericModal extends Component {
   }
 
   componentDidMount () {
-
+    this.props.title ? this.setState({title: this.props.title}) : null;
+    this.props.text ? this.setState({text: this.props.text}) : null;
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
 
   componentWillUnmount () {
-
+ 
     this.keyboardDidHideListener.remove();
   }
 
@@ -108,13 +114,13 @@ class GenericModal extends Component {
                       <Text style={style.section_title}>TITEL</Text>
                       
                       <View>
-                        <TextInput keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} returnKeyType='next'  onChangeText={(value) => this.setState({title: value})} placeholder='Indtast din titel' placeholderTextColor='rgba(65,77,85,0.3)' style={{alignSelf: 'center', height: 50, fontSize: 16, borderRadius: 7, width: '100%', borderWidth: 1, paddingLeft: 20}}/>
+                        <TextInput value={this.state.title} maxLength={20} keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} returnKeyType='next'  onChangeText={(value) => this.setState({title: value})} placeholder='Indtast din titel' placeholderTextColor='rgba(65,77,85,0.3)' style={{alignSelf: 'center', height: 50, fontSize: 16, borderRadius: 7, width: '100%', borderWidth: 1, paddingLeft: 20}}/>
                       </View>
                       
                       <Text style={style.section_title}>SPØRGSMÅL</Text>
 
-                      <View>
-                        <TextInput returnKeyType='next' onEndEditing={() => this.setState({textHasFocus: false})} onFocus={() => this.setState({textHasFocus: true})} multiline={true} keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} onChangeText={(value) => this.setState({text: value})} placeholder='Skriv dit spørgsmål her' placeholderTextColor='rgba(65,77,85,0.3)' style={[{alignSelf: 'center', height: 50, borderRadius: 7, fontSize: 12, lineHeight: 20, minHeight: '100%', width: '100%', borderWidth: 1, padding: 20, textAlignVertical: 'top'}]}/>
+                      <View style={{height: '42%', width: '100%'}}>
+                        <TextInput value={this.state.text} returnKeyType='next' onEndEditing={() => this.setState({textHasFocus: false})} onFocus={() => this.setState({textHasFocus: true})} multiline={true} keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} onChangeText={(value) => this.setState({text: value})} placeholder='Skriv dit spørgsmål her' placeholderTextColor='rgba(65,77,85,0.3)' style={[{alignSelf: 'center',  borderRadius: 7, fontSize: 12, lineHeight: 20, height: '100%', width: '100%', borderWidth: 1, padding: 20, textAlignVertical: 'top'}]}/>
                       </View>
                    </View>
                   
@@ -133,10 +139,49 @@ class GenericModal extends Component {
           </Modal>
         </View>
       );
-      
     }
-    else if (this.props.type == 'otherUserQuestion'){
-      return <View></View>
+    else if (this.props.type == 'otherUserQuestion' || this.props.type == 'diaryEntry'){
+      return (
+        <View>
+           <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible} 
+            onRequestClose={() => {
+              this.props.hideModal();
+            }}>
+            <View style={{position: 'absolute', height: screenHeight+statusBarHeight+150, top: this.state.textHasFocus ? -20 : 0, width: screenWidth, backgroundColor: '#414D55', paddingTop: this.state.textHasFocus ? 0 : 110}}>
+              <TouchableOpacity onPress={() => {this.props.hideModal();}} style={{width: 38, height: 38, position: 'absolute',  top: this.state.textHasFocus ? 0 : 91, marginBottom: this.state.textHasFocus ? 29 : 0, right: 20, zIndex: 2}}>
+                      <Image rezizeMode={'contain'} source={require('../../assets/closeModal.png')} style={{width: '100%', height: '100%'}} />
+                </TouchableOpacity>
+              <View style={{flex: 1, paddingLeft: 20, paddingRight: 20}}>
+                <View style={{width: '100%', maxHeight: 471, minHeight: screenHeight-220, backgroundColor: '#FFFFFF', borderRadius: 7, paddingTop: 10}}>
+                   <View style={style.section}>
+                      <Text style={style.section_title}>TITEL</Text>
+                      
+                      <View>
+                        <TextInput value={this.state.title} maxLength={20} keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} returnKeyType='next'  onChangeText={(value) => this.setState({title: value})} placeholder='Indtast din titel' placeholderTextColor='rgba(65,77,85,0.3)' style={{alignSelf: 'center', height: 50, fontSize: 16, borderRadius: 7, width: '100%', borderWidth: 1, paddingLeft: 20}}/>
+                      </View>
+                      
+                      <Text style={style.section_title}>{this.props.type == 'otherUserQuestion' ? 'SPØRGSMÅL' : 'INDLÆG'}</Text>
+
+                      <View style={{height: '42%', width: '100%'}}>
+                        <TextInput value={this.state.text} returnKeyType='next' onEndEditing={() => this.setState({textHasFocus: false})} onFocus={() => this.setState({textHasFocus: true})} multiline={true} keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} onChangeText={(value) => this.setState({text: value})} placeholder='Skriv dit spørgsmål her' placeholderTextColor='rgba(65,77,85,0.3)' style={[{alignSelf: 'center',  borderRadius: 7, fontSize: 12, lineHeight: 20, height: '100%', width: '100%', borderWidth: 1, padding: 20, textAlignVertical: 'top'}]}/>
+                      </View>
+                   </View>
+                </View>
+                <TouchableOpacity style={{marginTop:-50}} onPress={() => this.handleSaveClick()}>
+                  <View style={[style.btn, {width: '100%'}]}>
+                    <Text style={style.btn_text}>
+                      Stil spørgsmål
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View> 
+            </View>
+          </Modal>
+        </View>
+      )
     }
     else if (this.props.type == 'diaryEntry'){
       return <View></View>
@@ -153,6 +198,9 @@ mapDispatchToProps = dispatch => {
     addQuestion: (title, question) => {
       dispatch(addQuestionForUser(title, question));
     },
+    addDiaryEntry: (title, text) => {
+      dispatch(addDiaryComment(text, title, 0));
+    }
   }
 } 
 

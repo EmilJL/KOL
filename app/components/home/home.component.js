@@ -12,7 +12,7 @@ import {
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import SideMenu from '../sideMenu/sideMenu.component.js';
-import { setCurrentTitle, logOut, getQuestionnairesForUser, getUserQuestions } from '../../redux/actions/actions.js';
+import { setCurrentTitle, logOut, getQuestionnairesForUser, getUserQuestions, getDiaryForUser } from '../../redux/actions/actions.js';
 import styles from '../../styles/styles.js';
 import Menu from '../menu/menu.js';
 import Graphs from '../graphs/graphs.js'
@@ -53,6 +53,7 @@ class Home extends Component {
   componentDidMount(){
     this.props.getQuestionnaires();
     this.props.getQuestions();
+    this.props.getDiaryEntries();
   }
   render(){
     this.props.setHeaderTitle('DASHBOARD');
@@ -104,6 +105,9 @@ mapDispatchToProps = dispatch => {
     },
     getQuestions: () => {
       dispatch(getUserQuestions(0, 4))
+    },
+    getDiaryEntries: () => {
+    	dispatch(getDiaryForUser(0, 4))
     }
   }
 } 
