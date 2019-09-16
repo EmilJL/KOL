@@ -1,12 +1,11 @@
 import React, {Fragment, Component} from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-S = StyleSheet.create({
+styles = StyleSheet.create({
 	footerQuestionBox: {
 		justifyContent: 'center',
 		alignItems: 'center',
-		flex: 1,
-		zIndex: 2
+		flex: 1
 	},
 	footerContentBox: {
 		justifyContent: 'center',
@@ -38,12 +37,12 @@ S = StyleSheet.create({
 
 const FooterItem = ({questionNumber, isActive}) => {
 	return (
-		<View style={S.footerQuestionBox}>
-			<View style={S.footerContentBox}>
-  				<Text style={[S.footerNumber, isActive ? S.footerNumber_Active : null]}>{questionNumber}</Text>
+		<View style={styles.footerQuestionBox}>
+			<View style={styles.footerContentBox}>
+  				<Text style={[styles.footerNumber, isActive ? styles.footerNumber_Active : null]}>{questionNumber}</Text>
   			</View>
-  			<View style={S.footerContentBox}>
-  				<View style={[S.footerCircle, isActive ? S.footerCircle_Active : null]}></View>
+  			<View style={styles.footerContentBox}>
+  				<View style={[styles.footerCircle, isActive ? styles.footerCircle_Active : null]}></View>
   			</View>
       	</View>
 	)

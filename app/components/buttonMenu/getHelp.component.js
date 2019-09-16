@@ -12,6 +12,10 @@ import {
   Dimensions
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { connect } from 'react-redux';
+import { getUserQuestions } from '../../redux/actions/actions.js';
+import GenericModal from '../modal/modal.component.js'; 
+
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 S = StyleSheet.create({
@@ -165,7 +169,7 @@ S = StyleSheet.create({
     lineHeight: 24,
     borderRadius: 10,
     position: 'relative',
-    minHeight: 180
+    minHeight: 154
   },
   textBubbleText: {
       lineHeight: 24,
@@ -190,17 +194,62 @@ S = StyleSheet.create({
 });
 
 class GetHelp extends Component {
-
+  state={
+    modalVisible: false
+  }
+  componentDidMount(){
+    this.props.getQuestions();
+  }
+  questionsList() {
+    console.log('amount of qs: ');
+    console.log(this.props.questionsForUser);
+    console.log(this.props.questionsForUser.length);
+    for (var i = 0; i < this.props.questionsForUser.length; i++) {
+      return (
+            <View style={S.yourQuestion}>
+              <View style={S.questionContent}>
+                <Image resizeMode={'contain'} style={S.profilePic} source={require('../../assets/testProfilePic.png')} />
+                <Text style={[S.questionCount, {opacity: 0}]}>
+                  0
+                </Text>
+                <View style={S.contentWrapper}>
+                  <Text style={S.questionTitle}>
+                    Problemer med lungerne
+                  </Text>
+                  <View style={{width: '100%'}}>
+                    <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['transparent', '#fff']} style={S.linearGradient}>
+                    </LinearGradient>
+                    <Text multiline={false} style={S.questionDescription}>
+                      Hej, jeg har lige et hurtigt spørgsmål og og og og og og 
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <TouchableOpacity style={{paddingLeft: 20, paddingRight: 20}}>
+                <View style={S.answerBtn}>
+                  <Text style={S.answerBtnText}>
+                    Se svar
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          );
+    } 
+  }
+  hideModal = () => {
+    this.setState({modalVisible: false});
+  }
   render(){
     return (
       <View style={[S.scrollView, {width: screenWidth, paddingTop: screenHeight/13}]}>
+        {this.state.modalVisible ? <GenericModal hideModal={() => this.hideModal()} type={'userQuestion'}/> : null}
         <ScrollView>
         <View style={[S.section,{paddingTop: 20}]}>
           <Text style={S.section_title}>
               Stil et spørgsmål
           </Text>
             <View style={S.boxTop}>
-              <TouchableOpacity style={[S.btn, {width: screenWidth*0.8}]} onPress={() => this.handleSaveClick()}>
+              <TouchableOpacity style={[S.btn, {width: screenWidth*0.8}]} onPress={() => this.setState({modalVisible: true})}>
                 <View>
                   <Text style={S.btn_text}>
                     Stil et ny spørgsmål
@@ -226,115 +275,7 @@ class GetHelp extends Component {
               Dine spørgsmål
           </Text>
           <View style={S.box}>
-
-            <View style={S.yourQuestion}>
-
-              <View style={S.questionContent}>
-                <Image resizeMode={'contain'} style={S.profilePic} source={require('../../assets/testProfilePic.png')} />
-
-                <Text style={[S.questionCount, {opacity: 0}]}>
-                  0
-                </Text>
-
-                <View style={S.contentWrapper}>
-
-                  <Text style={S.questionTitle}>
-                    Problemer med lungerne
-                  </Text>
-
-                  <View style={{width: '100%'}}>
-                    <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['transparent', '#fff']} style={S.linearGradient}>
-                    </LinearGradient>
-                    <Text multiline={false} style={S.questionDescription}>
-                      Hej, jeg har lige et hurtigt spørgsmål og og og og og og 
-                    </Text>
-                  </View>
-
-                </View>
-              </View>
-
-              <TouchableOpacity style={{paddingLeft: 20, paddingRight: 20}}>
-                <View style={S.answerBtn}>
-                  <Text style={S.answerBtnText}>
-                    Se svar
-                  </Text>
-                </View>
-              </TouchableOpacity>
-
-            </View>
-
-            <View style={S.yourQuestion}>
-
-              <View style={S.questionContent}>
-                <Image resizeMode={'contain'} style={S.profilePic} source={require('../../assets/testProfilePic.png')} />
-
-                <Text style={S.questionCount}>
-                  2
-                </Text>
-
-                <View style={S.contentWrapper}>
-
-                  <Text style={S.questionTitle}>
-                    Problemer med lungerne
-                  </Text>
-
-                  <View style={{width: '100%', position: 'relative'}}>
-                    <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['transparent', '#fff']} style={S.linearGradient}>
-                    </LinearGradient>
-                    <Text multiline={false} style={S.questionDescription}>
-                      Hej, jeg har lige et hurtigt spørgsmål
-                    </Text>
-                  </View>
-                </View>
-              </View>
-
-              <TouchableOpacity style={{paddingLeft: 20, paddingRight: 20}}>
-                <View style={S.answerBtn}>
-                  <Text style={[S.answerBtnText, S.noAnswer]}>
-                    Ingen svar endnu
-                  </Text>
-                </View>
-              </TouchableOpacity>
-
-            </View>
-
-            <View style={S.yourQuestion}>
-
-              <View style={S.questionContent}>
-                <Image resizeMode={'contain'} style={S.profilePic} source={require('../../assets/testProfilePic.png')} />
-
-                <Text style={S.questionCount}>
-                  99
-                </Text>
-
-                <View style={S.contentWrapper}>
-
-                  <Text style={S.questionTitle}>
-                    Problemer med lungerne
-                  </Text>
-
-                  
-                  <View style={{width: '100%', position: 'relative'}}>
-                    <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={['transparent', '#fff']} style={S.linearGradient}>
-                    </LinearGradient>
-                    <Text multiline={false} style={S.questionDescription}>
-                      Hej, jeg har lige et hurtigt spørgsmål og og og og og og 
-                    </Text>
-                  </View>
-                </View>
-
-              </View>
-
-              <TouchableOpacity style={{paddingLeft: 20, paddingRight: 20}}>
-                <View style={S.answerBtn}>
-                  <Text style={S.answerBtnText}>
-                    Se svar
-                  </Text>
-                </View>
-              </TouchableOpacity>
-
-            </View>
-
+            {this.props.questionsForUser && this.props.questionsForUser.length > 0 ? this.questionsList() : null}
           </View>
         </View>
           <View style={{height: screenHeight/5}}></View>
@@ -344,5 +285,18 @@ class GetHelp extends Component {
   }
 };
 
+mapDispatchToProps = dispatch => {
+  return {
+    getQuestions: () => {
+      dispatch(getUserQuestions(0, 4))
+    }
+  }
+}
+mapStateToProps = state => {
+  return {
+    questionsForUser: state.users.userQuestions
+  }
+}
 
-export default GetHelp;
+
+export default connect(mapStateToProps, mapDispatchToProps)(GetHelp);

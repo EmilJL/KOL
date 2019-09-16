@@ -88,6 +88,7 @@ sQuestion:
 	notificationIsVisible: false,
 	attemptingCreateUser: false,
 	userQuestions: [],
+	userDiaryEntries: [],
 	userAnswers: [],
 	userQuestionsAnswered: [],
 	userQuestionsOthers: [],
@@ -152,6 +153,11 @@ const user = (state = initialState, action) => {
 				...state,
 				questionsRead: action.payload
 			};
+		case 'ADD_QUESTIONNAIRE':
+			return {
+				...state,
+				questionnaires: [...state.questionnaires, action.payload]
+			}
 		case 'ATTEMPT_GET_DIARY_FOR_USER':
 		case 'ATTEMPT_GET_QUESTIONS_FOR_USER':
 		case 'ATTEMPT_GET_ANSWERS_FOR_USER':

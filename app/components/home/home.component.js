@@ -12,7 +12,7 @@ import {
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import SideMenu from '../sideMenu/sideMenu.component.js';
-import { setCurrentTitle, logOut } from '../../redux/actions/actions.js';
+import { setCurrentTitle, logOut, getQuestionnairesForUser, getUserQuestions } from '../../redux/actions/actions.js';
 import styles from '../../styles/styles.js';
 import Menu from '../menu/menu.js';
 import Graphs from '../graphs/graphs.js'
@@ -50,6 +50,10 @@ class Home extends Component {
         return null;
     }
   }
+  componentDidMount(){
+    this.props.getQuestionnaires();
+    this.props.getQuestions();
+  }
   render(){
     this.props.setHeaderTitle('DASHBOARD');
     return (
@@ -72,7 +76,7 @@ class Home extends Component {
               <Menu handleNavigation={(routeName) => this.handleNavigation(routeName)} navigation={this.props.navigation} />
             </View>
             <View style={{width: '100%', marginTop: 40}}>
-              <Graphs />
+              {this.props.questionnaires[0] ? <Graphs /> : null}
             </View>
             <View style={{width: '100%', marginTop: 20}}>
               <QuestionsOthers />
@@ -86,6 +90,9 @@ class Home extends Component {
 
 mapDispatchToProps = dispatch => {
   return {
+    getQuestionnaires: () => {
+      dispatch(getQuestionnairesForUser('2019-01-01', '2019-12-31'))
+    },
     setHeaderTitle: (title) => {
       dispatch(setCurrentTitle(title));
     },
@@ -94,6 +101,9 @@ mapDispatchToProps = dispatch => {
     },
     logOut: () => {
       dispatch(logOut())
+    },
+    getQuestions: () => {
+      dispatch(getUserQuestions(0, 4))
     }
   }
 } 
@@ -101,7 +111,8 @@ mapDispatchToProps = dispatch => {
 mapStateToProps = state => {
   return {
     sideMenuIsVisible: state.users.sideMenuIsVisible,
-    user: state.users.user
+    user: state.users.user,
+    questionnaires: state.users.questionnaires
   }
 }
 

@@ -34,6 +34,8 @@ const attemptGetDiaryForUser = () => {
 	}
 }
 
+
+
 const SET_AGES = 'SET_AGES';
 const setAges = (ages) => {
 	return {
@@ -51,31 +53,55 @@ export const setAgesNow = () => {
 	}
 }
 
+export const addQuestionForUser = (title, question) => {
+	return (dispatch) => {
+		AsyncStorage.getItem('userId').
+		then((token) => {
+			fetch('https://my.kolapp.dk/wp-json/keu/v1/userquestions/insert', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + token
+				}),
+				body: JSON.stringify({
+					userquestion: question,
+					userquestiontitle: title
+				})
+			})
+			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				return dispatch(getUserQuestions(0, 4));
+			})
+			.catch((err) => console.log('error: ' + err))
+		}).catch((err) => console.log('error: ' + err))
+		
+	}
+}
+
+
+
 export const getDiaryForUser = (offset, limit) => {
-	return (dispatch, getState) => {
-		var token = getState().users.token;
-		fetch('https://my.kolapp.dk/wp-json/keu/v1/diary/my', {
-			method: 'POST',
-			headers: new Headers({
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token
-			}),
-			body: JSON.stringify({
-				offset: offset,
-				limit: limit
-			}),
-		})
-		.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
-			console.log(responseJson);
-			var diary = {
-				title: responseJson.post_title,
-				public: responseJson.post_status == "publish" ? true : false,
-				comments: responseJson.comments
-			}
-			return dispatch(setDiaryForUser(diary));
-		})
-		.catch(err => console.log(err));
+	return (dispatch) => {
+		AsyncStorage.getItem('userId').
+		then((token) =>{
+			fetch('https://my.kolapp.dk/wp-json/keu/v1/diary/my', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + token
+				}),
+				body: JSON.stringify({
+					offset: offset,
+					limit: limit
+				}),
+			})
+			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				return dispatch(setDiaryForUser(responseJson));
+			})
+			.catch(err => console.log(err));
+		}).catch(err => console.log(err));
+		
 	}
 }
 
@@ -94,29 +120,28 @@ const attemptAddDiaryComment = () => {
 	}
 }
 
-export const addDiaryComment = (comment) => {
-	return (dispatch, getState) => {
-		var token = getState().users.token;
-		var now = new Date();
-		fetch('https://my.kolapp.dk/wp-json/keu/v1/diary/insert', {
-			method: 'POST',
-			headers: new Headers({
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token
-			}),
-			body: JSON.stringify({
-				diarytitle: now.toString(),
-				diarytext: comment,
-				publish: 0
-			}),
-		})
-		.then((response) => {
-			var newDiary = getState().users.diary;
-			newDiary.comments.push(comment);
-			dispatch(setDiaryForUser(newDiary)); 
-		})
-		.catch(err => console.log(err));
+export const addDiaryComment = (text, title = '', visible) => {
+	return (dispatch) => {
+		AsyncStorage.getItem('userId').
+		then((token) => {
+			fetch('https://my.kolapp.dk/wp-json/ked/v1/diary/insert', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + token
+				}),
+				body: JSON.stringify({
+					diarytext: text,
+					diarytitle: title,
+					publish: visible
+				})
+			})
+			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				return dispatch(getDiaryForUser());
+			})
+			.catch((err) => console.log('error: ' + err))
+		}).catch((err) => console.log('error: ' + err))
 	}
 }
 
@@ -150,39 +175,28 @@ const attemptGetAnswersForUser = () => {
 }
 
 export const getUserQuestions = (offset, limit) => {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		dispatch(attemptGetQuestionsForUser());
-		var token = getState().users.token;
-		var now = new Date();
-		fetch('https://my.kolapp.dk/wp-json/keu/v1/userquestions/myquestions', {
-			method: 'POST',
-			headers: new Headers({
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + token
-			}),
-			body: JSON.stringify({
-				offset: offset,
-				limit: limit
-			}),
-		})
-		.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
-			console.log(responseJson);
-			var questions = responseJson.map(function(el) {
-				var o = Object.assign({}, el);
-				var q = {};
-				q.id = o.ID
-				q.userID = o.post_author; 
-				q.title = o.post_title;
-				q.posted = o.post_date;
-				q.text = o.post_content;
-				q.edited = o.post_modified;
-				q.comments = o.comments;
-				return q;
-			});
-			return dispatch(setUserQuestions(questions));
-		})
-		.catch(err => console.log(err));
+		AsyncStorage.getItem('userId').
+		then((token) =>{
+			fetch('https://my.kolapp.dk/wp-json/keu/v1/userquestions/myquestions', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + token
+				}),
+				body: JSON.stringify({
+					offset: offset,
+					limit: limit
+				}),
+			})
+			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				console.log('questions: ');
+				console.log(responseJson);
+				return dispatch(setUserQuestions(responseJson));
+			}).catch(err => console.log(err));
+		}).catch(err => console.log(err));
 	}
 }
 
@@ -192,8 +206,6 @@ export const getUserQuestionsAndAnswers = () => {
 	getUserQuestionsOthers();
 	return true;
 }
-
-
 
 export const getUserAnswers = (offset, limit) => {
 	return (dispatch, getState) => {
@@ -280,7 +292,7 @@ const setQuestionsRead = (questionsRead) => {
 }
 
 export const getUserQuestionsFromOthers = (offset, limit) => {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		var questions = [];
 		userIds = [];
 		dispatch(attemptGetQuestionsFromOthers());
@@ -300,8 +312,8 @@ export const getUserQuestionsFromOthers = (offset, limit) => {
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
 				console.log('the response: ');
 				console.log(responseJson);
-				var questionsRaw = responseJson;
-				questions = questions.map(function(el) {
+				var questions = responseJson;
+				/*questions = questions.map(function(el) {
 					var o = Object.assign({}, el);
 					var q = {};
 					q.id = o.ID
@@ -314,7 +326,7 @@ export const getUserQuestionsFromOthers = (offset, limit) => {
 					console.log('question: ');
 					console.log(q);
 					return q;
-				});
+				});*/
 				dispatch(setQuestionsFromOthers(questions));
 			})
 			.catch(err => console.log(err))
@@ -380,25 +392,27 @@ export const getUseByID = (id) => {
 }
 
 export const getQuestionnairesForUser = (startDate, endDate) => {
-	return (getState, dispatch) => {
-		var token = getState().users.token;
-		fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/get', {
-			method: 'POST',
-			headers: new Headers({
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + state.users.token
-			}),
-			body: JSON.stringify({
-				startdate: startDate,
-				endDate: endDate
-			}),
-		})
-		.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
-			console.log(responseJson);
-			return dispatch(setQuestionnairesForUser(responseJson));
-		})
-		.catch(err => console.log(err));
+	return (dispatch) => {
+		AsyncStorage.getItem('userId').
+		then((token) =>{
+			fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/get', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + token
+				}),
+				body: JSON.stringify({
+					startdate: startDate,
+					enddate: endDate
+				}),
+			})
+			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				console.log('questionnaires:');
+				console.log(responseJson);
+				return dispatch(addQuestionnaire(responseJson));
+			}).catch(err => console.log(err));
+		}).catch(err => console.log(err));
 	}
 }
 
@@ -408,37 +422,39 @@ const CHECK_QUESTIONNAIRE_ANSWERED = 'CHECK_QUESTIONNAIRE_ANSWERED';
 
 
 export const attemptAddQuestionnaire = (questionnaireAnswers) => {
-	return (getState, dispatch) => {
-		getState()
-		.then((state) => {
-			fetch('https://my.kolapp.dk/wp-json/keq/v1/questions/insert', {
+	return (dispatch) => {
+		AsyncStorage.getItem('userId').
+		then((token) => {
+			console.log('is this it? ');
+			console.log(token);
+			fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/insert', {
 				method: 'POST',
 				headers: new Headers({
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + state.users.token
+					'Authorization': 'Bearer ' + token
 				}),
 				body: JSON.stringify({
 					answers: questionnaireAnswers
-				}),
+				})
 			})
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				console.log('response for adding questionnaire: ');
 				console.log(responseJson);
-				var questionnaire = {
+				var questionnaire = [];
+				questionnaire.push({
 					id: responseJson,
 					answers: questionnaireAnswers
-				}
-				var questionnaires = getState().users.questionnaires;
-				questionnaires.push(questionnaireAnswers)
-				return dispatch(setQuestionnairesForUser(questionnaires));
+				});
+				return dispatch(addQuestionnaire(questionnaire));
 			})
-			.catch(err => console.log(err))
-		}).catch(err => console.log(err))
+			.catch((err) => console.log('error: ' + err))
+		}).catch((err) => console.log('error: ' + err))
 		
 	}
 }
 
-const ADD_QUESTIONNAIRE = 'ADD_QUESTIONNAIRE_ANSWER';
+const ADD_QUESTIONNAIRE = 'ADD_QUESTIONNAIRE';
 const addQuestionnaire = (questionnaire) => {
 	return {
 		type: ADD_QUESTIONNAIRE,
@@ -688,10 +704,10 @@ export const attemptCreateUserStepTwo = (age, sex, questionnaire, token) => {
 			user.age = age;
 			user.sex = sex;
 			console.log(user);
-			return dispatch(createUserSuccess(user));
+			dispatch(createUserSuccess(user));
 		})
 		.then(() => {
-			return fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/insert', {
+			fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/insert', {
 				method: 'POST',
 				headers: new Headers({
 					Accept: 'application/json',
@@ -699,13 +715,13 @@ export const attemptCreateUserStepTwo = (age, sex, questionnaire, token) => {
 					'Authorization': 'Bearer ' + token
 				}),
 				body: JSON.stringify({
-					metadata: {
 						answers: questionnaire
-					}
 				})
 			})
 			.then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
-				return dispatch(createUserComplete());;
+				console.log('her skulle så også addes: ');
+				console.log(responseJson);
+				return dispatch(createUserComplete());
 			}).
 			catch((err) => console.log(err));
 		})

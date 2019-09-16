@@ -9,7 +9,7 @@ const TabIcon = ({ name, color, size, style, ...props }) => {
   if (name==='email') {
   	return (
   		<View style={[{flex: 1}, style]}>
-  			<Icon color={color} name={name} size={size}/>
+  			<Icon color={color} name={name} size={30}/>
   		</View>
   	);
   }
@@ -17,7 +17,7 @@ const TabIcon = ({ name, color, size, style, ...props }) => {
   else{
   	return(
   		<View style={[{flex: 1}, style]}>
-  			<Icons color={color} name={name} size={size}/>
+  			<Icons color={color} name={name} size={30}/>
   		</View>
   	);	
   }

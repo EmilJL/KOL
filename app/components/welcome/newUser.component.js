@@ -249,7 +249,7 @@ class NewUser extends Component{
             <View style={{height: 99, width: '100%'}}>
               <Text style={[{height: 14, width: '100%', fontSize: 12}, this.state.inputFontStyleName]}>NAVN</Text>
               <View style={{height: 50, marginTop: 15}}>
-                <TextInput keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} returnKeyType='next' onEndEditing={() => this.handleFocusLoss('name')} onFocus={() => {this.handleFocus('name', screenHeight/4.5)}}onChangeText={(value) => this.handleTextInput(value, 'name')} placeholder='Indtast navn' placeholderTextColor='lightgrey' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStyleName]}/>
+                <TextInput keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} returnKeyType='next' onEndEditing={() => this.handleFocusLoss('name')} onFocus={() => {this.handleFocus('name', screenHeight/4.5)}}onChangeText={(value) => this.handleTextInput(value, 'name')} placeholder='Indtast navn' placeholderTextColor='rgba(65,77,85,0.3)' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStyleName]}/>
               </View>
               <View style={{height: 20, width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                   <Text style={{textAlign: 'right', alignSelf: 'stretch', fontSize: 10, height: 12, width: '100%', color: 'red', paddingRight: 2}}>{this.state.errorTextName}</Text>
@@ -258,7 +258,7 @@ class NewUser extends Component{
             <View style={{height: 99, width: '100%'}}>
               <Text style={[{height: 14, width: '100%', fontSize: 12}, this.state.inputFontStyleEmail]}>E-MAIL</Text>
               <View style={{height: 50, marginTop: 15}}>
-                <TextInput keyboardType={'email-address'} ref={(input) => { this.emailTextInput = input; }} returnKeyType='next' onChangeText={(value) => this.handleTextInput(value, 'email')} onEndEditing={() => this.handleFocusLoss('email')} onFocus={() => {this.handleFocus('email', screenHeight/2.9)}} placeholder='Indtast e-mail' placeholderTextColor='lightgrey' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStyleEmail]}/>
+                <TextInput keyboardType={'email-address'} ref={(input) => { this.emailTextInput = input; }} returnKeyType='next' onChangeText={(value) => this.handleTextInput(value, 'email')} onEndEditing={() => this.handleFocusLoss('email')} onFocus={() => {this.handleFocus('email', screenHeight/2.9)}} placeholder='Indtast e-mail' placeholderTextColor='rgba(65,77,85,0.3)' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStyleEmail]}/>
               </View> 
               <View style={{height: 20, width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                   <Text style={{textAlign: 'right', alignSelf: 'stretch', fontSize: 10, height: 12, width: '100%', color: 'red', paddingRight: 2}}>{this.state.errorTextEmail}</Text>
@@ -267,7 +267,7 @@ class NewUser extends Component{
             <View style={{height: 99, width: '100%'}}>
               <Text style={[{flex: 1, fontSize: 12}, this.state.inputFontStylePassword]}>PASSWORD</Text>
               <View style={{height: 50, marginTop: 15}}>
-                <TextInput keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} ref={(input) => { this.passwordTextInput = input; }} returnKeyType='next' onChangeText={(value) => this.handleTextInput(value, 'password')} onEndEditing={() => this.handleFocusLoss('password')} onFocus={() => {this.handleFocus('password', screenHeight/2.185)}} secureTextEntry={true} placeholder='Indtast password' placeholderTextColor='lightgrey' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStylePassword]}/>
+                <TextInput keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} ref={(input) => { this.passwordTextInput = input; }} returnKeyType='next' onChangeText={(value) => this.handleTextInput(value, 'password')} onEndEditing={() => this.handleFocusLoss('password')} onFocus={() => {this.handleFocus('password', screenHeight/2.185)}} secureTextEntry={true} placeholder='Indtast password' placeholderTextColor='rgba(65,77,85,0.3)' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStylePassword]}/>
               </View> 
               <View style={{height: 20, width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                   <Text style={{textAlign: 'right', alignSelf: 'stretch', fontSize: 10, height: 12, width: '100%', color: 'red', paddingRight: 2}}>{this.state.errorTextPassword} </Text>
@@ -276,7 +276,7 @@ class NewUser extends Component{
             <View style={{height: 99, width: '100%'}}>
               <Text style={[{height: 14, width: '100%', fontSize: 12}, this.state.inputFontStyleRepeatedPassword]}>INDTAST PASSWORD IGEN</Text>
               <View style={{height: 50, marginTop: 15}}>
-                <TextInput keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} ref={(input) => { this.repeatedPasswordTextInput = input; }} returnKeyType='done' onChangeText={(value) => this.handleTextInput(value, 'repeatedPassword')} onEndEditing={() => this.handleFocusLoss('repeatedPassword')} onFocus={() => {this.handleFocus('repeatedPassword', screenHeight/2.185)}} secureTextEntry={true} placeholder='Gentag password' placeholderTextColor='lightgrey' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStyleRepeatedPassword]}/>
+                <TextInput keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} ref={(input) => { this.repeatedPasswordTextInput = input; }} returnKeyType='done' onChangeText={(value) => this.handleTextInput(value, 'repeatedPassword')} onEndEditing={() => this.handleFocusLoss('repeatedPassword')} onFocus={() => {this.handleFocus('repeatedPassword', screenHeight/2.185)}} secureTextEntry={true} placeholder='Gentag password' placeholderTextColor='rgba(65,77,85,0.3)' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStyleRepeatedPassword]}/>
               </View>
               <View style={{height: 20, width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                   <Text style={{textAlign: 'right', alignSelf: 'stretch', fontSize: 10, height: 12, width: '100%', color: 'red', paddingRight: 2}}>{this.state.errorTextRepeatedPassword}</Text>

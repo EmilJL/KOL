@@ -8,17 +8,15 @@ import {
   StatusBar,
   Button
 } from 'react-native';
-
+import GenericModal from '../modal/modal.component.js';
 
 class SendText extends Component {
 
   render(){
     return (
-      <Fragment>
-        <SafeAreaView style={{flex: 1, alignContent: 'center', justifyContent: 'center', backgroundColor: '#f0f0f0'}}>
-          <Text style={{textAlign: 'center', fontSize: 30}}>Send Text</Text>
-        </SafeAreaView>
-      </Fragment>
+      <View>
+        <GenericModal type={'userQuestion'}/>
+      </View>
     );
   }
 };

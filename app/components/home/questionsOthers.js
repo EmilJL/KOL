@@ -11,7 +11,7 @@ import {
   ListView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getUserQuestionsFromOthers, testOfDoom } from '../../redux/actions/actions.js';
+import { getUserQuestionsFromOthers, testOfDoom, attemptAddQuestionnaire } from '../../redux/actions/actions.js';
 import QuestionItem from './questionItem.js';
 
 const S = StyleSheet.create({
@@ -126,44 +126,55 @@ const S = StyleSheet.create({
 
 class QuestionsOthers extends Component {
 	state={
-		offset: 0,
-		numbersShown: 2,
+		questionsShown: 3,
 		pageNumber: 1,
-		maxPages: 16
+		questionsLoaded: 0
 	}
+
 	questionList() {
+		var pageNumber = this.state.pageNumber;
+		var questionsShown = this.state.questionsShown;
 		return this.props.questions.map((question, index) => {
-			if (index === 0) {
-				return (
-					<QuestionItem key={question.id} date={question.posted} questionTitle={question.title} questionUser={question.userID} />
-				)
-			}
-			else{
-				return (
-					<View key={index}>
-						<View style={S.borderLine}></View>
-						<QuestionItem key={question.id} date={question.posted} questionTitle={question.title} questionUser={question.userID} />
-					</View>
-				)
+			if (index <= (pageNumber*questionsShown) - 1 && pageNumber === 1 || index <= (pageNumber*questionsShown) - 1 && index >= ((pageNumber-1) * questionsShown)) {
+				if (index === 0) {
+					return (
+						<QuestionItem key={question.ID} date={question.post_date} questionTitle={question.post_title} questionUser={question.post_author} />
+					)
+				}
+				else{
+					return (
+						<View key={index}>
+							<View style={S.borderLine}></View>
+							<QuestionItem key={question.ID} date={question.post_date} questionTitle={question.post_title} questionUser={question.post_author} />
+						</View>
+					)
+				}
 			}
 		})
 	}
 	handleQuestionsClick = (type) => {
+	
+		console.log(this.props.questionnaires);
 		var pageNumber = this.state.pageNumber;
-		var offset = this.state.offset;
+		var questionsLoaded = this.state.questionsLoaded;
 		if(type === 'back' && pageNumber != 1){
 			pageNumber--;
-			offset = offset-this.state.numbersShown;
+			this.setState({pageNumber});
 		}
-		else if(type === 'forward' && pageNumber != this.state.maxPages){
+		else if(type === 'forward' && !(pageNumber*this.state.questionsShown > this.props.questions.length)) {
 			pageNumber++;
-			offset = offset+this.state.numbersShown;
+			this.setState({pageNumber});
+			if ((pageNumber*this.state.questionsShown)+this.state.questionsShown >= questionsLoaded) {
+				console.log('hmm?: ' + questionsLoaded);
+				this.props.getQuestions(questionsLoaded, questionsLoaded);
+				questionsLoaded = questionsLoaded*2;
+				this.setState({questionsLoaded});
+			}
 		}
-		this.setState({pageNumber, offset});
-		this.props.getQuestions(offset, numbersShown);
+		
 	}	
 	componentDidMount() {
-		this.props.getQuestions(this.state.offset, this.state.numbersShown);
+		this.props.getQuestions(0, 30);
 	}
 	render(){
 		
@@ -214,10 +225,10 @@ class QuestionsOthers extends Component {
 					</TouchableOpacity>
 					<View style={[S.paginationActions, {flex: 2, justifyContent: 'center', alignItems: 'center'}]}>
 						<Text style={[S.paginationText, S.paginationPageCount, {justifyContent: 'center', alignItems: 'center'}]}>
-							{'Side ' + this.state.pageNumber + ' af ' + this.state.maxPages}
+							{'Side ' + this.state.pageNumber + ' af ' + Math.round(this.props.questions.length/this.state.questionsShown)}
 						</Text>
 					</View>
-					<TouchableOpacity onPress={() => this.props.test()}>
+					<TouchableOpacity onPress={() => this.handleQuestionsClick('forward')}>
 						<View style={S.paginationActions}>
 							<Text style={[S.paginationText, S.paginationArrowRight]}>
 								>
@@ -233,7 +244,8 @@ class QuestionsOthers extends Component {
 
 const mapStateToProps = state => {
 	return {
-		questions: state.users.userQuestionsOthers
+		questions: state.users.userQuestionsOthers,
+		questionnaires: state.users.questionnaires
 	}
 }
 
@@ -243,7 +255,10 @@ const mapDispatchToProps = dispatch => {
 			dispatch(getUserQuestionsFromOthers(offset, limit))
 		},
 		test: () => {
-			dispatch(testOfDoom());
+			dispatch(testOfDoom())
+		},
+		addQuestionnaire: (questionnaireAnswers) => {
+			dispatch(attemptAddQuestionnaire(questionnaireAnswers))
 		}
 	}
 }

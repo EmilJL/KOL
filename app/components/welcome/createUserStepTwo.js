@@ -74,17 +74,19 @@ class CreateUserStepTwo extends Component{
   handleSaveClick = () => {
   	if (this.state.questionAnswers.length == 9) {
   		var answers = 
-    	[
-    		{1: this.state.questionAnswers[0]},
-    		{3: this.state.questionAnswers[1]},
-    		{4: this.state.questionAnswers[2]},
-    		{5: this.state.questionAnswers[3]},
-    		{6: this.state.questionAnswers[4]},
-    		{7: this.state.questionAnswers[5]},
-    		{8: this.state.questionAnswers[6]},
-    		{9: this.state.questionAnswers[7]},
-    		{10: this.state.questionAnswers[8]},
-    	];
+    	{
+    		'1': this.state.questionAnswers[0],
+    		'3': this.state.questionAnswers[1],
+    		'4': this.state.questionAnswers[2],
+    		'5': this.state.questionAnswers[3],
+    		'6': this.state.questionAnswers[4],
+    		'7': this.state.questionAnswers[5],
+    		'8': this.state.questionAnswers[6],
+    		'9': this.state.questionAnswers[7],
+    		'10': this.state.questionAnswers[8],
+    	};
+    	console.log('final answers');
+    	console.log(answers);
     	var age = this.state.pickedAge;
     	var sex = this.state.genderSelected;
     	var token = this.props.token;
@@ -109,6 +111,8 @@ class CreateUserStepTwo extends Component{
 	        answers = this.state.questionAnswers.concat(answerValue);
 	        var position = this.state.topQuestionPosition;
 	        this.myScroll.scrollTo({x: 0, y: position+(index*149), animated: true})
+	        console.log('answers: ');
+	        console.log(answers);
 	    }
 	    else{
 	    	answers = this.state.questionAnswers;
@@ -135,13 +139,13 @@ class CreateUserStepTwo extends Component{
     const questionnaireQuestions = this.props.questionnaireQuestions
     if (this.props.createUserComplete) {
     	return(
-        <LoadingComponent path={'DrawerFlow'}  navigation={this.props.navigation} />
+        <LoadingComponent path={'DrawerFlow'} isNewUser={true} navigation={this.props.navigation} />
       );
     }
     else{
 		return(
 			
-	      <View style={{position: 'absolute', bottom: 0, height:  screenHeight, width: screenWidth, paddingTop: screenHeight/13+statusBarHeight, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
+	      <View style={{position: 'absolute', bottom: 0, height: screenHeight, width: screenWidth, paddingTop: statusBarHeight, backgroundColor: 'rgba(0, 0, 0, 0.8)'}}>
 	       <View style={{flex: 1, backgroundColor: '#F7F8FA'}}>
 	        <ScrollView style={{flex: 1, backgroundColor: '#F7F8FA'}} ref={(ref) => {this.myScroll = ref}}>
 	          <View style={S.intro}>
@@ -151,7 +155,7 @@ class CreateUserStepTwo extends Component{
 	            <Text style={S.intro_welcome_span}>
 	              {this.props.nickname}
 	            </Text>
-	            <Text style={S.intro_date}>
+	            <Text style={[S.intro_date, {marginBottom: 12}]}>
 	              Fredag d. 12 maj 2019
 	            </Text>
 	          </View>
@@ -258,8 +262,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createUser: (age, sex, answers) => {
-      dispatch(attemptCreateUserStepTwo(age, sex, answers));
+    createUser: (age, sex, answers, token) => {
+      dispatch(attemptCreateUserStepTwo(age, sex, answers, token));
     }
  }
 }

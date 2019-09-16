@@ -104,7 +104,7 @@ class TabBar extends React.Component {
 							        const isRouteActive = routeIndex === activeRouteIndex;
 							        const tintColor = isRouteActive ? activeTintColor : inactiveTintColor;
 							        var extraStyles = {};
-							        extraStyles = {flex: 1, paddingBottom: '12%', paddingTop: '12%'};
+							        extraStyles = {flex: 1, paddingBottom: '12%', paddingTop: '14%'};
 							        if (route.key == 'MainNavigator') 
 							        {
 							        	return null;
@@ -112,7 +112,7 @@ class TabBar extends React.Component {
 
 							        else{
 							        	if(route.key === 'Inbox'){
-							    			extraStyles = {flex: 1, marginRight: '24%', paddingBottom: '12%', paddingTop: '12%'};
+							    			extraStyles = {flex: 1, marginRight: '24%', paddingBottom: '12%', paddingTop: '14%'};
 										}
 										
 							        	return (
@@ -130,7 +130,7 @@ class TabBar extends React.Component {
 								            accessibilityLabel={getAccessibilityLabel({ route })}
 								          >
 								            {renderIcon({ route, focused: isRouteActive, tintColor })}
-								            <Text style={{color: tintColor, fontSize: screenHeight/50}}>{getLabelText({ route })}</Text>
+								            <Text style={{color: tintColor, fontSize: 10, marginBottom: 5}}>{getLabelText({ route })}</Text>
 								          </TouchableOpacity>
 								        );
 							        }
