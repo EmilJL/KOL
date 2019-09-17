@@ -13,7 +13,7 @@ import {
   Image
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getDiaryForUser } from '../../redux/actions/actions.js';
+import { getDiaryForUser, setModal } from '../../redux/actions/actions.js';
 import GenericModal from '../modal/modal.component.js'; 
 
 
@@ -193,12 +193,12 @@ class Diary extends Component {
     textFieldIsActive: false,
     diaryDate: 'Skrevet d. 29 Nov 2019',
     modalVisible: false,
-    modalVisibleWithValues: false,
-    title: '',
-    text: ''
+    modalVisibleWithValues: false
   }
   diaryEntriesList () {
     var title = this.props.diary.post_title;
+    console.log('diary: ');
+    console.log(this.props.diary);
     return this.props.diary.comments.map((entry, index) => {
       return (
           <View key={index} style={S.box}>
@@ -217,7 +217,7 @@ class Diary extends Component {
            </View>
               <View style={S.btnsWrapper}>
                 <View style={S.btn}>
-                  <TouchableOpacity onPress={()=> this.setState({title: title, text: entry.comment_content, modalVisibleWithValues: true})}>
+                  <TouchableOpacity onPress={()=> this.props.setModal(true, 'diaryEntry', entry.comment_content, entry.post_title, true)}>
                     <Text style={[S.btnDark, S.btnInner]}>
                       Rediger
                     </Text>
@@ -234,38 +234,17 @@ class Diary extends Component {
           </View>
         )
     })
-     
-  }
-  handleFocusChanges = (type, isFocus)=> {
-    switch (type) {
-      case 'textFieldIsActive' :
-        return this.setState({textFieldIsActive: isFocus})
-
-      case 'title' : 
-        return this.setState({titleIsActive: isFocus})
-
-      default:
-        return null
-    }
-  }
-  hideModal = () => {
-    this.setState({modalVisible: false});
-  }
-  hideModalWithValues = () => {
-    this.setState({modalVisibleWithValues: false});
   }
   render(){
     return(
       <View style={[S.scrollView, {width: screenWidth, paddingTop: screenHeight/13}]}>
-        {this.state.modalVisible ? <GenericModal hideModal={() => this.hideModal()} type={'diaryEntry'}/> : null}
-        {this.state.modalVisibleWithValues ? <GenericModal hideModal={() => this.hideModalWithValues()} title={this.state.title} text={this.state.text} type={'diaryEntry'}/> : null}
         <ScrollView>
               <View style={[S.section, {paddingTop: 20}]}>
                 <Text style={S.section_title}>
                     Tilføj nyt indlæg i min dagbog
                 </Text>
                 <View style={S.boxTop}>
-                  <TouchableOpacity style={[S.btn_top, {width: screenWidth*0.8}]} onPress={() => this.setState({modalVisible: true})}>
+                  <TouchableOpacity style={[S.btn_top, {width: screenWidth*0.8}]} onPress={() => this.props.setModal(true, 'diaryEntry', '', '', true)}>
                     <View>
                       <Text style={S.btn_top_text}>
                         Skriv nyt indlæg
@@ -301,7 +280,9 @@ mapDispatchToProps = dispatch => {
     getDiaryEntries: () => {
       dispatch(getDiaryForUser(0, 4))
     },
-
+    setModal: (isVisible, type, text, title, editable) => {
+      dispatch(setModal(isVisible, type, text, title, editable));
+    } 
   }
 }
 

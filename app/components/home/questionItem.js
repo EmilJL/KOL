@@ -123,33 +123,36 @@ const S = StyleSheet.create({
 class QuestionItem extends Component {
 	render(){
 		console.log('renderJeg?');
+		console.log(this.props.id);
 		return(
 			<View style={S.question}>
-				<Text style={S.questionDateTime}>
-					{this.props.date}
-				</Text>
+				
+					<Text style={S.questionDateTime}>
+						{this.props.date}
+					</Text>
 
-				<Text style={S.questionTitle}>
-					{this.props.questionTitle}	
-				</Text>
+					<Text style={S.questionTitle}>
+						{this.props.questionTitle}	
+					</Text>
 
-				<Text style={S.questionBy}>
-					{this.props.questionUser}	
-				</Text>
-
-				<View style={S.btns}>
-					<View style={S.btn}>
-						<Text style={S.btnText}>
-							Læs mere
-						</Text>
+					<Text style={S.questionBy}>
+						{this.props.questionUser}	
+					</Text>
+				
+					<View style={S.btns}>
+						<View style={S.btn}>
+							<Text style={S.btnText}>
+								Læs mere
+							</Text>
+						</View>
+						<TouchableOpacity onPress={() => this.props.handleQuestionClick(this.props.questionText, this.props.questionTitle, this.props.date, this.props.id)}>
+						<View style={S.btn}>
+							<Text style={S.btnText}>
+								Besvar
+							</Text>
+						</View>
+						</TouchableOpacity>
 					</View>
-
-					<View style={S.btn}>
-						<Text style={S.btnText}>
-							Besvar
-						</Text>
-					</View>
-				</View>
 			</View>
 		);
 	}

@@ -26,6 +26,7 @@ const DrawerNavigator = createDrawerNavigator(
     drawerBackgroundColor: 'rgba(255,255,255,.9)',
     overlayColor: 'rgba(0,0,0,0)',
     contentComponent: DrawerContentComponent,
+    drawerLockMode: 'locked-open',
     contentOptions: {
       activeTintColor: '#fff',
       activeBackgroundColor: '#6b52ae',

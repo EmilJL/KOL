@@ -17,19 +17,29 @@ import { logOut } from '../../redux/actions/actions.js';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 class Header extends Component {
+    state={
+      drawerOpen: false
+    }
     handleLogout = () => {
       this.props.logOut();
       this.props.navigation.navigate('AuthenticationFlow');
     }
     handleBurgerMenuClick = () => {
-         return this.props.navigation.dispatch(DrawerActions.toggleDrawer())
+      if (this.state.drawerOpen) {
+        this.setState({drawerOpen: false})
+        return this.props.navigation.dispatch(DrawerActions.closeDrawer())
+      }
+      else{
+        this.setState({drawerOpen: true})
+        return this.props.navigation.dispatch(DrawerActions.openDrawer())
+      }
     }    
     render(){
         const screenHeight = Math.round(Dimensions.get('window').height);
         const screenWidth = Math.round(Dimensions.get('window').width);
         const styleNotifications = this.props.notifications ? (this.props.notifications.length>0 ? {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%', backgroundColor: 'red'} : {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}) : {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'};
         if (this.props.navigation.state.routeName != 'AuthenticationFlow') {
-            if(this.props.navigation.state.routes[1].isDrawerOpen){
+            if(this.state.drawerOpen){
               return (
               <View style={{position: 'absolute', top: 0, borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 

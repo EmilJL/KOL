@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
-import { getUserQuestions } from '../../redux/actions/actions.js';
+import { getUserQuestions, setModal } from '../../redux/actions/actions.js';
 import GenericModal from '../modal/modal.component.js'; 
 
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -194,9 +194,6 @@ S = StyleSheet.create({
 });
 
 class GetHelp extends Component {
-  state={
-    modalVisible: false
-  }
   componentDidMount(){
     this.props.getQuestions();
   }
@@ -209,7 +206,7 @@ class GetHelp extends Component {
             <View key={index} style={S.yourQuestion}>
               <View style={S.questionContent}>
                 <Image resizeMode={'contain'} style={S.profilePic} source={require('../../assets/testProfilePic.png')} />
-                <Text style={[S.questionCount, {opacity: 0}]}>
+                <Text style={[S.questionCount, {opacity: question.comments.length > 0 ? 1 : 0}]}>
                   {question.comments.length}
                 </Text>
                 <View style={S.contentWrapper}>
@@ -228,7 +225,7 @@ class GetHelp extends Component {
               <TouchableOpacity style={{paddingLeft: 20, paddingRight: 20}}>
                 <View style={S.answerBtn}> 
                   <Text style={S.answerBtnText}>
-                    Se svar
+                    {question.comments.length > 0 ? 'Se svar' : 'Ingen svar endnu'}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -237,20 +234,17 @@ class GetHelp extends Component {
     })
     
   }
-  hideModal = () => {
-    this.setState({modalVisible: false});
-  }
+
   render(){
     return (
       <View style={{width: '100%', height: '100%', paddingTop: screenHeight/13}}>
-        {this.state.modalVisible ? <GenericModal hideModal={() => this.hideModal()} type={'userQuestion'}/> : null}
         <ScrollView>
         <View style={[S.section,{paddingTop: 20}]}>
           <Text style={S.section_title}>
               Stil et spørgsmål
           </Text>
             <View style={S.boxTop}>
-              <TouchableOpacity style={[S.btn, {width: screenWidth*0.8}]} onPress={() => this.setState({modalVisible: true})}>
+              <TouchableOpacity style={[S.btn, {width: screenWidth*0.8}]} onPress={() => this.props.setModal(true, 'userQuestion', '', '', true)}>
                 <View>
                   <Text style={S.btn_text}>
                     Stil et ny spørgsmål
@@ -297,6 +291,9 @@ mapDispatchToProps = dispatch => {
   return {
     getQuestions: () => {
       dispatch(getUserQuestions(0, 4))
+    },
+    setModal: (isVisible, type, text, title, editable) => {
+      dispatch(setModal(isVisible, type, text, title, editable));
     }
   }
 }

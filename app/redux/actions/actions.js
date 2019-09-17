@@ -306,7 +306,7 @@ export const getUserQuestionsFromOthers = (offset, limit) => {
 			}),
 			body: JSON.stringify({
 				offset: offset,
-				limit: limit
+				limit: 200
 			}),
 			})
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
@@ -423,6 +423,28 @@ export const getQuestionnairesForUser = (startDate, endDate) => {
 	}
 }
 
+
+export const setModal = (isVisible, type, text, title, editable = true, date = null, id = null) => {
+	return (dispatch) => {
+		var modal = {isVisible, type, text, title, editable, date, id};
+		return dispatch(setModalStatus(modal));
+	}
+}
+
+export const clearAndCloseModal = () => {
+	return (dispatch) => {
+		var modal = {isVisible: false, type: '', text: '', title: '', editable: false};
+		return dispatch(setModalStatus(modal));
+	}
+}
+
+const SET_MODAL_STATUS = 'SET_MODAL_STATUS';
+const setModalStatus = (modal) => {
+	return {
+		type: SET_MODAL_STATUS,
+		payload: modal
+	}
+}
 
 
 const CHECK_QUESTIONNAIRE_ANSWERED = 'CHECK_QUESTIONNAIRE_ANSWERED';
@@ -653,6 +675,37 @@ const attemptGetQuestionnaireQuestions = (token) => {
 			.catch(err => console.log(err));
 		}
 }
+
+export const addCommentForQuestion = (comment, id) => {
+		console.log('did ID get this far?');
+		console.log(id);
+		return (dispatch) => {
+		AsyncStorage.getItem('userId').
+		then((token) => {
+			fetch('https://my.kolapp.dk/wp-json/keu/v1/useranswer/insert', {
+				method: 'POST',
+				headers: new Headers({
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + token
+				}),
+				body: JSON.stringify({
+					useranswer: comment,
+					userquestionid: id
+				})
+			})
+			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				console.log('response for adding comment on question: ');
+				console.log(responseJson);
+				dispatch(clearAndCloseModal());
+				return dispatch(getUserQuestionsFromOthers(0, 200));
+			})
+			.catch((err) => console.log('error: ' + err))
+		}).catch((err) => console.log('error: ' + err))
+		
+	}
+}
+
 
 const GET_QUESTIONNAIRE_QUESTIONS = 'GET_QUESTIONNAIRE_QUESTIONS';
 const getQuestionnaireQuestions = () => {

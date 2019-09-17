@@ -12,12 +12,13 @@ import {
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import SideMenu from '../sideMenu/sideMenu.component.js';
-import { setCurrentTitle, logOut, getQuestionnairesForUser, getUserQuestions, getDiaryForUser } from '../../redux/actions/actions.js';
+import { setCurrentTitle, logOut, getQuestionnairesForUser, getUserQuestions, getDiaryForUser, setModal } from '../../redux/actions/actions.js';
 import styles from '../../styles/styles.js';
 import Menu from '../menu/menu.js';
 import Graphs from '../graphs/graphs.js'
 import QuestionsOthers from './questionsOthers.js';
 import DashboardWidget from './dashboardWidgetsl.js';
+import GenericModal from '../modal/modal.component.js'; 
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 const statusBarHeight = StatusBar.currentHeight;
@@ -59,7 +60,7 @@ class Home extends Component {
     this.props.setHeaderTitle('DASHBOARD');
     return (
         <View style={[S.scrollView, {width: screenWidth, paddingTop: screenHeight/13}]}>
-        
+        	{this.props.modal && this.props.modal.isVisible ? <GenericModal /> : null}
           <ScrollView>
             <DashboardWidget />
             <View style={S.intro}>
@@ -108,7 +109,8 @@ mapDispatchToProps = dispatch => {
     },
     getDiaryEntries: () => {
     	dispatch(getDiaryForUser(0, 4))
-    }
+    },
+    
   }
 } 
 
@@ -116,7 +118,8 @@ mapStateToProps = state => {
   return {
     sideMenuIsVisible: state.users.sideMenuIsVisible,
     user: state.users.user,
-    questionnaires: state.users.questionnaires
+    questionnaires: state.users.questionnaires,
+    modal: state.users.modal
   }
 }
 

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 const initialState = {
+	modal: {},
 	notifications: [],
 	user: {},
 	userData: {},
@@ -106,6 +107,11 @@ const initialNavigationState = {
 
 const user = (state = initialState, action) => {
 	switch (action.type) {
+		case 'SET_MODAL_STATUS':
+			return {
+				...state,
+				modal: action.payload
+			}
 		case 'SET_QUESTIONS_FROM_OTHERS':
 			return {
 				...state,
