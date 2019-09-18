@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 const initialState = {
+	forcedLogout: false,
 	modal: {},
 	notifications: [],
 	user: {},
@@ -147,7 +148,8 @@ const user = (state = initialState, action) => {
 		case 'LOG_OUT':
 			return {
 				...state,
-				isLoggedIn: false
+				isLoggedIn: false,
+				forcedLogout: true
 			};
 		case 'GET_QUESTIONNAIRE_QUESTIONS_SUCCESS': 
 			return {

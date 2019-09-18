@@ -25,7 +25,9 @@ class Login extends Component {
 	}
 	componentDidMount() {
 		/*this.props.navigation.navigate('DrawerFlow');*/
-		this.props.auth();
+		if (!this.props.forcedLogout) {
+			this.props.auth();
+		}
 	}
 	render(){
 		const screenWidth = Math.round(Dimensions.get('window').width);
@@ -93,7 +95,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
 	return {
 		isLoggedIn: state.users.isLoggedIn,
-		token: state.users.token
+		token: state.users.token,
+		forcedLogout: state.users.forcedLogout
 	}
 }
 

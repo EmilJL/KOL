@@ -18,6 +18,7 @@ import {
 import { Provider, connect } from 'react-redux';
 import { getSavedToken, authenticateWithToken, setAgesNow } from './redux/actions/actions.js';
 import TopNavigator from './navigators/topNavigator.js';
+import SplashScreen from './components/splashScreen/splashScreen.component.js';
 
 class App extends Component{
   state = {
@@ -32,12 +33,17 @@ class App extends Component{
     fetchinUserData: false,
     fetchingForumData: false,
     isLoggedIn: false,
-    failedFetching: false
+    failedFetching: false,
+    hasAnimatedSplash: false
   }
   componentDidMount(){
    /* this.props.authenticateWithToken();
    console.log(this.props.token);*/
    this.props.setAges();
+  }
+
+  setAnimationDone = () => {
+    this.setState({hasAnimatedSplash: true});
   }
 
   authenticationHandler = (value) => {
@@ -47,16 +53,18 @@ class App extends Component{
   }
 
   render(){
-   
-    return(
-
+    if (this.state.hasAnimatedSplash) {
+      return(
         <TopNavigator />
-
-    );
-        
+      );
+    }
+    else {
+      return(
+        <SplashScreen setAnimationDone={() => this.setAnimationDone()} />
+      );
+    }
   }
-  
-};
+}
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -140,7 +140,8 @@ class QuestionsOthers extends Component {
 		var questionsShown = this.state.questionsShown;
 		return this.props.questions.map((question, index) => {
 			if (index <= (pageNumber*questionsShown) - 1 && pageNumber === 1 || index <= (pageNumber*questionsShown) - 1 && index >= ((pageNumber-1) * questionsShown)) {
-				if (questionsShown % (index+1) == 0) {
+				if ((index == 0 || index % questionsShown == 0 || questionsShown % index == 0) && index != 1) {
+					
 					return (
 						<QuestionItem id={question.ID} key={question.ID} date={question.post_date} questionTitle={question.post_title} questionUser={question.post_author} questionText={question.post_content} handleQuestionClick={(text, title, date, id) => this.handleQuestionClick(text, title, date, id)} />
 					)

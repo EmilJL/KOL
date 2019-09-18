@@ -9,16 +9,23 @@ import {
   TouchableNativeFeedback,
   Dimensions,
   Button,
-  Image
+  Image,
+  Animated
 } from 'react-native';
 import { DrawerActions } from 'react-navigation'
 import { setCurrentTitle } from '../../redux/actions/actions.js';
 import { logOut } from '../../redux/actions/actions.js';
 import Icon from 'react-native-vector-icons/AntDesign';
+import BurgerMenu from '../../assets/burgerMenu.svg';
+import Bell from '../../assets/bell.svg';
+
+const screenHeight = Math.round(Dimensions.get('window').height);
+        const screenWidth = Math.round(Dimensions.get('window').width);
 
 class Header extends Component {
     state={
-      drawerOpen: false
+      drawerOpen: false,
+      leftMargin: 0
     }
     handleLogout = () => {
       this.props.logOut();
@@ -26,22 +33,21 @@ class Header extends Component {
     }
     handleBurgerMenuClick = () => {
       if (this.state.drawerOpen) {
-        this.setState({drawerOpen: false})
+        this.setState({drawerOpen: false, leftMargin: 0})
         return this.props.navigation.dispatch(DrawerActions.closeDrawer())
       }
       else{
-        this.setState({drawerOpen: true})
+        this.setState({drawerOpen: true, leftMargin: screenWidth*0.715})
         return this.props.navigation.dispatch(DrawerActions.openDrawer())
       }
     }    
     render(){
-        const screenHeight = Math.round(Dimensions.get('window').height);
-        const screenWidth = Math.round(Dimensions.get('window').width);
+        
         const styleNotifications = this.props.notifications ? (this.props.notifications.length>0 ? {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%', backgroundColor: 'red'} : {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'}) : {flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%'};
         if (this.props.navigation.state.routeName != 'AuthenticationFlow') {
             if(this.state.drawerOpen){
               return (
-              <View style={{position: 'absolute', top: 0, borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+              <View style={{marginLeft: this.state.leftMargin, position: 'absolute', top: 0, borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
                   <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%', marginBottom: -3}}>
@@ -59,7 +65,7 @@ class Header extends Component {
 
                 <TouchableNativeFeedback onPress={() => console.log(this.props.notifications)}>
                   <View style={[styleNotifications, {marginBottom: -3}]}>
-                      <Image style={{width: '50%', marginLeft: '25%', marginTop: '12.5%'}} source={require('../../assets/notificationHeader.png')}/>
+                      <Bell width={screenHeight/20} style={{marginTop: '5%', marginLeft: '25%'}} />
                   </View>
                 </TouchableNativeFeedback>
 
@@ -72,7 +78,7 @@ class Header extends Component {
                 
                 <TouchableNativeFeedback onPress={() => this.handleBurgerMenuClick()}>
                   <View style={{flex: 1.5, alignContent: 'center', justifyContent: 'center', height: '100%', marginBottom: -3}}>
-                    <Image style={{width: '27%', marginLeft: '27%', marginTop: '5%'}} source={require('../../assets/menuHeader.png')}/>
+                    <BurgerMenu width={screenHeight/20} style={{marginTop: '5%', marginLeft: '20%'}} />
                   </View>
                 </TouchableNativeFeedback>
 
@@ -84,7 +90,7 @@ class Header extends Component {
 
                 <TouchableNativeFeedback onPress={() => console.log(this.props.notifications)}>
                   <View style={[styleNotifications, {marginBottom: -3}]}>
-                      <Image style={{width: '50%', marginLeft: '25%', marginTop: '12.5%'}} source={require('../../assets/notificationHeader.png')}/>
+                      <Bell width={screenHeight/20} style={{marginTop: '5%', marginLeft: '25%'}} />
                   </View>
                 </TouchableNativeFeedback>
 

@@ -31,6 +31,7 @@ const DrawerNavigator = createDrawerNavigator(
       activeTintColor: '#fff',
       activeBackgroundColor: '#6b52ae',
     },
+    drawerWidth: screenWidth*0.715
   }
 );
 

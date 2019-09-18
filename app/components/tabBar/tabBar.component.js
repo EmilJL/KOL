@@ -112,14 +112,17 @@ class TabBar extends React.Component {
 
 							        else{
 							        	if(route.key === 'Inbox'){
-							    			extraStyles = {flex: 1, marginRight: '24%', paddingBottom: '12%', paddingTop: '14%'};
+							    			extraStyles = {flex: 1, marginRight: '24%', paddingBottom: '12%', paddingTop: '14%', opacity: 0.2};
 										}
-										
+										else if(route.key === 'Kalender') {
+											extraStyles = {flex: 1, paddingBottom: '12%', paddingTop: '14%', opacity: 0.2};
+										}
 							        	return (
 								          <TouchableOpacity
 								            key={routeIndex}
 								            style={[S.tabButton, extraStyles]}
 								            onPress={() => {
+								              	route.key == 'Kalender' || route.key == 'Inbox' ? null : 
 								              	onTabPress({ route });
 								              	this.handleNavigation(route.routeName);
 								            }}

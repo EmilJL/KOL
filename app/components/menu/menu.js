@@ -79,7 +79,7 @@ class Menu extends Component {
 
 				<View style={S.boxWrapper}>
 					<TouchableOpacity onPress={() => this.handleClick('SendText')} style={[S.singleBox, {marginLeft: 0}]}>
-						<View style={S.singleBox}>
+						<View style={[S.singleBox, {opacity: 0.2}]}>
 							<SendSMS style={{marginBottom: 20, marginLeft: 12}} width={50} height={58} />
 							<Text style={[S.boxText]}>
 								Send SMS
