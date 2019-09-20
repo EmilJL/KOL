@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Keyboard, Modal, Text, TouchableOpacity, View, Alert, Image, Dimensions, StatusBar, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { connect } from 'react-redux';
 import { addQuestionForUser, addDiaryComment, clearAndCloseModal, addCommentForQuestion } from '../../redux/actions/actions.js';
+import CloseButton from '../../assets/closeButton.svg'; 
 
 const style = StyleSheet.create({
   questionDateTime: {
@@ -131,7 +132,7 @@ class GenericModal extends Component {
             <View style={{position: 'absolute', height: screenHeight+statusBarHeight+150, top: this.state.textHasFocus ? -20 : 0, width: screenWidth, backgroundColor: '#414D55', paddingTop: this.state.textHasFocus ? 0 : 110}}>
              
               <TouchableOpacity onPress={() => {this.props.hideModal();}} style={{width: 38, height: 38, position: 'absolute',  top: this.state.textHasFocus ? 0 : 91, marginBottom: this.state.textHasFocus ? 29 : 0, right: 20, zIndex: 2}}>
-                      <Image rezizeMode={'contain'} source={require('../../assets/closeModal.png')} style={{width: '100%', height: '100%'}} />
+                      <CloseButton width='100%' />
                 </TouchableOpacity>
               <View style={{flex: 1, paddingLeft: 20, paddingRight: 20}}>
                 
@@ -178,7 +179,7 @@ class GenericModal extends Component {
             }}>
             <View style={{position: 'absolute', height: screenHeight+statusBarHeight+150, top: this.state.textHasFocus ? -20 : 0, width: screenWidth, backgroundColor: '#414D55', paddingTop: this.state.textHasFocus ? 0 : 110}}>
               <TouchableOpacity onPress={() => {this.props.hideModal();}} style={{width: 38, height: 38, position: 'absolute',  top: this.state.textHasFocus ? 0 : 91, marginBottom: this.state.textHasFocus ? 29 : 0, right: 20, zIndex: 2}}>
-                      <Image rezizeMode={'contain'} source={require('../../assets/closeModal.png')} style={{width: '100%', height: '100%'}} />
+                      <CloseButton width='100%' />
                 </TouchableOpacity>
               <View style={{flex: 1, paddingLeft: 20, paddingRight: 20}}>
                 <View style={{width: '100%', maxHeight: 471, minHeight: screenHeight-220, backgroundColor: '#FFFFFF', borderRadius: 7, paddingTop: 10}}>
@@ -221,7 +222,7 @@ class GenericModal extends Component {
             }}>
             <View style={{position: 'absolute', height: screenHeight+statusBarHeight+150, top: this.state.textHasFocus ? -screenHeight/2.5 : 0, width: screenWidth, backgroundColor: '#414D55', paddingTop: screenHeight/13}}>
               <TouchableOpacity onPress={() => {this.props.hideModal();}} style={{width: 38, height: 38, position: 'absolute',  top: this.state.textHasFocus ? 0 : (screenHeight/13)-19, marginBottom: this.state.textHasFocus ? 29 : 0, right: 20, zIndex: 2}}>
-                      <Image rezizeMode={'contain'} source={require('../../assets/closeModal.png')} style={{width: '100%', height: '100%'}} />
+                     <CloseButton width='100%' />
                 </TouchableOpacity>
               <View style={{flex: 1, paddingLeft: 20, paddingRight: 20}}>
                 <View style={{width: '100%', maxHeight: 471, minHeight: screenHeight-220, backgroundColor: '#FFFFFF', borderRadius: 7, paddingTop: 10, paddingBottom: 50}}>

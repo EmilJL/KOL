@@ -13,7 +13,6 @@ import {
   Button,
   Modal,
   StatusBar,
-  Image,
   TextInput,
   Picker,
   Animated
@@ -32,10 +31,6 @@ import styles from '../../styles/styles.js';
 
 const S = styles;
 
-
-
-
-
 class CreateUserStepTwo extends Component{
   state={
     genderSelected: '',
@@ -47,7 +42,6 @@ class CreateUserStepTwo extends Component{
   }
 
   _toggleFooter() {
-  	console.log('asdfafsfasdadvvv');
   	var toValue = 78;
   	var show = this.state.showFooter;
   	if (show === false) {

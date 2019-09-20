@@ -9,7 +9,6 @@ import {
   TouchableNativeFeedback,
   Dimensions,
   Button,
-  Image,
   Animated
 } from 'react-native';
 import { DrawerActions } from 'react-navigation'
@@ -18,7 +17,7 @@ import { logOut } from '../../redux/actions/actions.js';
 import Icon from 'react-native-vector-icons/AntDesign';
 import BurgerMenu from '../../assets/burgerMenu.svg';
 import Bell from '../../assets/bell.svg';
-
+import Back from '../../assets/back.svg';
 const screenHeight = Math.round(Dimensions.get('window').height);
         const screenWidth = Math.round(Dimensions.get('window').width);
 
@@ -107,7 +106,7 @@ class Header extends Component {
             <View style={{borderBottomWidth: 1, borderColor: 'lightgrey', backgroundColor: 'white', width: screenWidth, height: screenHeight/13, zIndex: 4, position: 'absolute', top: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
               <TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('Login')}}>
                 <View style={{flex: 1.5, height: screenHeight/13, alignItems: 'center', justifyContent: 'center', marginBottom: -3}}>
-                  <Image resizeMode='contain' style={{width: '30%'}} source={require('../../assets/backHeader.png')}/>
+                  <Back width='30%' />
                 </View>
               </TouchableNativeFeedback>
 

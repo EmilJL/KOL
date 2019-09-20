@@ -32,6 +32,7 @@ const S = StyleSheet.create({
 		backgroundColor: '#fff',
 		width: '100%',
 		borderRadius: 7,
+		elevation: 2
 	},
 	boxHeader: {
 		backgroundColor: '#F8F9FF',
@@ -143,7 +144,7 @@ class QuestionsOthers extends Component {
 				if ((index == 0 || index % questionsShown == 0 || questionsShown % index == 0) && index != 1) {
 					
 					return (
-						<QuestionItem id={question.ID} key={question.ID} date={question.post_date} questionTitle={question.post_title} questionUser={question.post_author} questionText={question.post_content} handleQuestionClick={(text, title, date, id) => this.handleQuestionClick(text, title, date, id)} />
+						<QuestionItem id={question.ID} key={question.ID} date={question.post_date} questionTitle={question.post_title} questionUser={question.post_author_nickname} questionText={question.post_content} handleQuestionClick={(text, title, date, id) => this.handleQuestionClick(text, title, date, id)} />
 					)
 				}
 				else{
@@ -169,7 +170,7 @@ class QuestionsOthers extends Component {
 			pageNumber--;
 			this.setState({pageNumber});
 		}
-		else if(type === 'forward' && !(pageNumber*this.state.questionsShown > this.props.questions.length)) {
+		else if(type === 'forward' && !((pageNumber+1)*this.state.questionsShown > this.props.questions.length)) {
 			pageNumber++;
 			this.setState({pageNumber});
 			if ((pageNumber*this.state.questionsShown)+this.state.questionsShown >= questionsLoaded) {

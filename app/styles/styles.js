@@ -17,6 +17,7 @@ export default StyleSheet.create({
 	    left: 0,
 	    right: 0,
 	    backgroundColor: "#FFFFFF",
+      elevation: 4
 	},
   intro: {
     paddingTop: 30,
@@ -59,7 +60,8 @@ export default StyleSheet.create({
     borderRadius: 7,
     padding: 20,
     marginBottom: 25,
-    opacity: 1
+    opacity: 1,
+    elevation: 2
   },
   box_smallPadding: {
    

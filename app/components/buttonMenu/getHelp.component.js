@@ -15,6 +15,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { getUserQuestions, setModal } from '../../redux/actions/actions.js';
 import GenericModal from '../modal/modal.component.js'; 
+import Plus from '../../assets/plus';
 
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
@@ -38,9 +39,7 @@ S = StyleSheet.create({
      fontWeight: 'bold'
   },
   buttonPlus: {
-     marginRight: 20,
-     width: 12,
-     height: 12
+     marginRight: 20
   },
     scrollView: {
       flexDirection: 'row',
@@ -56,7 +55,7 @@ S = StyleSheet.create({
       shadowOffset: { width: 2, height: 2 },
       shadowOpacity: 0.8,
       shadowRadius: 2002,
-      elevation: 1,
+      elevation: 2,
     },
     boxTop: {
     alignItems: 'center',
@@ -70,7 +69,7 @@ S = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2002,
-    elevation: 1,
+    elevation: 2,
   },
     yourQuestion: {
       borderBottomWidth: 1,
@@ -251,7 +250,7 @@ class GetHelp extends Component {
                   </Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  <Image resizeMode={'contain'} style={S.buttonPlus} source={require('../../assets/plus.png')}/>
+                   <Plus width='12' style={S.buttonPlus} />
                 </View>
               </TouchableOpacity>
               <View style={S.textBubble}>

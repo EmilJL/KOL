@@ -77,7 +77,7 @@ class Home extends Component {
             <View style={{width: '100%', marginTop: 20}}>
               <Menu handleNavigation={(routeName) => this.handleNavigation(routeName)} navigation={this.props.navigation} />
             </View>
-            <View style={{width: '100%', marginTop: 40}}>
+            <View style={{width: '100%', marginTop: 40, }}>
               {this.props.questionnaires[0] ? <Graphs /> : null}
             </View>
             <View style={{width: '100%', marginTop: 20}}>

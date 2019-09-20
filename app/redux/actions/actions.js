@@ -70,6 +70,7 @@ export const addQuestionForUser = (title, question) => {
 				})
 			})
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
+				dispatch(getUserQuestionsFromOthers(0, 80));
 				return dispatch(getUserQuestions(0, 4));
 			})
 			.catch((err) => console.log('error: ' + err))
@@ -120,7 +121,7 @@ const attemptAddDiaryComment = () => {
 	}
 }
 
-export const addDiaryComment = (text, title = '', visible) => {
+export const addDiaryComment = (text, title, visible) => {
 	return (dispatch) => {
 		AsyncStorage.getItem('userId').
 		then((token) => {

@@ -1,36 +1,33 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ImageBackground, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image} from "react-native";
 import { setCurrentTitle, toggleHeaderVisibility } from '../../redux/actions/actions.js';
 import ButtonMenu from '../buttonMenu/buttonMenu.component.js';
 import Header from '../header/header.component';
 import { DrawerActions } from 'react-navigation';
+import MenuButtonClosed from '../../assets/menuButtonClosed';
+import MenuButtonOpened from '../../assets/menuButtonOpened';
+import BottomBarBG from '../../assets/Bottom_bar.svg';
+
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 const S = StyleSheet.create({
-  container: { flexDirection: "row", justifyContent: 'center', alignItems: 'center', width: '100%', height: 107.29, backgroundColor: 'rgba(0,0,0,0)', bottom: 0, position: 'absolute'},
+  container: { flexDirection: "row", justifyContent: 'center', alignItems: 'center', width: '100%', height: 101.79, backgroundColor: 'rgba(0,0,0,0)', bottom: 0, position: 'absolute'},
   containerTest: { flexDirection: "row", justifyContent: 'center', alignItems: 'center', width: '100%', position: 'absolute', bottom: 0, height: screenHeight, backgroundColor: '#f0f0f0' },
-  subContainer: { height: 77.79	, width: '100%', position: 'absolute', bottom: 0, opacity: 1},
+  subContainer: { height: 101.79, width: '100%', position: 'absolute', bottom: 0, opacity: 1},
   subContainer_buttons: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingLeft: '2%', paddingRight: '2%', paddingBottom: '2%'},
   tabButton: { justifyContent: "center", alignItems: "center"},
   middleButton: {width: '100%', height: '100%' },
-  middleButtonPressed: { width: '100%', height: '100%', transform:[{ rotateZ: '45deg'}, ], }
 });
 
 class TabBar extends React.Component {
 	
 	state = {
-		buttonStyle: S.middleButton,
 		buttonPressed: false
 	}
 	handleButtonPress = () => {
-		console.log(this.props.navigation);
-		if (this.state.buttonStyle === S.middleButton ) {
-			this.setState({buttonStyle: S.middleButtonPressed, buttonPressed: true});
-		}
-		else{
-			this.setState({buttonStyle: S.middleButton, buttonPressed: false});
-		}
+		var buttonIsPressed = this.state.buttonPressed;
+		this.setState({buttonPressed: !buttonIsPressed});
 	}
 	handleNavigation = (routeName) => {
 		switch(routeName){
@@ -89,22 +86,25 @@ class TabBar extends React.Component {
 	    	navigation
 	  	} = this.props;
 		const { routes, index: activeRouteIndex } = navigation.state;
-		const buttonStyle = this.state.buttonStyle;
-		const buttonSize = screenHeight/6.5*0.4716;
+	
+	
 	  	return (	<View style={{height: screenHeight, width: screenWidth, position: 'absolute', bottom: 0, opacity: 1}}>
 	  					{this.state.buttonPressed ? <ButtonMenu setTitle={(routeName) => this.handleNavigation(routeName)} toggleMenu={() => this.handleButtonPress()} navigation={navigation} /> : null}
 					    <View style={S.container}>
 					    	
-				  			<TouchableOpacity onPress={() => this.handleButtonPress()} style={{alignSelf: 'center', position: 'absolute', top: 0, height: buttonSize, width: buttonSize, alignItems: 'center', justifyContent: 'center', zIndex: 2}}>
-						  		<Image style={buttonStyle} source={require('../../assets/footerButton.png')}/>
+				  			<TouchableOpacity onPress={() => this.handleButtonPress()} style={{alignSelf: 'center', position: 'absolute', bottom: 52.39, height: 50, width: 50, alignItems: 'center', justifyContent: 'center', zIndex: 2}}>
+						  		{this.state.buttonPressed ? <MenuButtonOpened width='100%' /> : <MenuButtonClosed width='100%' />}
 				  			</TouchableOpacity>
-					    	<Image resizeMode='stretch' source={require('../../assets/footer2.png')} style={S.subContainer}/>
+				  			
+				  				<Image resizeMode={'stretch'} source={require('../../assets/bottomBar.png')} style={{height: 108, width: 800, bottom: 0, position: 'absolute'}} />
+				  			
+					    
 						    <View style={[S.subContainer, S.subContainer_buttons]}>
 						     	{routes.map((route, routeIndex) => {
 							        const isRouteActive = routeIndex === activeRouteIndex;
 							        const tintColor = isRouteActive ? activeTintColor : inactiveTintColor;
 							        var extraStyles = {};
-							        extraStyles = {flex: 1, paddingBottom: '12%', paddingTop: '14%'};
+							        extraStyles = {flex: 1, marginTop: 40};
 							        if (route.key == 'MainNavigator') 
 							        {
 							        	return null;
@@ -112,10 +112,10 @@ class TabBar extends React.Component {
 
 							        else{
 							        	if(route.key === 'Inbox'){
-							    			extraStyles = {flex: 1, marginRight: '24%', paddingBottom: '12%', paddingTop: '14%', opacity: 0.2};
+							    			extraStyles = {flex: 1, marginRight: '24%', opacity: 0.2, marginTop: 40};
 										}
 										else if(route.key === 'Kalender') {
-											extraStyles = {flex: 1, paddingBottom: '12%', paddingTop: '14%', opacity: 0.2};
+											extraStyles = {flex: 1, opacity: 0.2, marginTop: 40};
 										}
 							        	return (
 								          <TouchableOpacity
@@ -133,7 +133,7 @@ class TabBar extends React.Component {
 								            accessibilityLabel={getAccessibilityLabel({ route })}
 								          >
 								            {renderIcon({ route, focused: isRouteActive, tintColor })}
-								            <Text style={{color: tintColor, fontSize: 10, marginBottom: 5}}>{getLabelText({ route })}</Text>
+								            <Text style={{color: tintColor, fontSize: 10, marginBottom: 10}}>{getLabelText({ route })}</Text>
 								          </TouchableOpacity>
 								        );
 							        }

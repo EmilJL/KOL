@@ -1,0 +1,7 @@
+<svg id="Button" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <circle id="Oval" cx="25" cy="25" r="25" fill="#565bf6"/>
+  <rect id="Rectangle_54" data-name="Rectangle 54" width="8" height="8" rx="1" transform="translate(15 15.5)" fill="#fff"/>
+  <rect id="Rectangle_55" data-name="Rectangle 55" width="8" height="8" rx="1" transform="translate(27 15.5)" fill="#fff"/>
+  <rect id="Rectangle_56" data-name="Rectangle 56" width="8" height="8" rx="1" transform="translate(27 27.5)" fill="#fff"/>
+  <rect id="Rectangle_57" data-name="Rectangle 57" width="8" height="8" rx="1" transform="translate(15 27.5)" fill="#fff"/>
+</svg>

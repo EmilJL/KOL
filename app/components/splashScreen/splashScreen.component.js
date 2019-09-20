@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Animated, View, Image, Text, Dimensions } from 'react-native';
+import Logo from '../../assets/logo.svg';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -22,7 +23,7 @@ const SplashScreen = (props) => {
 		<Animated.View 
 			style={{position: 'absolute', alignSelf: 'center', alignContent: 'center', justifyContent: 'center', height: growthAnimation, width: growthAnimation, backgroundColor: '#565BF6', borderRadius: growthAnimation}}
 		>
-			<Image resizeMode={'contain'} source={require('../../assets/logo.png')} style={{alignSelf: 'center', width: '28%'}} />
+			<Logo width='28%' style={{alignSelf: 'center'}} />
 		</Animated.View>
 		</View>
 	);

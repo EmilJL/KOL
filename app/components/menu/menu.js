@@ -30,14 +30,27 @@ const S = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	singleBox: {
+
 		flex: 1,
 		height: 150,
 		backgroundColor: 'white',
 		margin: 10,
+		shadowColor: '#000',
+	    shadowOffset: { width: 0, height: 5 },
+	    shadowOpacity: 0.8,
+	    shadowRadius: 2,  
+	    elevation: 2,
 		borderRadius: 7,
 		justifyContent: 'center',
 		alignItems: 'center',
 		flexDirection: 'row'
+	},
+	singleBox_inner: {
+		justifyContent: 'center',
+		alignItems: 'center',
+		flexDirection: 'row',
+		height: 150,
+		flex: 1
 	},
 	boxText: {
 		fontWeight: 'bold',
@@ -60,7 +73,7 @@ class Menu extends Component {
 			<View style={S.background}>
 				<View style={S.boxWrapper}>
 					<TouchableOpacity onPress={() => this.handleClick('GetHelp')} style={[S.singleBox, {marginLeft: 0}]}>
-						<View style={S.singleBox}>
+						<View style={S.singleBox_inner}>
 							<GetHelp style={{marginBottom: 20}} width={51} height={58.29} />
 							<Text style={S.boxText}>
 								Få hjælp
@@ -68,7 +81,7 @@ class Menu extends Component {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={() => this.handleClick('HelpOthers')} style={[S.singleBox, {marginRight: 0}]}>
-						<View style={S.singleBox}>
+						<View style={S.singleBox_inner}>
 							<HelpOthers style={{marginBottom: 15}} width={53} height={53} />
 								<Text style={S.boxText}>
 									Hjælp andre
@@ -79,7 +92,7 @@ class Menu extends Component {
 
 				<View style={S.boxWrapper}>
 					<TouchableOpacity onPress={() => this.handleClick('SendText')} style={[S.singleBox, {marginLeft: 0}]}>
-						<View style={[S.singleBox, {opacity: 0.2}]}>
+						<View style={[S.singleBox_inner, {opacity: 0.2}]}>
 							<SendSMS style={{marginBottom: 20, marginLeft: 12}} width={50} height={58} />
 							<Text style={[S.boxText]}>
 								Send SMS
@@ -87,7 +100,7 @@ class Menu extends Component {
 						</View>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={() => this.handleClick('Diary')} style={[S.singleBox, {marginRight: 0}]}>
-						<View style={S.singleBox}>
+						<View style={S.singleBox_inner}>
 							<Diary style={{marginBottom: 15}} width={50} height={53} />
 							<Text style={S.boxText}>
 								Dagbog

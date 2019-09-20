@@ -11,6 +11,8 @@ import {
   Image,
   Dimensions
 } from 'react-native';
+import Drop from '../../assets/drop.svg';
+import SunCloud from '../../assets/sunCloud.svg';
 
 const S = StyleSheet.create({
 	background: {
@@ -37,10 +39,9 @@ const S = StyleSheet.create({
   		flex: 1, 
   		justifyContent: 'center', 
   		alignItems: 'center',
+      elevation: 2
   	},
   	wheaterIcon: {
-  		height: 32,
-  		maxWidth: 30,
   		marginRight: 10,
   	},
   	weatherNumber: {
@@ -138,7 +139,7 @@ class DashboardWidget extends Component {
 				<View style={S.boxesWrapper}>
 
 					<View style={[S.weatherBox, {marginRight: 20}]}>
-						<Image resizeMode={'contain'} source={require('../../assets/sun_cloud.png')} style={S.wheaterIcon} />
+						<SunCloud height={32} style={S.wheaterIcon} />
 						<View style={S.textWrapper}>
 							<Text style={S.weatherNumber}>
 								22°
@@ -150,7 +151,7 @@ class DashboardWidget extends Component {
 					</View>
 
 					<View style={S.weatherBox}>
-						<Image resizeMode={'contain'} source={require('../../assets/water.png')} style={S.wheaterIcon} />
+						<Drop height={32} style={S.wheaterIcon} />
 						<View style={S.textWrapper}>
 							<Text style={S.weatherNumber}>
 								58%

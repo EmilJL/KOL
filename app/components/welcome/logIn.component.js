@@ -18,16 +18,21 @@ import {
 import { connect } from 'react-redux';
 import { authenticateWithToken } from '../../redux/actions/actions.js';
 import LoadingComponent from '../loading/loadingComponent.js';
-
+import TopBlue from '../../assets/topStart.svg';
+import TopDudes from '../../assets/topStartDudes.svg';
+import Logo from '../../assets/logo.svg';
+import SocialMediaLine from '../../assets/socialMediaLine.svg';
+import GoogleCreate from '../../assets/googleCreate.svg';
+import FBCreate from '../../assets/fbCreate.svg';
 
 class Login extends Component {
 	handleLogin = () => {
 	}
 	componentDidMount() {
 		/*this.props.navigation.navigate('DrawerFlow');*/
-		if (!this.props.forcedLogout) {
+		/*if (!this.props.forcedLogout) {
 			this.props.auth();
-		}
+		}*/
 	}
 	render(){
 		const screenWidth = Math.round(Dimensions.get('window').width);
@@ -40,45 +45,38 @@ class Login extends Component {
 		}
 		else{
 			return(
-				<View style={{height: screenHeight-statusbarHeight, width: screenWidth}}>
-					<ImageBackground resizeMode='cover' source={require('../../assets/welcome.png')} style={{flex: 1}}>
-						<View style={{alignSelf: 'center', flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-							<Image resizeMode='contain' source={require('../../assets/welcomeLogo.png')} style={{width: '14%'}} />
-							<Text style={{marginLeft: screenWidth/24, fontSize: 26, fontWeight: 'bold', color: '#565BF6'}}>
-								KOL App
-							</Text>
+				<ScrollView style={{flex: 1}}>
+				 	<View style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingLeft: 20, paddingRight: 20}}>
+					<Logo width={'50%'} style={{top: 13, zIndex: 4}} />
+					<TopBlue style={{top: -485}} />
+					<TopDudes width={screenWidth+5} height={311} style={{left: 0, position: 'absolute', top: 80}} />
+					<View style={{position: 'absolute', top: 425, height: 163, width: '100%'}}>
+						<View style={{justifyContent: 'center', alignItems: 'center', height: 50, width: '100%'}}>
+			                <TouchableNativeFeedback style={{}} onPress={() => {this.props.navigation.navigate('Start')}}>
+			                  <View style={{borderWidth: 1, borderColor: 'rgba(65, 77, 85, 0.6)', justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%', borderRadius: 8, backgroundColor: 'white'}}>
+			                    <Text style={{fontSize: 16, color: '#707070', textAlign: 'center', letterSpacing: 0.5, paddingBottom: '1%'}}>
+			                      Log ind
+			                    </Text>
+			                  </View>
+			                </TouchableNativeFeedback>
+		                </View>
+						<View style={{justifyContent: 'center', alignItems: 'center', height: 50, width: '100%', marginTop: 15}}>
+							<TouchableNativeFeedback style={{}} onPress={() => {this.props.navigation.navigate('NewUser')}}>
+							  <View style={{justifyContent: 'center', alignItems: 'center', height: '100%', width: '100%', borderRadius: 8, backgroundColor: '#565BF6'}}>
+							    <Text style={{fontSize: 16, color: 'white', textAlign: 'center', fontWeight: '700', letterSpacing: 0.5, paddingBottom: '1%'}}>
+							      Opret bruger
+							    </Text>
+							  </View>
+							</TouchableNativeFeedback>
 						</View>
-						<View style={{flex: 4}}>
-							<View style={{height: screenHeight/4.35, width: '100%', justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: screenHeight/15}}>
-								<View style={{flex: 4, justifyContent: 'space-between', alignItems: 'center'}}>
-									<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('Start')}}>
-										<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', width: screenWidth*0.54, backgroundColor: '#565BF6', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54}}>
-											<Text style={{fontSize: 14, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>
-												Log ind
-											</Text>
-										</View>
-									</TouchableNativeFeedback>
-									<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('NewUser')}}>
-										<View style={{justifyContent: 'center', alignItems: 'center', height: '40%', marginBottom: screenHeight/75, width: screenWidth*0.54, borderWidth: 1.5, borderColor: 'grey', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54, backgroundColor: 'white'}}>
-											<Text style={{fontSize: 14, color: 'grey', textAlign: 'center', fontWeight: '700', letterSpacing: 0.5, paddingBottom: '1%'}}>
-												Opret bruger
-											</Text>
-										</View>
-									</TouchableNativeFeedback>
-								</View>
-								<View style={{flex: 0.8}}>
-									<TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('ForgotInfo')}}>
-										<View style={{justifyContent: 'center', alignItems: 'center', width: screenWidth*0.54, flex: 1}}>
-											<Text style={{fontSize: 12, color: 'grey', textAlign: 'center', letterSpacing: 0.5, textDecorationLine: 'underline'}}>
-												Glemt adgangskode?
-											</Text>
-										</View>
-									</TouchableNativeFeedback>
-								</View>
-							</View>
-						</View>
-					</ImageBackground>
-				</View>
+						<SocialMediaLine width={'100%'} style={{marginTop: 24}} />
+					</View>
+					<View style={{position: 'absolute', top: 583, marginTop: 24, height: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
+							<GoogleCreate height={'100%'} style={{marginRight: 5, borderWidth: 0.2, borderColor:'rgba(65, 77, 85, 0.6)'}} />
+							<FBCreate height={'110%'} style={{marginLeft: 5}} />
+					</View>
+					</View>
+				</ScrollView>
 			);
 		}
 	}

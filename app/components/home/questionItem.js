@@ -56,6 +56,7 @@ const S = StyleSheet.create({
 		paddingRight: 20,
 	},
 	question: {
+		width: '100%'
 	},
 	questionDateTime: {
 		color: '#C5C8CB',
@@ -87,6 +88,9 @@ const S = StyleSheet.create({
 		height: 30,
 		paddingLeft: 17,
 		paddingRight: 17,
+		width: '160%',
+		justifyContent: 'center',
+		alignItems: 'center'
 	},
 	btnText: {
 		color: '#565BF6',
@@ -136,19 +140,14 @@ class QuestionItem extends Component {
 					</Text>
 
 					<Text style={S.questionBy}>
-						{this.props.questionUser}	
+						{'Spørgsmål stillet af: ' + this.props.questionUser}	
 					</Text>
 				
 					<View style={S.btns}>
-						<View style={S.btn}>
-							<Text style={S.btnText}>
-								Læs mere
-							</Text>
-						</View>
 						<TouchableOpacity onPress={() => this.props.handleQuestionClick(this.props.questionText, this.props.questionTitle, this.props.date, this.props.id)}>
 						<View style={S.btn}>
 							<Text style={S.btnText}>
-								Besvar
+								Se mere
 							</Text>
 						</View>
 						</TouchableOpacity>

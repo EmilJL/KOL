@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="360" height="106" viewBox="0 0 360 106">
+  <defs>
+    <filter id="Path" x="-13.5" y="7" width="207" height="104.794" filterUnits="userSpaceOnUse">
+      <feOffset dy="-8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="4.5" result="blur"/>
+      <feFlood flood-opacity="0.051"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Path_Copy" x="166.5" y="7" width="207" height="104.794" filterUnits="userSpaceOnUse">
+      <feOffset dy="-8" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="4.5" result="blur-2"/>
+      <feFlood flood-opacity="0.051"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-Artboard_1">
+      <rect width="360" height="106"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_1" data-name="Artboard – 1" clip-path="url(#clip-Artboard_1)">
+    <g id="Bottom_Bar_BG" data-name="Bottom Bar BG" transform="translate(0 28.5)">
+      <g transform="matrix(1, 0, 0, 1, 0, -28.5)" filter="url(#Path)">
+        <path id="Path-2" data-name="Path" d="M0,.232H115.017Q135.575-1.6,141.963,10.967c6.389,12.563,16.373,29.32,38.037,29.32V77.794H0V0" transform="translate(0 28.5)" fill="#fff"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, 0, -28.5)" filter="url(#Path_Copy)">
+        <path id="Path_Copy-2" data-name="Path Copy" d="M0,.232H-115.017Q-135.575-1.6-141.963,10.967c-6.389,12.563-16.373,29.32-38.037,29.32V77.794H0V0" transform="translate(360 28.5)" fill="#fff"/>
+      </g>
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="45" height="37" transform="translate(161 40.5)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

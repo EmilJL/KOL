@@ -16,12 +16,13 @@ const S = StyleSheet.create({
 		backgroundColor: '#F7F8FA',
 		justifyContent: 'center',
 		alignItems: 'center',
+
 	},
 	section: {
 	    alignSelf: 'center',
 	    width: '90%',
 	    marginTop: 0,
-	    marginBottom: 0
+	    marginBottom: 0,
 	},
 	section_title: {
 	    fontWeight: 'bold',
@@ -35,6 +36,7 @@ const S = StyleSheet.create({
 	    backgroundColor: '#fff',
 	    borderRadius: 7,
 	    paddingBottom: 25, 
+	    elevation: 2
 	},
 	boxInner: {
 	    paddingLeft: 20,
@@ -258,7 +260,7 @@ class Graphs extends Component {
 			           		<View style={S.graphWrapper}>
 
 					            <View style={S.graphPile}>
-			              			<View style={{height: mondayScore != 0 ? Math.round(mondayScore/40*234) : 1, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
+			              			<View style={{height: mondayScore != 0 ? Math.round(mondayScore/40*234) : 5, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
 			              				<Text style={S.graphPileCount}>
 			              					{mondayScore}
 			              				</Text>
@@ -266,7 +268,7 @@ class Graphs extends Component {
 					             </View>
 
 					            <View style={S.graphPile}>
-			              			<View style={{height: tuesdayScore != 0 ? Math.round(tuesdayScore/40*234) : 1, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
+			              			<View style={{height: tuesdayScore != 0 ? Math.round(tuesdayScore/40*234) : 5, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
 			              				<Text style={S.graphPileCount}>
 			              					{tuesdayScore}
 			              				</Text>
@@ -274,7 +276,7 @@ class Graphs extends Component {
 					             </View>
 
 					            <View style={S.graphPile}>
-			              			<View style={{height: wednesdayScore != 0 ? Math.round(wednesdayScore/40*234) : 1, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
+			              			<View style={{height: wednesdayScore != 0 ? Math.round(wednesdayScore/40*234) : 5, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
 			              				<Text style={S.graphPileCount}>
 			              					{wednesdayScore}
 			              				</Text>
@@ -282,7 +284,7 @@ class Graphs extends Component {
 					             </View>
 
 					            <View style={S.graphPile}>
-			              			<View style={{height: thursdayScore != 0 ? Math.round(thursdayScore/40*234) : 1, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
+			              			<View style={{height: thursdayScore != 0 ? Math.round(thursdayScore/40*234) : 5, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
 			              				<Text style={S.graphPileCount}>
 			              					{thursdayScore}
 			              				</Text>
@@ -290,7 +292,7 @@ class Graphs extends Component {
 					             </View>
 					             
 					            <View style={S.graphPile}>
-			              			<View style={{height: fridayScore != 0 ? Math.round(fridayScore/40*234) : 1, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
+			              			<View style={{height: fridayScore != 0 ? Math.round(fridayScore/40*234) : 5, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
 			              				<Text style={S.graphPileCount}>
 			              					{fridayScore}
 			              				</Text>
@@ -298,7 +300,7 @@ class Graphs extends Component {
 					             </View>
 					             
 					            <View style={S.graphPile}>
-			              			<View style={{height: saturdayScore != 0 ? Math.round(saturdayScore/40*234) : 1, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
+			              			<View style={{height: saturdayScore != 0 ? Math.round(saturdayScore/40*234) : 5, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
 			              				<Text style={S.graphPileCount}>
 			              					{saturdayScore}
 			              				</Text>
@@ -306,7 +308,7 @@ class Graphs extends Component {
 					             </View>
 					             
 					            <View style={S.graphPile}>
-			              			<View style={{height: sundayScore != 0 ? Math.round(sundayScore/40*234) : 1, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
+			              			<View style={{height: sundayScore != 0 ? Math.round(sundayScore/40*234) : 5, backgroundColor: '#565BF6', position: 'absolute', bottom: 0, width: 7, borderRadius: 4}}>
 			              				<Text style={S.graphPileCount}>
 			              					{sundayScore}
 			              				</Text>

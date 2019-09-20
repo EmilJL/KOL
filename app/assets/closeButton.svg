@@ -1,0 +1,7 @@
+<svg id="Button" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+  <circle id="Oval" cx="19" cy="19" r="19" fill="#989bb0"/>
+  <g id="Plus" transform="translate(19 8.252) rotate(45)">
+    <rect id="Rectangle" width="4.56" height="15.2" transform="translate(5.32)" fill="#fff"/>
+    <rect id="Rectangle_Copy" data-name="Rectangle Copy" width="4.56" height="15.2" transform="translate(15.2 5.32) rotate(90)" fill="#fff"/>
+  </g>
+</svg>

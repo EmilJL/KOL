@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import { getDiaryForUser, setModal } from '../../redux/actions/actions.js';
 import GenericModal from '../modal/modal.component.js'; 
-
+import Plus from '../../assets/plus';
 
 const S = StyleSheet.create({
       boxTop: {
@@ -125,8 +125,6 @@ const S = StyleSheet.create({
   },
   buttonPlus: {
      marginRight: 20,
-     width: 12,
-     height: 12
   },
     btn: {
       width: '50%',
@@ -196,7 +194,7 @@ class Diary extends Component {
     modalVisibleWithValues: false
   }
   diaryEntriesList () {
-    var title = this.props.diary.post_title;
+  
     console.log('diary: ');
     console.log(this.props.diary);
     return this.props.diary.comments.map((entry, index) => {
@@ -204,7 +202,7 @@ class Diary extends Component {
           <View key={index} style={S.box}>
             <View style={S.boxInner}>
               <Text style={S.box_title}>
-                {title}
+                {entry.diary_title}
               </Text>
               <View style={S.textBubble}>
                 <Text numberOfLines={4} style={S.textBubbleText}>  
@@ -217,7 +215,7 @@ class Diary extends Component {
            </View>
               <View style={S.btnsWrapper}>
                 <View style={S.btn}>
-                  <TouchableOpacity onPress={()=> this.props.setModal(true, 'diaryEntry', entry.comment_content, entry.post_title, true)}>
+                  <TouchableOpacity onPress={()=> this.props.setModal(true, 'diaryEntry', entry.comment_content, entry.diary_title, true)}>
                     <Text style={[S.btnDark, S.btnInner]}>
                       Rediger
                     </Text>
@@ -251,7 +249,7 @@ class Diary extends Component {
                       </Text>
                     </View>
                     <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <Image resizeMode={'contain'} style={S.buttonPlus} source={require('../../assets/plus.png')}/>
+                      <Plus width='12' style={S.buttonPlus} />
                     </View>
                   </TouchableOpacity>
                 </View>
