@@ -2,7 +2,7 @@ import React, {Fragment, Component} from 'react';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import DrawerItem from './drawerItem.component.js';
 import { connect } from 'react-redux';
-import { logOut } from '../../redux/actions/actions.js';
+import { logOut, setCurrentTitle } from '../../redux/actions/actions.js';
 import {
   View,
   Text,
@@ -22,44 +22,85 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 const statusbarHeight = StatusBar.currentHeight;
 
-const DrawerContentComponent = props => (
-  <ScrollView>
-    <SafeAreaView style={[styles.container, {height: screenHeight-statusbarHeight}]} forceInset={{ top: 'always', horizontal: 'never' }}>
-      <View style={styles.introInfo}>
-          <View style={styles.profilePicWrapper}>
-            <View style={[styles.status, S.statusOrange]}></View>
-            <Image source={require('../../assets/testProfilePic.png')} style={styles.profilePic} />
-          </View>
-          <View style={styles.textWrapper}>
-            <Text style={styles.profileName}>
-              {props.user ? (props.user.nickname ? props.user.nickname : props.user.metadata.nickname) : null}
-            </Text>
-            <Text style={styles.currentDate}>
-              Fredag d. 12 maj 2019
-            </Text>
-          </View>
-      </View>
-      <DrawerItem isInactive={true} navigation={props.navigation} title={'PROFIL'} iconName={'profile'} navPath={'NA'} />
-      <DrawerItem isInactive={true} navigation={props.navigation} title={'VENNELISTE'} iconName={'friends'} navPath={'NA'} />
-      <DrawerItem isInactive={true} navigation={props.navigation} title={'ALLE MEDLEMMER'} iconName={'members'} navPath={'NA'} />
-      <DrawerItem isInactive={'no'} navigation={props.navigation} title={'UDFYLD SPØRGESKEMA'} iconName={'questionnaire'} navPath={'NA'} />
-      <DrawerItem isInactive={true} navigation={props.navigation} title={'VEJRET'} iconName={'weather'} navPath={'NA'} />
-      <DrawerItem isInactive={true} navigation={props.navigation} title={'INDSTILLINGER'} iconName={'settings'} navPath={'NA'} />
-      <SafeAreaView style={{bottom: 0, position: 'absolute'}}>
-        <DrawerItem isInactive={true} navigation={props.navigation} title={'TERMS OF AGREEMENT'} iconName={'terms'} navPath={'NA'} />
-        <DrawerItem isInactive={'no'} logOut={() => props.logOut()} navigation={props.navigation} title={'LOG UD'} iconName={'logOut'} navPath={'NA'} />
+const months = [
+  'januar',
+  'februar',
+  'marts',
+  'april',
+  'maj',
+  'juni',
+  'juli',
+  'august',
+  'september',
+  'oktober',
+  'november',
+  'december',
+]
+const weekDays = [
+  'Søndag',
+  'Mandag',
+  'Tirdag',
+  'Onsdag',
+  'Torsdag',
+  'Fredag',
+  'Lørdag'
+];
+
+
+const getTodayDateString = () => {
+ var today = new Date();
+ var dateString = '' + weekDays[today.getDay()] + ' d. ' + today.getDate() + ' ' + months[today.getMonth()] + ' ' + today.getFullYear();
+ return dateString;
+}
+
+
+const DrawerContentComponent = props => {
+  const handleNavigation = (path) => {
+    props.setHeaderTitle(path.toUpperCase());
+    props.navigation.navigate(path);
+  }
+  const todayDate = getTodayDateString();
+  return (
+    <ScrollView>
+      <SafeAreaView style={[styles.container, {height: screenHeight+statusbarHeight}]} forceInset={{ top: 'always', horizontal: 'never' }}>
+        <View style={styles.introInfo}>
+            <View style={styles.profilePicWrapper}>
+              <View style={[styles.status, S.statusOrange]}></View>
+              <Image source={require('../../assets/testProfilePic.png')} style={styles.profilePic} />
+            </View>
+            <View style={styles.textWrapper}>
+              <Text style={styles.profileName}>
+                {props.user ? (props.user.nickname ? props.user.nickname : props.user.metadata.nickname) : null}
+              </Text>
+              <Text style={styles.currentDate}>
+                {todayDate}
+              </Text>
+            </View>
+        </View>
+        <DrawerItem isInactive={true} navigation={props.navigation} title={'PROFIL'} iconName={'profile'} handleNavigation={() => handleNavigation('NA')} navPath={'NA'} />
+        <DrawerItem isInactive={true} navigation={props.navigation} title={'VENNELISTE'} iconName={'friends'} navPath={'NA'} handleNavigation={() => handleNavigation('NA')} />
+        <DrawerItem isInactive={true} navigation={props.navigation} title={'ALLE MEDLEMMER'} iconName={'members'} navPath={'NA'} handleNavigation={() => handleNavigation('NA')} />
+        <DrawerItem isInactive={'no'} navigation={props.navigation} title={'UDFYLD SPØRGESKEMA'} iconName={'questionnaire'} navPath={'Questionnaire'} handleNavigation={() => handleNavigation('Spørgeskema')} />
+        <DrawerItem isInactive={true} navigation={props.navigation} title={'VEJRET'} iconName={'weather'} navPath={'NA'} handleNavigation={() => handleNavigation('NA')} />
+        <DrawerItem isInactive={true} navigation={props.navigation} title={'INDSTILLINGER'} iconName={'settings'} navPath={'NA'} handleNavigation={() => handleNavigation('NA')} />
+        <SafeAreaView style={{bottom: 0, position: 'absolute', width: '100%'}}>
+          <DrawerItem isInactive={true} navigation={props.navigation} title={'TERMS OF AGREEMENT'} iconName={'terms'} navPath={'NA'} />
+          <DrawerItem isInactive={'no'} logOut={() => props.logOut()} navigation={props.navigation} title={'LOG UD'} iconName={'logOut'} navPath={'NA'} />
+        </SafeAreaView>
       </SafeAreaView>
-    </SafeAreaView>
-  </ScrollView>
-);
+    </ScrollView>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    zIndex: 20
+    zIndex: 20,
+    borderRightWidth: 1,
+    borderColor: '#F6F6F7',
+  
   },
   introInfo: {
-    borderBottomWidth: 1,
     borderColor: '#F6F6F7',
     flexDirection: 'row',
     height: 87,
@@ -112,6 +153,9 @@ const mapDispatchToProps = dispatch => {
   return {
     logOut: (success) => {
       dispatch(logOut())
+    },
+    setHeaderTitle: (title) => {
+      dispatch(setCurrentTitle(title));
     }
   }
 }

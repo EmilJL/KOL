@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBottomTabNavigator } from "react-navigation";
+import { createBottomTabNavigator, createStackNavigator } from "react-navigation";
 import { Dimensions } from 'react-native';
 import MainNavigator from '../navigators/mainNavigator.js';
 import TabIcon from '../components/tabIcons/tabicon.component.js';
@@ -15,7 +15,7 @@ import {
 
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-const Router = createBottomTabNavigator(
+const BottomTab = createBottomTabNavigator(
 	{
 		Home: {
 		  	screen: HomeScreen,
@@ -43,7 +43,10 @@ const Router = createBottomTabNavigator(
 		  	}
 		},
 		MainNavigator: {
-			screen: MainNavigator
+			screen: MainNavigator,
+			navigationOptions: {
+				header: null
+			}
 		},
 	},
 	{
@@ -52,7 +55,14 @@ const Router = createBottomTabNavigator(
 	    tabBarOptions: {
 	      activeTintColor: "blue",
 	      inactiveTintColor: "grey",
+	    },
+	    navigationOptions: {
+	    	header: props => <Header {...props} />
 	    }
   	}
 );
+
+const Router = createStackNavigator({
+	Main: BottomTab
+})
 export default Router;

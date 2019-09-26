@@ -21,12 +21,12 @@ import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import QuestionnaireQuestion from './questionnaireQuestion.component.js';
+import QuestionnaireQuestion from '../questionnaire/questionnaireQuestion.component.js';
 import LoadingComponent from '../loading/loadingComponent.js';
 import Male from "../../assets/male.svg";
 import Female from "../../assets/female.svg";
 import { attemptCreateUserStepTwo } from '../../redux/actions/actions.js';
-import FooterItem from './footerItem.component.js';
+import FooterItem from '../questionnaire/footerItem.component.js';
 import styles from '../../styles/styles.js';
 
 const S = styles;

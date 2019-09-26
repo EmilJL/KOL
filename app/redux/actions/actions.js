@@ -418,7 +418,14 @@ export const getQuestionnairesForUser = (startDate, endDate) => {
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
 				console.log('questionnaires:');
 				console.log(responseJson);
-				return dispatch(addQuestionnaire(responseJson));
+				/*dispatch(attemptSetScoresForWeek(responseJson));*/
+				dispatch(addQuestionnaire(responseJson));
+				return responseJson;
+			})
+			.then((questionnaire) => {
+				console.log('does the questionnaire get here?');
+				console.log(questionnaire);
+				return dispatch(attemptSetScoresForWeek(questionnaire));
 			}).catch(err => console.log(err));
 		}).catch(err => console.log(err));
 	}
@@ -450,12 +457,106 @@ const setModalStatus = (modal) => {
 
 const CHECK_QUESTIONNAIRE_ANSWERED = 'CHECK_QUESTIONNAIRE_ANSWERED';
 
+function getWeekNumber(d) {
+    // Copy date so don't modify original
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    // Set to nearest Thursday: current date + 4 - current day number
+    // Make Sunday's day number 7
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    // Get first day of year
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    // Calculate full weeks to nearest Thursday
+    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+    // Return array of year and week number
+    return [d.getUTCFullYear(), weekNo];
+}
+
+const attemptSetScoresForWeek = (questionnaires) => {
+		return (dispatch) => {
+			var weekNumber = getWeekNumber(new Date());
+			var questionnairesToShow = [];
+			var currentDay;
+			var mondayScore = 0;
+		 	var tuesdayScore = 0;
+		 	var wednesdayScore = 0;
+		 	var thursdayScore = 0;
+		 	var fridayScore = 0;
+		 	var saturdayScore = 0;
+		 	var sundayScore = 0;
+		 	var score = 0;
+			var totalScore = 0;
+			var answersForWeek = 0;
+
+			for (var i = 0; i < questionnaires.length; i++) {
+				 var questionnaire = questionnaires[i];
+		
+				 var questionnaireDate = new Date(questionnaire.dtCreated);
+				 var dayNum = questionnaireDate.getUTCDay() || 7;
+				 var weekNumberQuestionnaire = getWeekNumber(questionnaireDate);
+					
+				 if (weekNumberQuestionnaire[1] == weekNumber[1]) {
+				 	
+				 	for (var t = 0; t < questionnaire.answers.length; t++) {
+				 		if (t != 0) {
+				 			score = parseInt(questionnaire.answers[t].iAnswer)+score;
+				 		}
+				 	}
+				 	totalScore += score;
+				 	answersForWeek++;
+					
+				 	switch (dayNum) {
+				 		case 1:
+				 				mondayScore = score;
+				 				break;
+				 		case 2:
+				 				tuesdayScore = score;
+				 				break;
+				 		case 3:
+				 				wednesdayScore = score;
+				 				break;
+				 		case 4:
+				 				thursdayScore = score;
+				 				break;
+				 		case 5:
+				 				fridayScore = score;
+				 				break;
+				 		case 6:
+				 				saturdayScore = score;
+				 				break;
+				 		case 7:
+				 				sundayScore = score;
+				 				break;
+				 		default:
+				 			return null;
+				 	}
+				 score = 0;
+				}
+			}
+		var scores = [];
+		scores.push(Math.round(totalScore/answersForWeek));
+		scores.push(mondayScore);
+		scores.push(tuesdayScore);
+		scores.push(wednesdayScore);
+		scores.push(thursdayScore);
+		scores.push(fridayScore);
+		scores.push(saturdayScore);
+		scores.push(sundayScore);
+		dispatch(setScoresForWeek(scores));
+	}
+}
+
+const SET_SCORES_FOR_WEEK = 'SET_SCORES_FOR_WEEK';
+const setScoresForWeek = (scores) => {
+	return {
+		type: SET_SCORES_FOR_WEEK,
+		payload: scores
+	}
+}
 
 export const attemptAddQuestionnaire = (questionnaireAnswers) => {
 	return (dispatch) => {
 		AsyncStorage.getItem('userId').
 		then((token) => {
-			console.log('is this it? ');
 			console.log(token);
 			fetch('https://my.kolapp.dk/wp-json/keq/v1/questionnaire/insert', {
 				method: 'POST',
@@ -469,14 +570,15 @@ export const attemptAddQuestionnaire = (questionnaireAnswers) => {
 				})
 			})
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
-				console.log('response for adding questionnaire: ');
-				console.log(responseJson);
 				var questionnaire = [];
 				questionnaire.push({
 					id: responseJson,
 					answers: questionnaireAnswers
 				});
 				return dispatch(addQuestionnaire(questionnaire));
+			})
+			.then(() => {
+				return dispatch(getQuestionnairesForUser('2019-01-01', '2019-12-31'))
 			})
 			.catch((err) => console.log('error: ' + err))
 		}).catch((err) => console.log('error: ' + err))
@@ -499,7 +601,6 @@ export const authenticateWithToken = () => {
 		AsyncStorage.getItem('userId')
 		.then((token) => {
 			if (token !== null) {
-				console.log(token);
 				return fetch('https://my.kolapp.dk/wp-json/keq/v1/me/get', {
 						method: 'POST',
 						headers: new Headers({
@@ -507,9 +608,7 @@ export const authenticateWithToken = () => {
 							'Content-Type': 'application/json',
 							'Authorization': 'Bearer ' + token
 						})
-					}).then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
-						console.log('userData:');
-						console.log(responseJson);						
+					}).then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{					
 						dispatch(populateUserData(responseJson.data));
 						responseJson.data.metadata.questionsRead ? dispatch(setQuestionsRead(responseJson.data.metadata.questionsRead)) : null; 
 						return dispatch(authenticateUser());
@@ -528,8 +627,6 @@ export const authenticateWithToken = () => {
 			return dispatch(declineAuthenticationUser());
 		})
 	}
-	console.log()
-	
 }
 
 const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
@@ -557,14 +654,8 @@ export const getSavedToken = () => {
 	return (dispatch) => {
 		AsyncStorage.getItem('userId')
 		.then((token) => { 
-			if (token !== null) {
-				console.log(token);
 				dispatch(setToken(token));
 				return token;
-			}
-			else{
-				console.log('motherfucker')
-			}
 		})
 		.catch(err => { 
 			console.log(err)
@@ -587,9 +678,7 @@ export const createTokenAttempt = (user) => {
 			})
 		})
 		.then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
-			console.log(responseJson);
 			AsyncStorage.setItem('userId', responseJson.token);
-			console.log(responseJson.token);
 			dispatch(setToken(responseJson.token));
 			return responseJson.token;
 		})
@@ -657,7 +746,6 @@ const createUserStepTwoSuccess = () => {
 
 const attemptGetQuestionnaireQuestions = (token) => {
 		return (getState, dispatch) => {
-			console.log('den her token?: ' + token);
 			fetch('https://my.kolapp.dk/wp-json/keq/v1/questions/get', {
 				method: 'POST',
 				headers: new Headers({
@@ -678,8 +766,6 @@ const attemptGetQuestionnaireQuestions = (token) => {
 }
 
 export const addCommentForQuestion = (comment, id) => {
-		console.log('did ID get this far?');
-		console.log(id);
 		return (dispatch) => {
 		AsyncStorage.getItem('userId').
 		then((token) => {
@@ -696,8 +782,6 @@ export const addCommentForQuestion = (comment, id) => {
 				})
 			})
 			.then((response) => response.json(), error => console.log('An error occured ', error)).then((responseJson) =>{
-				console.log('response for adding comment on question: ');
-				console.log(responseJson);
 				dispatch(clearAndCloseModal());
 				return dispatch(getUserQuestionsFromOthers(0, 200));
 			})
@@ -764,7 +848,6 @@ export const attemptCreateUserStepTwo = (age, sex, questionnaire, token) => {
 			var user = getState().users.user;
 			user.age = age;
 			user.sex = sex;
-			console.log(user);
 			dispatch(createUserSuccess(user));
 		})
 		.then(() => {
@@ -780,8 +863,6 @@ export const attemptCreateUserStepTwo = (age, sex, questionnaire, token) => {
 				})
 			})
 			.then((response) => response.json(), error => console.log('An error occured', error)).then((responseJson) =>{
-				console.log('her skulle så også addes: ');
-				console.log(responseJson);
 				return dispatch(createUserComplete());
 			}).
 			catch((err) => console.log(err));
@@ -793,8 +874,31 @@ export const attemptCreateUserStepTwo = (age, sex, questionnaire, token) => {
 	}
 }
 
+/*
+export const checkIfQuestionnaireIsAlreadyFilled = () => {
+	return = (state, dispatch) => {
+		var questionnaires = state.users.questionnaires;
+		var isFilledForToday = false;
+	  	var today = new Date();
+	  	today = today.toISOString().substring(0, 10);
+	  	for (var i = questionnaires.length - 1; i >= 0; i--) {
+	  		console.log('yesorno');
+	  		console.log(this.questiinnaires[i]);
+	  		var questionnaireDate = new Date(this.props.questionnaires[i]).toISOString().substring(0, 10);
+	  		if (questionnaireDate == today) {
+	  			console.log('yay!');
+	  			isFilledForToday = true;
+	  		}
+	  	}
+	} 
+}*/
 
-
+/*const SET_QUESTIONNAIRE_FILLED_FOR_TODAY = 'SET_QUESTIONNAIRE_FILLED_FOR_TODAY';
+const setQuestionnaireFilledForToday = () => {
+	return {
+		type: SET_QUESTIONNAIRE_FILLED_FOR_TODAY
+	}
+}*/
 
 export const requestCreateUser = (name, email, password) => {
 	return (dispatch) => {
@@ -836,7 +940,6 @@ export const requestCreateUser = (name, email, password) => {
 				}
 			}
 			else{
-				console.log('wtf?')
 				return null;
 			}
 		})
@@ -873,6 +976,7 @@ export const logOut = () => {
 		type: LOG_OUT
 	}
 }
+
 
 
 

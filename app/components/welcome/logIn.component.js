@@ -30,9 +30,9 @@ class Login extends Component {
 	}
 	componentDidMount() {
 		/*this.props.navigation.navigate('DrawerFlow');*/
-		/*if (!this.props.forcedLogout) {
+		if (!this.props.forcedLogout) {
 			this.props.auth();
-		}*/
+		}
 	}
 	render(){
 		const screenWidth = Math.round(Dimensions.get('window').width);
@@ -72,7 +72,7 @@ class Login extends Component {
 						<SocialMediaLine width={'100%'} style={{marginTop: 24}} />
 					</View>
 					<View style={{position: 'absolute', top: 583, marginTop: 24, height: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
-							<GoogleCreate height={'100%'} style={{marginRight: 5, borderWidth: 0.2, borderColor:'rgba(65, 77, 85, 0.6)'}} />
+							<GoogleCreate height={'100%'} style={{marginRight: 5, borderWidth: 0.2, borderRadius: 8, borderColor:'rgba(65, 77, 85, 0.6)'}} />
 							<FBCreate height={'110%'} style={{marginLeft: 5}} />
 					</View>
 					</View>

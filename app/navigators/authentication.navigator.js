@@ -47,7 +47,6 @@ const AuthenticationNavigator = createStackNavigator(
 	},
 	{
 		initialRouteName: 'Login',
-		
 	}
 );
 

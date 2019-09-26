@@ -92,6 +92,7 @@ sQuestion:
 	userQuestions: [],
 	userDiaryEntries: [],
 	userAnswers: [],
+	scoresForWeek: [],
 	userQuestionsAnswered: [],
 	userQuestionsOthers: [],
 	failedToCreateUser: '',
@@ -99,7 +100,9 @@ sQuestion:
 	sideMenuIsVisible: false,
 	fetchingData: false,
 	ages: [],
-	createUserComplete: false
+	createUserComplete: false,
+	questionnaireFilledToday: false,
+	
 }
 
 const initialNavigationState = {
@@ -117,6 +120,11 @@ const user = (state = initialState, action) => {
 			return {
 				...state,
 				userQuestionsOthers: action.payload
+			};
+		case 'SET_SCORES_FOR_WEEK':
+			return {
+				...state,
+				scoresForWeek: action.payload
 			};
 		case 'CREATE_USER_COMPLETE':
 			return{
@@ -166,6 +174,11 @@ const user = (state = initialState, action) => {
 				...state,
 				questionnaires: [...state.questionnaires, action.payload]
 			}
+		case 'SET_QUESTIONNAIRE_FILLED_FOR_TODAY':
+			return {
+				...state,
+				questionnaireFilledToday: true
+			}
 		case 'ATTEMPT_GET_DIARY_FOR_USER':
 		case 'ATTEMPT_GET_QUESTIONS_FOR_USER':
 		case 'ATTEMPT_GET_ANSWERS_FOR_USER':
@@ -206,7 +219,7 @@ const user = (state = initialState, action) => {
 		case 'TOGGLE_HEADER_VISIBILITY':
 			return {
 				...state,
-				headerIsVisible: !state.headerIsVisible
+				headerIsVisible: !(state.headerIsVisible)
 			};
 		case 'TOGGLE_NOTIFICATION_VISIBILITY':
 			return {

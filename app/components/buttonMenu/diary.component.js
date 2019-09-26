@@ -235,7 +235,7 @@ class Diary extends Component {
   }
   render(){
     return(
-      <View style={[S.scrollView, {width: screenWidth, paddingTop: screenHeight/13}]}>
+      <View style={[S.scrollView, {width: screenWidth}]}>
         <ScrollView>
               <View style={[S.section, {paddingTop: 20}]}>
                 <Text style={S.section_title}>

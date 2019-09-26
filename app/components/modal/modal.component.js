@@ -200,7 +200,7 @@ class GenericModal extends Component {
                 <TouchableOpacity style={{marginTop:-50}} onPress={() => this.handleSaveClick()}>
                   <View style={[style.btn, {width: '100%'}]}>
                     <Text style={style.btn_text}>
-                      Stil spørgsmål
+                      Tilføj indlæg
                     </Text>
                   </View>
                 </TouchableOpacity>

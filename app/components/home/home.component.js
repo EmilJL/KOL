@@ -7,7 +7,8 @@ import {
   Text,
   StatusBar,
   Button,
-  Dimensions
+  Dimensions,
+  ImageBackground
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -18,13 +19,40 @@ import Menu from '../menu/menu.js';
 import Graphs from '../graphs/graphs.js'
 import QuestionsOthers from './questionsOthers.js';
 import DashboardWidget from './dashboardWidgetsl.js';
-import GenericModal from '../modal/modal.component.js'; 
+import GenericModal from '../modal/modal.component.js';
+import Header from '../header/header.component.js'; 
 const screenHeight = Math.round(Dimensions.get('window').height);
 const screenWidth = Math.round(Dimensions.get('window').width);
 const statusBarHeight = StatusBar.currentHeight;
 const S = styles;
+const months = [
+  'januar',
+  'februar',
+  'marts',
+  'april',
+  'maj',
+  'juni',
+  'juli',
+  'august',
+  'september',
+  'oktober',
+  'november',
+  'december',
+]
+const weekDays = [
+  'Søndag',
+  'Mandag',
+  'Tirdag',
+  'Onsdag',
+  'Torsdag',
+  'Fredag',
+  'Lørdag'
+];
 
 class Home extends Component {
+  state={
+    dateString: ''
+  }
   handleLogout = () => {
       this.props.logOut();
       this.props.navigation.navigate('AuthenticationFlow');
@@ -51,15 +79,20 @@ class Home extends Component {
         return null;
     }
   }
+   getTodayDateString = () => {
+   var today = new Date();
+   var dateString = '' + weekDays[today.getDay()] + ' d. ' + today.getDate() + ' ' + months[today.getMonth()] + ' ' + today.getFullYear();
+   this.setState({dateString});
+  }
   componentDidMount(){
     this.props.getQuestionnaires();
     this.props.getQuestions();
     this.props.getDiaryEntries();
+    this.getTodayDateString();
   }
   render(){
-    this.props.setHeaderTitle('DASHBOARD');
     return (
-        <View style={[S.scrollView, {width: screenWidth, paddingTop: screenHeight/13}]}>
+        <View style={[S.scrollView, {width: screenWidth}]}>
         	{this.props.modal && this.props.modal.isVisible ? <GenericModal /> : null}
           <ScrollView>
             <DashboardWidget />
@@ -71,17 +104,17 @@ class Home extends Component {
                 {this.props.user ? (this.props.user.nickname ? this.props.user.nickname : this.props.user.metadata.nickname) : null}
               </Text>
               <Text style={S.intro_date}>
-                Fredag d. 12 maj 2019
+                {this.state.dateString}
               </Text>
             </View>
             <View style={{width: '100%', marginTop: 20}}>
               <Menu handleNavigation={(routeName) => this.handleNavigation(routeName)} navigation={this.props.navigation} />
             </View>
-            <View style={{width: '100%', marginTop: 40, }}>
-              {this.props.questionnaires[0] ? <Graphs /> : null}
+            <View style={{width: '100%', marginTop: 30}}>
+              {this.props.questionnaires[0] && this.props.scores && this.props.scores[0] ? <Graphs isForDashboard={true} /> : null}
             </View>
             <View style={{width: '100%', marginTop: 20}}>
-              <QuestionsOthers />
+              <QuestionsOthers questionsShown={3} />
             </View>
             <View style={{height: screenHeight/5}}></View>
           </ScrollView>
@@ -119,7 +152,8 @@ mapStateToProps = state => {
     sideMenuIsVisible: state.users.sideMenuIsVisible,
     user: state.users.user,
     questionnaires: state.users.questionnaires,
-    modal: state.users.modal
+    modal: state.users.modal,
+    scores: state.users.scoresForWeek
   }
 }
 

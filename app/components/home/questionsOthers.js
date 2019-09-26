@@ -141,8 +141,8 @@ class QuestionsOthers extends Component {
 		var questionsShown = this.state.questionsShown;
 		return this.props.questions.map((question, index) => {
 			if (index <= (pageNumber*questionsShown) - 1 && pageNumber === 1 || index <= (pageNumber*questionsShown) - 1 && index >= ((pageNumber-1) * questionsShown)) {
-				if ((index == 0 || index % questionsShown == 0 || questionsShown % index == 0) && index != 1) {
-					
+			
+				if (index == 0 || index == (pageNumber-1)*questionsShown) {
 					return (
 						<QuestionItem id={question.ID} key={question.ID} date={question.post_date} questionTitle={question.post_title} questionUser={question.post_author_nickname} questionText={question.post_content} handleQuestionClick={(text, title, date, id) => this.handleQuestionClick(text, title, date, id)} />
 					)
@@ -159,8 +159,7 @@ class QuestionsOthers extends Component {
 		})
 	}
 	handleQuestionClick = (text, title, date, id) => {
-		console.log('this is the ID');
-		console.log(id);
+	
 		this.props.setModal(true, 'userQuestionDisplay', text, title, true, date, id)
 	}
 	handleQuestionPageNavigation = (type) => {
@@ -174,7 +173,7 @@ class QuestionsOthers extends Component {
 			pageNumber++;
 			this.setState({pageNumber});
 			if ((pageNumber*this.state.questionsShown)+this.state.questionsShown >= questionsLoaded) {
-				console.log('hmm?: ' + questionsLoaded);
+				
 				this.props.getQuestions(questionsLoaded, questionsLoaded);
 				questionsLoaded = questionsLoaded*2;
 				this.setState({questionsLoaded});
@@ -183,11 +182,14 @@ class QuestionsOthers extends Component {
 		
 	}	
 	componentDidMount() {
+		this.props.questionsShown && this.props.questionsShown == 3 ? null : this.setState({questionsShown: 10});
 		this.props.getQuestions(0, 30);
 	}
 	render(){
-		const totalQuestions = this.props.questions && this.props.questions.length > 0 ? Math.ceil(this.props.questions.length/this.state.questionsShown) : 0;
-		return(
+		const totalQuestions = this.props.questions && this.props.questions.length > 0 ? Math.floor(this.props.questions.length/this.state.questionsShown) : 0;
+
+		if (this.props.questionsShown && this.props.questionsShown == 3) {
+			return(
 			<View style={S.background}>
 
 				<Text style={S.sectionTitle}>
@@ -247,7 +249,75 @@ class QuestionsOthers extends Component {
 				</View>
 
 			</View>
+			);
+		}
+		else{
+			return(
+			<ScrollView style={{flex: 1}}>
+			<View style={S.background}>
+
+				<Text style={S.sectionTitle}>
+					Seneste spørgsmål
+				</Text>
+
+				<View style={S.box}>
+					<View style={S.boxHeader}>
+						<TouchableOpacity onPress={() => console.log('')}>
+							<View style={[S.boxHeaderBtn, S.boxHeaderBtnActive]}>
+								<Text>
+									Alle
+								</Text>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => console.log('')}>
+							<View style={S.boxHeaderBtn}>
+								<Text>
+									Nyeste
+								</Text>
+							</View>
+						</TouchableOpacity>
+						<TouchableOpacity onPress={() => console.log(this.props.questions)}>
+							<View style={S.boxHeaderBtn}>
+								<Text>
+									Ulæste
+								</Text>
+							</View>
+						</TouchableOpacity>
+						
+					</View>
+					<View style={S.boxInner}>
+						{this.props.questions && this.props.questions.length > 0 ? this.questionList() : null}
+					</View>
+				</View>
+
+				<View style={[S.box, S.pagination]}>
+					<TouchableOpacity style={{paddingRight: 20, margin: 0, position: 'relative'}} onPress={() => this.handleQuestionPageNavigation('back')}>
+						<View style={S.paginationActions}>
+							<Text style={S.paginationText}>
+								{'<'}
+							</Text>
+						</View>
+					</TouchableOpacity>
+					<View style={[S.paginationActions, {flex: 2, justifyContent: 'center', alignItems: 'center'}]}>
+						<Text style={[S.paginationText, S.paginationPageCount, {justifyContent: 'center', alignItems: 'center'}]}>
+							{'Side ' + this.state.pageNumber + ' af ' + totalQuestions}
+						</Text>
+					</View>
+					<TouchableOpacity style={{paddingLeft: 20, margin: 0, position: 'relative'}} onPress={() => this.handleQuestionPageNavigation('forward')}>
+						<View style={S.paginationActions}>
+							<Text style={[S.paginationText, S.paginationArrowRight]}>
+								>
+							</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+				<View style={{height: 100}}>
+				</View>
+			</View>
+			</ScrollView>
 		);
+		}
+		
 	}
 }
 

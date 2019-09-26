@@ -236,7 +236,7 @@ class GetHelp extends Component {
 
   render(){
     return (
-      <View style={{width: '100%', height: '100%', paddingTop: screenHeight/13}}>
+      <View style={{width: '100%', height: '100%'}}>
         <ScrollView>
         <View style={[S.section,{paddingTop: 20}]}>
           <Text style={S.section_title}>

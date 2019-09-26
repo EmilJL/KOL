@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
 import Profile from '../../assets/dude.svg';
 import Friends from '../../assets/moredudes.svg';
 import Members from '../../assets/list.svg';
-import Questionnaire from '../../assets/paper.svg';
+import QuestionnaireIcon from '../../assets/paper.svg';
 import Weather from '../../assets/weather.svg';
 import Settings from '../../assets/settings.svg';
 import Terms from '../../assets/eye.svg';
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 	menuItem: {
 		flexDirection: 'row',
 		height: 50,
-		borderBottomWidth: 1,
+		borderTopWidth: 1,
 		borderColor: '#F6F6F7',
 		alignItems: 'center',
 		width: '100%'
@@ -49,7 +49,7 @@ const getIcon = (name) => {
 		case 'members':
 			return <Members width='20%' style={styles.menuIcon} />
 		case 'questionnaire':
-			return <Questionnaire width='20%' style={styles.menuIcon} />
+			return <QuestionnaireIcon width='20%' style={styles.menuIcon} />
 		case 'weather':
 			return <Weather width='20%' style={styles.menuIcon} />
 		case 'settings':
@@ -61,10 +61,10 @@ const getIcon = (name) => {
 	}
 }
 
-const DrawerItem = ({navigation, title, navPath, iconName, logOut, isInactive}) => {
+const DrawerItem = ({navigation, title, navPath, iconName, logOut, isInactive, handleNavigation}) => {
 	return (
-			<TouchableOpacity onPress={() => {logOut ? logOutNow(navigation, logOut) : navigation.navigate(navPath)}}>
-				<View style={styles.menuItem}>
+			<TouchableOpacity onPress={() => {logOut ? logOutNow(navigation, logOut) : handleNavigation()}}>
+				<View style={[styles.menuItem, {borderBottomWidth: title =='INDSTILLINGER' ? 1 : 0}]}>
 					{getIcon(iconName)}
 					<Text style={[styles.menuTitle, {opacity: isInactive=='no' ? 1 : 0.2}]}>
 						{title}

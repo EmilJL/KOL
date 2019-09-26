@@ -21,11 +21,12 @@ const S = StyleSheet.create({
 });
 
 class TabBar extends React.Component {
-	
 	state = {
 		buttonPressed: false
 	}
+
 	handleButtonPress = () => {
+		this.props.toggleHeaderVisibility();
 		var buttonIsPressed = this.state.buttonPressed;
 		this.setState({buttonPressed: !buttonIsPressed});
 	}
@@ -122,9 +123,11 @@ class TabBar extends React.Component {
 								            key={routeIndex}
 								            style={[S.tabButton, extraStyles]}
 								            onPress={() => {
+								            	console.log('onPress:');
+								            	console.log(route);
 								              	route.key == 'Kalender' || route.key == 'Inbox' ? null : 
 								              	onTabPress({ route });
-								              	this.handleNavigation(route.routeName);
+								              	route.key == 'Kalender' || route.key == 'Inbox' ? null : this.handleNavigation(route.routeName);
 								            }}
 								            onLongPress={() => {
 									            onTabLongPress({ route });
@@ -150,8 +153,8 @@ const mapDispatchToProps = dispatch => {
     nav: (title) => {
       dispatch(setCurrentTitle(title))
     },
-    toggleHeaderVisibility: (isVisible) => {
-    	dispatch(toggleHeaderVisibility(isVisible))
+    toggleHeaderVisibility: () => {
+    	dispatch(toggleHeaderVisibility())
     }
   }
 }

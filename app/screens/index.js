@@ -1,13 +1,15 @@
 import React from "react";
 
 import Profile from '../components/profile/profile.component.js';
-import Graphs from '../components/graphs/graphs.component.js';
+import Graphs from '../components/graphs/graphs.js';
 import Calendar from '../components/calendar/calendar.component.js';
 import Inbox from '../components/inbox/inbox.component.js';
 import Login from '../components/welcome/login.component.js';
 import ForgotInfo from '../components/welcome/forgotInfo.component.js';
 import NewUser from '../components/welcome/newUser.component.js';
 import Home from '../components/home/home.component.js';
+import QuestionsOthers from '../components/home/questionsOthers.js'
+
 
 export const HomeScreen = () => <Home />;
 export const ProfileScreen = () => <Profile />;
@@ -17,3 +19,4 @@ export const InboxScreen = () => <Inbox />;
 export const LoginScreen = () => <Login />;
 export const ForgotInfoScreen = () => <ForgotInfo />;
 export const NewUserScreen = () => <NewUser />;
+export const QuestionsOthersScreen = () => <QuestionsOthers questionsShown={10} />; 

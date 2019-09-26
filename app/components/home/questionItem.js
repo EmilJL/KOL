@@ -126,8 +126,6 @@ const S = StyleSheet.create({
 
 class QuestionItem extends Component {
 	render(){
-		console.log('renderJeg?');
-		console.log(this.props.id);
 		return(
 			<View style={S.question}>
 				

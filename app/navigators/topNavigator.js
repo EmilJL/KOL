@@ -16,7 +16,7 @@ const TopNavigator = createStackNavigator(
 		DrawerFlow: {
 			screen: DrawerNavigator,
 			navigationOptions: {
-				header: props => <Header {...props} />
+				header: null
 			}
 		},
 	},

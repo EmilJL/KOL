@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { Modal, View, Text, Dimensions, TouchableOpacity, TouchableNativeFeedback, StyleSheet } from "react-native";
+import { Modal, View, Text, Dimensions, TouchableOpacity, TouchableNativeFeedback, StyleSheet, StatusBar } from "react-native";
 import { notifyNewMessage } from '../../redux/actions/actions.js';
 import HelpOthers from "../../assets/helpOthers.svg";
 import GetHelp from "../../assets/getHelp.svg";
@@ -53,12 +53,13 @@ const ButtonMenu = ({addMessageNotification, navigation, toggleMenu, setTitle}) 
 	}
 
 	return(
-		<View style={{paddingTop: screenHeight/13, paddingBottom: screenHeight/6.5, paddingLeft: 20, paddingRight: 20, width: screenWidth, height: screenHeight, backgroundColor: 'rgba(0,0,0,0.8)', alignItems: 'center', justifyContent: 'center', position: 'absolute', bottom: 0}}>
-				<Text style={{fontSize: 16, color: 'white', lineHeight: 19, fontWeight: 'bold', marginBottom: 20.5}}>
+		<View style={{paddingBottom: screenHeight/6.5, paddingLeft: 20, paddingRight: 20, width: screenWidth, height: screenHeight*2, backgroundColor: 'rgba(0,0,0,0.8)', alignItems: 'center', justifyContent: 'center', position: 'absolute', bottom: 0}}>
+				<StatusBar hidden={true} />
+				<Text style={{fontSize: 16, color: 'white', lineHeight: 19, fontWeight: 'bold', marginBottom: 20.5, marginTop: screenHeight}}>
 					HVAD VIL DU GERNE FORETAGE DIG?
 				</Text>
 				<View style={S.boxWrapper}>
-					<TouchableOpacity onPress={() => this.handleClick('GetHelp')} style={[S.singleBox, {marginLeft: 0}]}>
+					<TouchableOpacity onPress={() => handleNavigation('GetHelp')} style={[S.singleBox, {marginLeft: 0}]}>
 						<View style={S.singleBox}>
 							<GetHelp style={{marginBottom: 20}} width={51} height={58.29} />
 							<Text style={S.boxText}>
@@ -66,7 +67,7 @@ const ButtonMenu = ({addMessageNotification, navigation, toggleMenu, setTitle}) 
 							</Text>
 						</View>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => this.handleClick('HelpOthers')} style={[S.singleBox, {marginRight: 0}]}>
+					<TouchableOpacity onPress={() => handleNavigation('HelpOthers')} style={[S.singleBox, {marginRight: 0}]}>
 						<View style={S.singleBox}>
 							<HelpOthers style={{marginBottom: 15}} width={53} height={53} />
 								<Text style={S.boxText}>
@@ -85,7 +86,7 @@ const ButtonMenu = ({addMessageNotification, navigation, toggleMenu, setTitle}) 
 							</Text>
 						</View>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => this.handleClick('Diary')} style={[S.singleBox, {marginRight: 0}]}>
+					<TouchableOpacity onPress={() => handleNavigation('Diary')} style={[S.singleBox, {marginRight: 0}]}>
 						<View style={S.singleBox}>
 							<Diary style={{marginBottom: 15}} width={50} height={53} />
 							<Text style={S.boxText}>

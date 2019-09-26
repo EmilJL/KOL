@@ -19,13 +19,12 @@ import {
 import { withNavigation } from 'react-navigation';
 import { normalize, schema } from 'normalizr';
 import fetch from 'cross-fetch';
+import TopBlue from '../../assets/topStart.svg';
+import TopDudes from '../../assets/topStartDudes.svg';
 
 class ForgotInfo extends Component{
   state={
-    email: '',
-    password: '',
-    inputStyleEmail: {},
-    inputStylePassword: {}
+    email: ''
   }
 
   handleForgotInfoClick = () => {
@@ -51,21 +50,27 @@ class ForgotInfo extends Component{
     const statusBarHeight = StatusBar.currentHeight;
     
     return(
-        <View style={{width: '100%', height: screenHeight*0.3-statusBarHeight, position: 'absolute', bottom: screenHeight*0.6, paddingLeft: '6%', paddingRight: '6%', bottom: 0, marginBottom: '15%'}}>
-          <View style={{flex: 1,  marginBottom: '5%'}}>
-            <Text style={{textAlign: 'center', flex: 1.2, color: 'grey', fontSize: 12}}>Indtast din e-mail for at gendanne dit password.</Text>
-            <TextInput autoFocus={true} onChangeText={(value) => this.setState({email: value})} placeholder='Indtast email' placeholderTextColor='lightgrey' style={{flex: 1, borderRadius: 5, width: '100%', borderColor: 'grey', borderWidth: 2, paddingLeft: '5%'}}/>
-          </View>
-          <View style={{justifyContent: 'center', alignItems: 'center', flex: 2, marginTop: '-5%'}}>
-            <TouchableNativeFeedback onPress={() => {this.props.navigation.navigate('Login')}}>
-                <View style={{justifyContent: 'center', alignItems: 'center', height: screenWidth*0.12, width: screenWidth*0.54, backgroundColor: '#565BF6', borderBottomLeftRadius: screenWidth*0.54, borderTopLeftRadius: screenWidth*0.54, borderBottomRightRadius: screenWidth*0.54, borderTopRightRadius: screenWidth*0.54}}>
-                  <Text style={{fontSize: 14, color: 'white', textAlign: 'center', fontWeight: 'bold'}}>
-                    Gendan
-                  </Text>
+        <ScrollView style={{flex: 1}}>
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingLeft: 20, paddingRight: 20}}>
+            <TopBlue style={{top: -485}} />
+            <TopDudes width={screenWidth+5} height={311} style={{left: 0, top: 80, position: 'absolute'}} />
+           
+              <View style={{height: 145, top: 405, width: '100%', position: 'absolute'}}>
+                <Text style={{textAlign: 'center', flex: 1.2, color: 'grey', fontSize: 12}}>Indtast din e-mail for at gendanne dit password.</Text>
+                <View style={{height: 50, marginTop: 15}}>
+                  <TextInput keyboardType={Platform.OS === 'android' ? 'default' : 'ascii-capable'} returnKeyType='next' onChangeText={(value) => this.setState({email: value})} placeholder='Indtast email' placeholderTextColor='rgba(65,77,85,0.3)' style={[{alignSelf: 'center', height: 50, borderRadius: 5, width: '100%', borderWidth: 1, paddingLeft: '5%'}, this.state.inputStyleName]}/>
                 </View>
-            </TouchableNativeFeedback>
+                <TouchableNativeFeedback style={{}} onPress={() => {this.handleForgotInfoClick()}}>
+                  <View style={{justifyContent: 'center', alignItems: 'center', height: 50, width: '100%', marginTop: 15, backgroundColor: '#565BF6', borderRadius: 8}}>
+                    <Text style={{fontSize: 17, color: 'white', textAlign: 'center', fontWeight: '700', letterSpacing: 0.5, paddingBottom: '1%'}}>
+                      Gendan
+                    </Text>
+                  </View>
+                </TouchableNativeFeedback>
+              </View>               
           </View>
-        </View>           
+        
+        </ScrollView>       
     );
   }
 }
